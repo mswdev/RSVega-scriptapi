@@ -1,5 +1,7 @@
 ## RSVega-scriptapi
 
+![](https://discordapp.com/api/guilds/173837867976622082/widget.png?style=shield) ![Uptime Robot ratio (7 days)](https://img.shields.io/uptimerobot/ratio/7/m782380754-961dbbe722edf94a1349207f.svg?style=flat-square)
+
 ### What is RSVega?
 See the main [RSVega repository](https://github.com/Sphiinx/RSVega-scripts/).
 
