@@ -24,7 +24,7 @@ public class TutorialIslandMission extends Mission {
     private final TutorialIslandWorkerHandler worker_handler;
     private boolean should_stop;
 
-    public TutorialIslandMission(SPXScript script, boolean create_account, Args args, String email, String password) {
+    public TutorialIslandMission(SPXScript script, Args args, boolean create_account, String email, String password) {
         this(script, args, create_account, email, password, null, null, null, null);
     }
 
