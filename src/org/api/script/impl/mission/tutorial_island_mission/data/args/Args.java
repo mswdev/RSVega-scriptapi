@@ -35,5 +35,17 @@ public class Args {
     @Parameter(names = "-load_accounts")
     public String load_accounts;
 
+    @Parameter(names = "-create_accounts")
+    public int create_accounts;
+
+    @Parameter(names = "-two_captcha_api_key")
+    public String two_captcha_api_key;
+
+    @Parameter(names = "-proxy_list")
+    public String proxy_list;
+
+    @Parameter(names = "-accounts_per_proxy")
+    public String accounts_per_proxy;
+
 }
 
