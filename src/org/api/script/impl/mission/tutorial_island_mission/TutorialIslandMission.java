@@ -19,16 +19,19 @@ public class TutorialIslandMission extends Mission {
     public static final int TUTORIAL_ISLAND_VARP = 281;
 
     private final Args args;
-    private final String username;
+    private final String email;
     private final String password;
     private final TutorialIslandWorkerHandler worker_handler;
     private boolean should_stop;
 
+    public TutorialIslandMission(SPXScript script, boolean create_account, Args args, String email, String password) {
+        this(script, args, create_account, email, password, null, null, null, null);
+    }
 
-    public TutorialIslandMission(SPXScript script, Args args, String username, String password) {
+    public TutorialIslandMission(SPXScript script, Args args, boolean create_account, String email, String password, String socks_ip, String socks_port, String socks_username, String socks_password) {
         super(script);
         this.args = args;
-        this.username = username;
+        this.email = email;
         this.password = password;
         worker_handler = new TutorialIslandWorkerHandler(this);
     }
@@ -92,7 +95,7 @@ public class TutorialIslandMission extends Mission {
 
     @Override
     public void onMissionStart() {
-        script.setAccount(new GameAccount(username, password));
+        script.setAccount(new GameAccount(email, password));
     }
 
     public void setShouldEnd(boolean should_stop) {
@@ -103,8 +106,8 @@ public class TutorialIslandMission extends Mission {
         return args;
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 }
 
