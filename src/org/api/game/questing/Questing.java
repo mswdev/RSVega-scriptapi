@@ -2,12 +2,14 @@ package org.api.game.questing;
 
 import org.rspeer.runetek.adapter.component.InterfaceComponent;
 import org.rspeer.runetek.api.Varps;
+import org.rspeer.runetek.api.commons.Time;
 import org.rspeer.runetek.api.component.Interfaces;
 
 import java.util.Arrays;
 
 public class Questing {
 
+    private static final int QUEST_INTERFACE_SUB_TAB = 629;
     private static final int QUEST_INTERFACE = 399;
     private static final int QUEST_FREE_INTERFACE = 6;
     private static final int QUEST_MEMBER_INTERFACE = 7;
@@ -30,6 +32,16 @@ public class Questing {
      * @return A string of the players completed quests.
      */
     public static String getCompletedQuests() {
+        final InterfaceComponent[] questList = Interfaces.get(QUEST_INTERFACE);
+        if (questList == null || questList.length <= 0) {
+            final InterfaceComponent questTab = Interfaces.getFirst(QUEST_INTERFACE_SUB_TAB, a -> a.containsAction("Quest List"));
+            if (questTab == null)
+                return null;
+
+            if (questTab.click())
+                Time.sleepUntil(() -> Interfaces.get(QUEST_INTERFACE).length > 0, 2500);
+        }
+
         final StringBuilder string_builder = new StringBuilder();
         final InterfaceComponent[] free_quests = Interfaces.getComponent(QUEST_INTERFACE, QUEST_FREE_INTERFACE).getComponents(a -> a.getTextColor() == COMPLETED_QUEST_COLOR);
         Arrays.stream(free_quests).forEach(a -> string_builder.append(a.getText()).append(", "));

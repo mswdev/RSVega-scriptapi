@@ -5,7 +5,6 @@ import com.google.gson.JsonArray;
 import okhttp3.FormBody;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import org.api.game.player.Player;
 import org.api.http.AccountData;
 import org.api.http.RSVegaTracker;
 import org.api.http.wrappers.Request;
@@ -14,7 +13,6 @@ import org.rspeer.runetek.adapter.component.InterfaceComponent;
 import org.rspeer.runetek.api.Worlds;
 import org.rspeer.runetek.api.component.Interfaces;
 import org.rspeer.runetek.api.scene.Players;
-import org.rspeer.ui.Log;
 
 import java.io.IOException;
 
