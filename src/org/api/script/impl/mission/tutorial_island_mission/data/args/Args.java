@@ -32,14 +32,14 @@ public class Args {
     @Parameter(names = "-end_on_completion")
     public boolean end_on_completion;
 
+    @Parameter(names = "-two_captcha_api_key")
+    public String two_captcha_api_key;
+
     @Parameter(names = "-account_list")
     public String account_list;
 
     @Parameter(names = "-accounts_to_create")
     public int accounts_to_create;
-
-    @Parameter(names = "-two_captcha_api_key")
-    public String two_captcha_api_key;
 
     @Parameter(names = "-proxy_list")
     public String proxy_list;
