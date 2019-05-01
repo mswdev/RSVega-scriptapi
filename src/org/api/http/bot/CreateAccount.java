@@ -6,7 +6,6 @@ import okhttp3.FormBody;
 import okhttp3.Response;
 import org.api.http.RSVegaTracker;
 import org.api.http.wrappers.Request;
-import org.rspeer.ui.Log;
 
 import java.io.IOException;
 import java.util.HashMap;
