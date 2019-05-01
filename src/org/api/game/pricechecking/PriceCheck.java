@@ -32,13 +32,13 @@ public class PriceCheck {
             return 0;
 
         final Gson gson = new Gson().newBuilder().create();
-        final String price_text = gson.fromJson(response.body().string(), JsonObject.class)
+        final String priceText = gson.fromJson(response.body().string(), JsonObject.class)
                 .getAsJsonObject("item")
                 .getAsJsonObject("current")
                 .get("price")
                 .getAsString();
-        final int price = Integer.parseInt(price_text.replaceAll("\\D+", ""));
-        return price_text.matches("[0-9]+") ? price : price * (price_text.charAt(0) == 'k' ? 1000 : 1000000);
+        final int price = Integer.parseInt(priceText.replaceAll("\\D+", ""));
+        return priceText.matches("[0-9]+") ? price : price * (priceText.charAt(0) == 'k' ? 1000 : 1000000);
     }
 
     /**
@@ -71,10 +71,10 @@ public class PriceCheck {
         if (OSBUDDY_SUMMARY_JSON == null)
             setOSBuddySummaryJson();
 
-        final JsonObject json_objects = OSBUDDY_SUMMARY_JSON.getAsJsonObject(Integer.toString(id));
-        if (json_objects == null)
+        final JsonObject jsonObject = OSBUDDY_SUMMARY_JSON.getAsJsonObject(Integer.toString(id));
+        if (jsonObject == null)
             return 0;
 
-        return json_objects.get("sell_average").getAsInt();
+        return jsonObject.get("sell_average").getAsInt();
     }
 }

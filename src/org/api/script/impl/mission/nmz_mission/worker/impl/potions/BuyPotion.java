@@ -11,15 +11,15 @@ import java.util.function.Predicate;
 
 public class BuyPotion extends Worker {
 
-    private final Predicate<SceneObject> rewards_chest_predicate = a -> a.getName().equals("Rewards chest");
-    private final SceneObjectWorker scene_object_worker = new SceneObjectWorker(rewards_chest_predicate);
-    private final PotionType potion_type;
+    private static final int REWARDS_CHEST_COMPONENT_PREDICATE = 206;
+    private static final int REWARDS_CHEST_POTIONS_COMPONENT_PREDICATE = 6;
+    private final Predicate<SceneObject> rewardsChestPredicate = a -> a.getName().equals("Rewards chest");
+    private final SceneObjectWorker sceneObjectWorker = new SceneObjectWorker(rewardsChestPredicate);
+    private final PotionType potionType;
     private final int amount;
-    private final int rewards_chest_component_predicate = 206;
-    private final int rewards_chest_potions_component_predicate = 6;
 
-    public BuyPotion(PotionType potion_type, int amount) {
-        this.potion_type = potion_type;
+    public BuyPotion(PotionType potionType, int amount) {
+        this.potionType = potionType;
         this.amount = amount;
     }
 
@@ -30,14 +30,14 @@ public class BuyPotion extends Worker {
 
     @Override
     public void work() {
-        final InterfaceComponent rewards_chest_component = Interfaces.getComponent(rewards_chest_component_predicate, rewards_chest_potions_component_predicate, potion_type.getShopInterfaceID());
-        if (rewards_chest_component == null) {
-            scene_object_worker.work();
+        final InterfaceComponent rewardsChestComponent = Interfaces.getComponent(REWARDS_CHEST_COMPONENT_PREDICATE, REWARDS_CHEST_POTIONS_COMPONENT_PREDICATE, potionType.getShopInterfaceId());
+        if (rewardsChestComponent == null) {
+            sceneObjectWorker.work();
             return;
         }
 
         if (!EnterInput.isOpen()) {
-            rewards_chest_component.interact("Buy-X");
+            rewardsChestComponent.interact("Buy-X");
             return;
         }
 

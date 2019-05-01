@@ -137,46 +137,26 @@ public enum QuestType {
     ZORGE_FLESH_EATERS(0, 0, 0, true);
 
     private int setting;
-    private int not_started;
+    private int notStarted;
     private int complete;
     private boolean members;
 
-    QuestType(int setting, int not_started, int is_complete, boolean is_members) {
+    QuestType(int setting, int notStarted, int isComplete, boolean isMembers) {
         this.setting = setting;
-        this.not_started = not_started;
-        this.complete = is_complete;
-        this.members = is_members;
+        this.notStarted = notStarted;
+        this.complete = isComplete;
+        this.members = isMembers;
     }
 
     public boolean isComplete() {
-        if (this == SHIELD_OF_ARRAV) return isShieldOfArravComplete();
         return Varps.get(setting) == complete;
     }
 
     public boolean hasStarted() {
-        if (this == SHIELD_OF_ARRAV) return isShieldOfArravStarted();
-        return Varps.get(setting) != not_started && !isComplete();
+        return Varps.get(setting) != notStarted && !isComplete();
     }
 
     public boolean isMembers() {
         return members;
-    }
-
-    private boolean isShieldOfArravComplete() {
-        int black = Varps.get(146);
-        int phoenix = Varps.get(145);
-        return black == 4 || phoenix == 7;
-    }
-
-    private boolean isShieldOfArravStarted() {
-        int black = Varps.get(146);
-        int phoenix = Varps.get(145);
-        return black != 0 && phoenix != 0 && !isShieldOfArravComplete();
-    }
-
-    private boolean isShieldOfArravNotStarted() {
-        int black = Varps.get(146);
-        int phoenix = Varps.get(145);
-        return black == 0 && phoenix == 0;
     }
 }

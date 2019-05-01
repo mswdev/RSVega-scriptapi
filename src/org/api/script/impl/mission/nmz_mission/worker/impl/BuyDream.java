@@ -9,10 +9,10 @@ import java.util.function.Predicate;
 
 public class BuyDream extends Worker {
 
-    public static int dream_potion_varbit = 3946;
-    private final Predicate<Npc> dominic_onion_predicate = a -> a.getName().equals("Dominic Onion");
-    private final DialogueWorker dialogue_worker = new DialogueWorker(a -> a.contains("Previous") || a.contains("Yes"));
-    private final NpcWorker npc_worker = new NpcWorker(dominic_onion_predicate, a -> a.contains("Dream"), dialogue_worker);
+    public static final int DREAM_POTION_VARBIT = 3946;
+    private final Predicate<Npc> dominicOnionPredicate = a -> a.getName().equals("Dominic Onion");
+    private final DialogueWorker dialogueWorker = new DialogueWorker(a -> a.contains("Previous") || a.contains("Yes"));
+    private final NpcWorker npcWorker = new NpcWorker(dominicOnionPredicate, a -> a.contains("Dream"), dialogueWorker);
 
     @Override
     public boolean needsRepeat() {
@@ -21,7 +21,7 @@ public class BuyDream extends Worker {
 
     @Override
     public void work() {
-        npc_worker.work();
+        npcWorker.work();
     }
 
     @Override

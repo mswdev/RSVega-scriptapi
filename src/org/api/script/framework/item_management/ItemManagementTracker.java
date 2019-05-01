@@ -10,13 +10,13 @@ public class ItemManagementTracker {
 
     public static final int GOLD_ID = 995;
     public final SPXScript script;
-    private final ItemManagement item_management;
-    private long total_gold;
-    private long total_sellable_gold;
+    private final ItemManagement itemManagement;
+    private long totalGold;
+    private long totalSellableGold;
 
-    public ItemManagementTracker(SPXScript script, ItemManagement item_management) {
+    public ItemManagementTracker(SPXScript script, ItemManagement itemManagement) {
         this.script = script;
-        this.item_management = item_management;
+        this.itemManagement = itemManagement;
     }
 
     /**
@@ -26,17 +26,17 @@ public class ItemManagementTracker {
      * This also takes into account the buy price modifier and sell price modifier.
      */
     public void update() {
-        final long inventory_gold = Inventory.getCount(true, GOLD_ID);
-        final long bank_gold = script.bank_cache.get().getOrDefault(GOLD_ID, 0);
-        total_gold = inventory_gold + bank_gold;
+        final long inventoryGold = Inventory.getCount(true, GOLD_ID);
+        final long bankGold = script.bankCache.get().getOrDefault(GOLD_ID, 0);
+        totalGold = inventoryGold + bankGold;
 
-        total_sellable_gold = 0;
-        for (int id : item_management.itemsToSell()) {
-            final long inventory_amount = Inventory.getCount(id);
-            final long bank_amount = script.bank_cache.get().getOrDefault(id, 0);
+        totalSellableGold = 0;
+        for (int id : itemManagement.itemsToSell()) {
+            final long inventoryAmount = Inventory.getCount(id);
+            final long bankAmount = script.bankCache.get().getOrDefault(id, 0);
 
             try {
-                total_sellable_gold += (inventory_amount + bank_amount) * (PriceCheck.getOSBuddyPrice(id) * item_management.sellPriceModifier());
+                totalSellableGold += (inventoryAmount + bankAmount) * (PriceCheck.getOSBuddyPrice(id) * itemManagement.sellPriceModifier());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -50,9 +50,9 @@ public class ItemManagementTracker {
      * @return The item management entry that should be bought.
      */
     public ItemManagementEntry shouldBuy() {
-        for (ItemManagementEntry item_management_entry : item_management.itemsToBuy()) {
-            if (item_management_entry.canBuy(getTotalValue(), item_management.buyPriceModifier()))
-                return item_management_entry;
+        for (ItemManagementEntry itemManagementEntry : itemManagement.itemsToBuy()) {
+            if (itemManagementEntry.canBuy(getTotalValue(), itemManagement.buyPriceModifier()))
+                return itemManagementEntry;
         }
 
         return null;
@@ -65,7 +65,7 @@ public class ItemManagementTracker {
      * @return The total value the player has.
      */
     private long getTotalValue() {
-        return total_gold + total_sellable_gold;
+        return totalGold + totalSellableGold;
     }
 
     /**
@@ -74,7 +74,7 @@ public class ItemManagementTracker {
      * @return The total gold.
      */
     public long getTotalGold() {
-        return total_gold;
+        return totalGold;
     }
 
     /**
@@ -83,6 +83,6 @@ public class ItemManagementTracker {
      * @return The item management.
      */
     public ItemManagement getItemManagement() {
-        return item_management;
+        return itemManagement;
     }
 }

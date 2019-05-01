@@ -9,14 +9,14 @@ import org.rspeer.runetek.api.scene.Players;
 
 public class OpenBankWorker extends Worker {
 
-    private final boolean deposit_box;
+    private final boolean depositBox;
 
     public OpenBankWorker() {
         this(false);
     }
 
-    public OpenBankWorker(boolean deposit_box) {
-        this.deposit_box = deposit_box;
+    public OpenBankWorker(boolean depositBox) {
+        this.depositBox = depositBox;
     }
 
     @Override
@@ -29,7 +29,7 @@ public class OpenBankWorker extends Worker {
         if (Players.getLocal().isMoving() && Movement.getDestinationDistance() > 10)
             return;
 
-        if (deposit_box) {
+        if (depositBox) {
             DepositBox.open(BankLocation.getNearestDepositBox());
             return;
         }

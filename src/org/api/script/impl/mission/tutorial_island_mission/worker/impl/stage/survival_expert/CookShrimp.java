@@ -24,11 +24,11 @@ public class CookShrimp extends Worker {
         if (Players.getLocal().getAnimation() != -1)
             return;
 
-        final SceneObject fire_object = SceneObjects.getNearest(FIRE);
-        if (fire_object == null)
+        final SceneObject fireObject = SceneObjects.getNearest(FIRE);
+        if (fireObject == null)
             return;
 
-        if (Inventory.use(a -> a.getName().equals(FishType.SHRIMP.getName()), fire_object) && Time.sleepUntil(() -> Players.getLocal().getAnimation() != -1, 3500))
+        if (Inventory.use(a -> a.getName().equals(FishType.SHRIMP.getName()), fireObject) && Time.sleepUntil(() -> Players.getLocal().getAnimation() != -1, 3500))
             Time.sleepUntil(() -> !Inventory.contains(FishType.SHRIMP.getName()), 6500);
     }
 

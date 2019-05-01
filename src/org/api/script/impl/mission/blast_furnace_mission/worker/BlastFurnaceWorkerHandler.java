@@ -17,61 +17,61 @@ import org.rspeer.runetek.api.movement.Movement;
 
 public class BlastFurnaceWorkerHandler extends WorkerHandler {
 
-    private final PayCoffer pay_coffer;
-    private final PayForeman pay_foreman;
-    private final WithdrawCoalBag withdraw_coal_bag;
-    private final EquipIceGloves equip_ice_gloves;
-    private final UseWaterBucket use_water_bucket;
-    private final CollectBars collect_bars;
-    private final WithdrawOre withdraw_ore;
-    private final SmeltBars smelt_bars;
-    private final DrinkStamina drink_stamina;
+    private final PayCoffer payCoffer;
+    private final PayForeman payForeman;
+    private final WithdrawCoalBag withdrawCoalBag;
+    private final EquipIceGloves equipIceGloves;
+    //private final UseWaterBucket useWaterBucket;
+    private final CollectBars collectBars;
+    private final WithdrawOre withdrawOre;
+    private final SmeltBars smeltBars;
+    private final DrinkStamina drinkStamina;
     private final BlastFurnaceMission mission;
 
     public BlastFurnaceWorkerHandler(BlastFurnaceMission mission) {
         this.mission = mission;
-        pay_coffer = new PayCoffer(mission);
-        pay_foreman = new PayForeman(mission);
-        withdraw_coal_bag = new WithdrawCoalBag(mission);
-        equip_ice_gloves = new EquipIceGloves(mission);
-        use_water_bucket = new UseWaterBucket();
-        collect_bars = new CollectBars(mission);
-        withdraw_ore = new WithdrawOre(mission);
-        smelt_bars = new SmeltBars(mission);
-        drink_stamina = new DrinkStamina();
+        payCoffer = new PayCoffer(mission);
+        payForeman = new PayForeman(mission);
+        withdrawCoalBag = new WithdrawCoalBag(mission);
+        equipIceGloves = new EquipIceGloves(mission);
+        //useWaterBucket = new UseWaterBucket();
+        collectBars = new CollectBars(mission);
+        withdrawOre = new WithdrawOre(mission);
+        smeltBars = new SmeltBars(mission);
+        drinkStamina = new DrinkStamina();
     }
 
     @Override
     public Worker decide() {
-        if (Skills.getLevel(Skill.SMITHING) < 60 && !pay_foreman.paid_foreman || PayForeman.shouldPayForeman())
-            return pay_foreman;
+        if (Skills.getLevel(Skill.SMITHING) < 60 && !payForeman.paidForeman || PayForeman.shouldPayForeman())
+            return payForeman;
 
         if (Varps.get(PayCoffer.COFFER_VARP) <= PayCoffer.COFFER_MIN)
-            return pay_coffer;
+            return payCoffer;
 
         if (!Equipment.contains("Ice gloves"))
-            return equip_ice_gloves;
+            return equipIceGloves;
 
-        if (((!Movement.isStaminaEnhancementActive() && Bank.isOpen()) || Inventory.contains(DrinkStamina.stamina) || Inventory.contains(DrinkStamina.vial)) && !drink_stamina.out_of_stamina)
-            return drink_stamina;
+        if (((!Movement.isStaminaEnhancementActive() && Bank.isOpen()) || Inventory.contains(DrinkStamina.stamina) || Inventory.contains(DrinkStamina.vial)) && !drinkStamina.outOfStamina)
+            return drinkStamina;
 
         if (Inventory.getFirst(WithdrawCoalBag.COAL_BAG) == null)
-            return withdraw_coal_bag;
+            return withdrawCoalBag;
 
         /*if (Varps.get(CollectBars.COLLECT_BARS_VARP) > 0 && Varps.get(CollectBars.COLLECT_BARS_VARP) != CollectBars.COLLECT_BARS_COOLED_SETTING)
-            return use_water_bucket;*/
+            return useWaterBucket;*/
 
-        if (collect_bars.isDoneSmelting()) {
+        if (collectBars.isDoneSmelting()) {
             if (Inventory.isFull())
                 return new DepositWorker();
 
-            return collect_bars;
+            return collectBars;
         }
 
-        if (!mission.is_smelting)
-            return withdraw_ore;
+        if (!mission.isSmelting)
+            return withdrawOre;
 
-        return smelt_bars;
+        return smeltBars;
     }
 }
 

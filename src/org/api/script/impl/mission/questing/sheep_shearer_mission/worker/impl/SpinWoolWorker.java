@@ -10,8 +10,8 @@ import org.rspeer.runetek.api.scene.Players;
 
 public class SpinWoolWorker extends Worker {
 
-    private final SceneObjectWorker scene_object_worker = new SceneObjectWorker(a -> a.getName().equals("Spinning wheel"), new MovementWorker(new Position(3209, 3213, 1)));
-    private StopWatch stop_watch = StopWatch.start();
+    private final SceneObjectWorker sceneObjectWorker = new SceneObjectWorker(a -> a.getName().equals("Spinning wheel"), new MovementWorker(new Position(3209, 3213, 1)));
+    private StopWatch stopWatch = StopWatch.start();
 
     @Override
     public boolean needsRepeat() {
@@ -21,23 +21,23 @@ public class SpinWoolWorker extends Worker {
     @Override
     public void work() {
         if (Players.getLocal().getAnimation() != -1) {
-            stop_watch = StopWatch.start();
+            stopWatch = StopWatch.start();
             return;
         }
 
-        if (stop_watch.getElapsed().getSeconds() >= 3) {
+        if (stopWatch.getElapsed().getSeconds() >= 3) {
             if (Production.isOpen()) {
                 Production.initiate(0);
                 return;
             }
 
-            scene_object_worker.work();
+            sceneObjectWorker.work();
         }
     }
 
     @Override
     public String toString() {
-        return scene_object_worker.toString();
+        return sceneObjectWorker.toString();
     }
 }
 

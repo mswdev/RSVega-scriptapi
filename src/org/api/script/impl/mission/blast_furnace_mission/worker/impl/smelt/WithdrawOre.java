@@ -16,11 +16,11 @@ import java.util.function.Predicate;
 public class WithdrawOre extends Worker {
 
     private static final int COAL_VARP = 547;
-    private final int ingrediant_one_minimum = (BlastFurnaceMission.bar_type.getIngrediantOneAmount() / 2) * 27;
-    private final Predicate<Item> ingrediant_one = a -> a.getName().equals(BlastFurnaceMission.bar_type.getIngrediantOne().getName());
-    private final Predicate<Item> ingrediant_two = a -> a.getName().equals(BlastFurnaceMission.bar_type.getIngrediantTwo().getName());
-    private final WithdrawWorker withdraw_worker_ingrediant_one = new WithdrawWorker(ingrediant_one, 0, Bank.WithdrawMode.ITEM);
-    private final WithdrawWorker withdraw_worker_ingrediant_two = new WithdrawWorker(ingrediant_two, 0, Bank.WithdrawMode.ITEM);
+    private final int ingredientOneMinimum = (BlastFurnaceMission.barType.getIngredientOneAmount() / 2) * 27;
+    private final Predicate<Item> ingredientOne = a -> a.getName().equals(BlastFurnaceMission.barType.getIngredientOne().getName());
+    private final Predicate<Item> ingredientTwo = a -> a.getName().equals(BlastFurnaceMission.barType.getIngredientTwo().getName());
+    private final WithdrawWorker withdrawWorkerIngredientOne = new WithdrawWorker(ingredientOne, 0, Bank.WithdrawMode.ITEM);
+    private final WithdrawWorker withdrawWorkerIngredientTwo = new WithdrawWorker(ingredientTwo, 0, Bank.WithdrawMode.ITEM);
     private final BlastFurnaceMission mission;
 
     public WithdrawOre(BlastFurnaceMission mission) {
@@ -34,21 +34,21 @@ public class WithdrawOre extends Worker {
 
     @Override
     public void work() {
-        if (mission.is_coal_bag_empty) {
-            if (Inventory.contains(ingrediant_one)) {
+        if (mission.isCoalBagEmpty) {
+            if (Inventory.contains(ingredientOne)) {
                 fillCoalBag();
             } else {
                 withdrawIngrediantOne();
             }
-        } else if (Varps.get(COAL_VARP) <= ingrediant_one_minimum - 27) {
-            if (Inventory.contains(ingrediant_one)) {
-                mission.is_smelting = true;
+        } else if (Varps.get(COAL_VARP) <= ingredientOneMinimum - 27) {
+            if (Inventory.contains(ingredientOne)) {
+                mission.isSmelting = true;
             } else {
                 withdrawIngrediantOne();
             }
         } else {
-            if (Inventory.contains(ingrediant_two)) {
-                mission.is_smelting = true;
+            if (Inventory.contains(ingredientTwo)) {
+                mission.isSmelting = true;
             } else {
                 withdrawIngrediantTwo();
             }
@@ -56,20 +56,20 @@ public class WithdrawOre extends Worker {
     }
 
     private void fillCoalBag() {
-        final Item coal_bag = Inventory.getFirst(WithdrawCoalBag.COAL_BAG);
-        if (coal_bag.click())
+        final Item coalBag = Inventory.getFirst(WithdrawCoalBag.COAL_BAG);
+        if (coalBag.click())
             if (Time.sleepUntil(Dialog::isOpen, 1500))
-                mission.is_coal_bag_empty = false;
+                mission.isCoalBagEmpty = false;
     }
 
     private void withdrawIngrediantOne() {
-        withdraw_worker_ingrediant_one.work();
-        mission.should_end = withdraw_worker_ingrediant_one.itemNotFound();
+        withdrawWorkerIngredientOne.work();
+        mission.shouldEnd = withdrawWorkerIngredientOne.itemNotFound();
     }
 
     private void withdrawIngrediantTwo() {
-        withdraw_worker_ingrediant_two.work();
-        mission.should_end = withdraw_worker_ingrediant_two.itemNotFound();
+        withdrawWorkerIngredientTwo.work();
+        mission.shouldEnd = withdrawWorkerIngredientTwo.itemNotFound();
     }
 
     @Override

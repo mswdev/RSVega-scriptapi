@@ -8,7 +8,7 @@ import org.rspeer.runetek.api.Varps;
 
 public class DrinkPotion extends Worker {
 
-    private final ItemWorker item_worker = new ItemWorker(a -> a.getName().contains(PotionType.ABSORPTION.getName()));
+    private final ItemWorker itemWorker = new ItemWorker(a -> a.getName().contains(PotionType.ABSORPTION.getName()));
 
     @Override
     public boolean needsRepeat() {
@@ -17,7 +17,7 @@ public class DrinkPotion extends Worker {
 
     @Override
     public void work() {
-        item_worker.work();
+        itemWorker.work();
     }
 
     @Override

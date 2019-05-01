@@ -11,20 +11,20 @@ import org.api.script.impl.mission.item_management_mission.worker.ItemManagement
 
 public class ItemManagementMission extends Mission {
 
-    public final int[] items_to_sell;
-    private final ItemManagementWorkerHandler worker_handler;
-    private final ItemManagementEntry item_management_entry;
-    private final ItemManagementTracker item_management_tracker;
-    public boolean has_put_in_offer;
-    public boolean has_withdrawn_sellables;
-    public boolean should_end;
+    public final int[] itemsToSell;
+    private final ItemManagementWorkerHandler workerHandler;
+    private final ItemManagementEntry itemManagementEntry;
+    private final ItemManagementTracker itemManagementTracker;
+    public boolean hasPutInOffer;
+    public boolean hasWithdrawnSellables;
+    public boolean shouldEnd;
 
-    public ItemManagementMission(SPXScript script, ItemManagementEntry item_management_entry, ItemManagementTracker item_management_tracker, int[] items_to_sell) {
+    public ItemManagementMission(SPXScript script, ItemManagementEntry itemManagementEntry, ItemManagementTracker itemManagementTracker, int[] itemsToSell) {
         super(script);
-        this.item_management_entry = item_management_entry;
-        this.item_management_tracker = item_management_tracker;
-        this.items_to_sell = items_to_sell;
-        worker_handler = new ItemManagementWorkerHandler(this);
+        this.itemManagementEntry = itemManagementEntry;
+        this.itemManagementTracker = itemManagementTracker;
+        this.itemsToSell = itemsToSell;
+        workerHandler = new ItemManagementWorkerHandler(this);
     }
 
     @Override
@@ -34,13 +34,13 @@ public class ItemManagementMission extends Mission {
 
     @Override
     public String getWorkerName() {
-        Worker c = worker_handler.getCurrent();
+        Worker c = workerHandler.getCurrent();
         return c == null ? "WORKER" : c.getClass().getSimpleName();
     }
 
     @Override
     public String getWorkerString() {
-        Worker c = worker_handler.getCurrent();
+        Worker c = workerHandler.getCurrent();
         return c == null ? "Waiting for worker." : c.toString();
     }
 
@@ -51,7 +51,7 @@ public class ItemManagementMission extends Mission {
 
     @Override
     public boolean shouldEnd() {
-        return should_end;
+        return shouldEnd;
     }
 
     @Override
@@ -61,15 +61,15 @@ public class ItemManagementMission extends Mission {
 
     @Override
     public int execute() {
-        worker_handler.work();
+        workerHandler.work();
         return 100;
     }
 
     public ItemManagementTracker getItemManagementTracker() {
-        return item_management_tracker;
+        return itemManagementTracker;
     }
 
     public ItemManagementEntry getItemManagementEntry() {
-        return item_management_entry;
+        return itemManagementEntry;
     }
 }

@@ -5,44 +5,44 @@ import org.rspeer.runetek.api.movement.position.Position;
 
 public class Args {
 
-    @Parameter(names = "-drop_items", arity = 1)
-    public boolean drop_items;
+    @Parameter(names = "-dropItems", arity = 1)
+    public boolean dropItems;
 
-    @Parameter(names = "-bank_items", arity = 1)
-    public boolean bank_items;
+    @Parameter(names = "-bankItems", arity = 1)
+    public boolean bankItems;
 
-    @Parameter(names = "-walk_position", converter = PositionConverter.class)
-    public Position walk_position;
+    @Parameter(names = "-walkPosition", converter = PositionConverter.class, arity = 1)
+    public Position walkPosition;
 
-    @Parameter(names = "-hide_roofs", arity = 1)
-    public boolean hide_roofs;
+    @Parameter(names = "-hideRoofs", arity = 1)
+    public boolean hideRoofs;
 
-    @Parameter(names = "-set_audio")
-    public int set_audio;
+    @Parameter(names = "-setAudio", arity = 1)
+    public int setAudio;
 
-    @Parameter(names = "-set_brightness")
-    public int set_brightness;
+    @Parameter(names = "-setBrightness", arity = 1)
+    public int setBrightness;
 
-    @Parameter(names = "-set_zoom")
-    public int set_zoom;
+    @Parameter(names = "-setZoom", arity = 1)
+    public int setZoom;
 
-    @Parameter(names = "-stay_logged_in", arity = 1)
-    public boolean stay_logged_in;
+    @Parameter(names = "-stayLoggedIn", arity = 1)
+    public boolean stayLoggedIn;
 
-    @Parameter(names = "-two_captcha_api_key")
-    public String two_captcha_api_key;
+    @Parameter(names = "-twoCaptchaApiKey", arity = 1)
+    public String twoCaptchaApiKey;
 
-    @Parameter(names = "-account_list")
-    public String account_list;
+    @Parameter(names = "-accountList", arity = 1)
+    public String accountList;
 
-    @Parameter(names = "-accounts_to_create")
-    public int accounts_to_create;
+    @Parameter(names = "-accountsToCreate", arity = 1)
+    public int accountsToCreate;
 
-    @Parameter(names = "-proxy_list")
-    public String proxy_list;
+    @Parameter(names = "-proxyList", arity = 1)
+    public String proxyList;
 
-    @Parameter(names = "-accounts_per_proxy")
-    public int accounts_per_proxy;
+    @Parameter(names = "-accountsPerProxy", arity = 1)
+    public int accountsPerProxy;
 
 }
 

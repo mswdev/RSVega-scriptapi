@@ -10,22 +10,23 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class AutoCompleteComboBox extends JComboBox {
+public class AutoCompleteComboBox extends JComboBox<Object> {
 
-    private JTextField text_field = null;
-    private int caret_position = 0;
+    private static final long serialVersionUID = -5325656472664803718L;
+    private JTextField textField = null;
+    private int caretPosition = 0;
 
-    public AutoCompleteComboBox(Object[] elements, String place_holder) {
-        this(elements, place_holder, 200, 25);
+    public AutoCompleteComboBox(Object[] elements, String placeHolder) {
+        this(elements, placeHolder, 200, 25);
     }
 
-    public AutoCompleteComboBox(Object[] elements, String place_holder, int width, int height) {
+    public AutoCompleteComboBox(Object[] elements, String placeHolder, int width, int height) {
         super(elements);
         setPreferredSize(new Dimension(width, height));
         listenForMatch(new BasicComboBoxEditor());
         setUI(getComboBoxUI());
         setEditable(true);
-        setSelectedItem(place_holder);
+        setSelectedItem(placeHolder);
     }
 
     public BasicComboBoxUI getComboBoxUI() {
@@ -42,16 +43,16 @@ public class AutoCompleteComboBox extends JComboBox {
 
     public void setSelectedIndex(int index) {
         super.setSelectedIndex(index);
-        text_field.setText(getItemAt(index).toString());
-        text_field.setSelectionEnd(caret_position + text_field.getText().length());
-        text_field.moveCaretPosition(caret_position);
+        textField.setText(getItemAt(index).toString());
+        textField.setSelectionEnd(caretPosition + textField.getText().length());
+        textField.moveCaretPosition(caretPosition);
     }
 
     private void listenForMatch(ComboBoxEditor editor) {
         super.setEditor(editor);
-        text_field = (JTextField) editor.getEditorComponent();
+        textField = (JTextField) editor.getEditorComponent();
 
-        text_field.addKeyListener(new KeyAdapter() {
+        textField.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent event) {
                 final char key = event.getKeyChar();
                 if (!Character.isLetterOrDigit(key))
@@ -60,10 +61,10 @@ public class AutoCompleteComboBox extends JComboBox {
                 if (Character.isSpaceChar(key))
                     return;
 
-                caret_position = text_field.getCaretPosition();
+                caretPosition = textField.getCaretPosition();
                 String text = "";
                 try {
-                    text = text_field.getText(0, caret_position).toLowerCase();
+                    text = textField.getText(0, caretPosition).toLowerCase();
                 } catch (javax.swing.text.BadLocationException e) {
                     e.printStackTrace();
                 }

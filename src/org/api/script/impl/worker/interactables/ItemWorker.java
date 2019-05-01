@@ -12,31 +12,31 @@ import java.util.function.Predicate;
 
 public class ItemWorker extends Worker {
 
-    private final Predicate<Item> item_predicate;
-    private final Predicate<String> action_predicate;
-    private final WithdrawWorker withdraw_worker;
+    private final Predicate<Item> itemPredicate;
+    private final Predicate<String> actionPredicate;
+    private final WithdrawWorker withdrawWorker;
 
-    public ItemWorker(Predicate<Item> item_predicate) {
-        this(item_predicate, a -> true, null);
+    public ItemWorker(Predicate<Item> itemPredicate) {
+        this(itemPredicate, a -> true, null);
     }
 
-    public ItemWorker(Predicate<Item> item_predicate, Predicate<String> action_predicate) {
-        this(item_predicate, action_predicate, null);
+    public ItemWorker(Predicate<Item> itemPredicate, Predicate<String> actionPredicate) {
+        this(itemPredicate, actionPredicate, null);
     }
 
-    public ItemWorker(Predicate<Item> item_predicate, WithdrawWorker withdraw_worker) {
-        this(item_predicate, a -> true, withdraw_worker);
+    public ItemWorker(Predicate<Item> itemPredicate, WithdrawWorker withdrawWorker) {
+        this(itemPredicate, a -> true, withdrawWorker);
     }
 
-    public ItemWorker(Predicate<Item> item_predicate, Predicate<String> action_predicate, WithdrawWorker withdraw_worker) {
-        this.item_predicate = item_predicate;
-        this.action_predicate = action_predicate;
-        this.withdraw_worker = withdraw_worker;
+    public ItemWorker(Predicate<Item> itemPredicate, Predicate<String> actionPredicate, WithdrawWorker withdrawWorker) {
+        this.itemPredicate = itemPredicate;
+        this.actionPredicate = actionPredicate;
+        this.withdrawWorker = withdrawWorker;
     }
 
     @Override
     public boolean needsRepeat() {
-        return withdraw_worker != null && withdraw_worker.needsRepeat();
+        return withdrawWorker != null && withdrawWorker.needsRepeat();
     }
 
     @Override
@@ -44,22 +44,22 @@ public class ItemWorker extends Worker {
         if (Players.getLocal().getAnimation() != -1)
             return;
 
-        final Item item = Inventory.getFirst(item_predicate);
+        final Item item = Inventory.getFirst(itemPredicate);
         if (item == null) {
-            if (withdraw_worker == null)
+            if (withdrawWorker == null)
                 return;
 
-            withdraw_worker.work();
+            withdrawWorker.work();
             return;
         }
 
-        final int equipment_cache = Equipment.getItems().length;
-        if (item.interact(action_predicate))
-            Time.sleepUntil(() -> equipment_cache != Equipment.getItems().length || Players.getLocal().getAnimation() != -1 || Inventory.getSelectedItem() != null, 1500);
+        final int equipmentCache = Equipment.getItems().length;
+        if (item.interact(actionPredicate))
+            Time.sleepUntil(() -> equipmentCache != Equipment.getItems().length || Players.getLocal().getAnimation() != -1 || Inventory.getSelectedItem() != null, 1500);
     }
 
     public boolean itemNotFound() {
-        return withdraw_worker.itemNotFound();
+        return withdrawWorker.itemNotFound();
     }
 
     @Override

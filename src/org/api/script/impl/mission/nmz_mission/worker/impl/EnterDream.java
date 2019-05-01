@@ -11,11 +11,11 @@ import java.util.function.Predicate;
 public class EnterDream extends Worker {
 
 
-    public final static int ACTIVE_DREAM_VARPBIT = 4605;
-    private final Predicate<SceneObject> dream_potion_predicate = a -> a.getName().contains("Potion");
-    private final SceneObjectWorker scene_object_worker = new SceneObjectWorker(dream_potion_predicate, a -> a.equals("Drink"));
-    private final int dream_component_predicate = 129;
-    private final int accept_dream_component_predicate = 6;
+    public static final int ACTIVE_DREAM_VARPBIT = 4605;
+    private static final int DREAM_COMPONENT_PREDICATE = 129;
+    private static final int ACCEPT_DREAM_COMPONENT_PREDICATE = 6;
+    private final Predicate<SceneObject> dreamPotionPredicate = a -> a.getName().contains("Potion");
+    private final SceneObjectWorker sceneObjectWorker = new SceneObjectWorker(dreamPotionPredicate, a -> a.equals("Drink"));
 
     @Override
     public boolean needsRepeat() {
@@ -24,13 +24,13 @@ public class EnterDream extends Worker {
 
     @Override
     public void work() {
-        final InterfaceComponent accept_dream_component = Interfaces.getComponent(dream_component_predicate, accept_dream_component_predicate);
-        if (accept_dream_component == null) {
-            scene_object_worker.work();
+        final InterfaceComponent acceptDreamComponent = Interfaces.getComponent(DREAM_COMPONENT_PREDICATE, ACCEPT_DREAM_COMPONENT_PREDICATE);
+        if (acceptDreamComponent == null) {
+            sceneObjectWorker.work();
             return;
         }
 
-        accept_dream_component.click();
+        acceptDreamComponent.click();
     }
 
     @Override

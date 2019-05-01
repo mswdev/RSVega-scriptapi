@@ -8,15 +8,15 @@ import org.rspeer.runetek.api.scene.Players;
 public class MovementWorker extends Worker {
 
     private final Position position;
-    private final int off_set;
+    private final int offSet;
 
     public MovementWorker(Position position) {
         this(position, 0);
     }
 
-    public MovementWorker(Position position, int off_set) {
+    public MovementWorker(Position position, int offSet) {
         this.position = position;
-        this.off_set = off_set;
+        this.offSet = offSet;
     }
 
     @Override
@@ -33,10 +33,10 @@ public class MovementWorker extends Worker {
         if (!Movement.isRunEnabled() && Movement.getRunEnergy() > 10)
             Movement.toggleRun(true);
 
-        if (position.distance() <= off_set + 1)
+        if (position.distance() <= offSet + 1)
             return;
 
-        Movement.walkTo(position.randomize(off_set));
+        Movement.walkTo(position.randomize(offSet));
     }
 
     @Override

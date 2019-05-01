@@ -27,8 +27,8 @@ public class SetBrightness extends Worker {
             if (Tabs.open(Tab.OPTIONS))
                 Time.sleepUntil(() -> Tabs.isOpen(Tab.OPTIONS), 1500);
 
-        if (ClientSettings.setBrightnessLevel(mission.getArgs().set_brightness))
-            Time.sleepUntil(() -> InterfaceOptions.Display.getBrightness() == mission.getArgs().set_brightness, 1500);
+        if (ClientSettings.setBrightnessLevel(mission.getArgs().setBrightness))
+            Time.sleepUntil(() -> InterfaceOptions.Display.getBrightness() == mission.getArgs().setBrightness, 1500);
     }
 
     @Override

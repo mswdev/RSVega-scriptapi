@@ -34,8 +34,8 @@ public class LightFire extends Worker {
         if (item == null)
             return;
 
-        final SceneObject fire_position = SceneObjects.getFirstAt(Players.getLocal().getPosition());
-        if (fire_position == null || !fire_position.getName().equals("Fire")) {
+        final SceneObject firePosition = SceneObjects.getFirstAt(Players.getLocal().getPosition());
+        if (firePosition == null || !firePosition.getName().equals("Fire")) {
             if (Inventory.use(TINDERBOX, item))
                 Time.sleepUntil(() -> Players.getLocal().getAnimation() != -1, 1500);
         } else {

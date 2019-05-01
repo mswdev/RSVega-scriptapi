@@ -4,39 +4,39 @@ import org.api.script.framework.goal.Goal;
 
 public class SkillGoal implements Goal {
 
-    private int current_level;
-    private int end_level;
+    private int currentLevel;
+    private int endLevel;
 
-    public SkillGoal(int current_level, int end_level) {
-        this.current_level = current_level;
-        this.end_level = end_level;
+    public SkillGoal(int currentLevel, int endLevel) {
+        this.currentLevel = currentLevel;
+        this.endLevel = endLevel;
     }
 
     @Override
     public boolean hasReached() {
-        return current_level >= end_level;
+        return currentLevel >= endLevel;
     }
 
     @Override
     public String getCompletionMessage() {
-        return "[Skill Goal]: Complete: Achieved level " + end_level + ".";
+        return "[Skill Goal]: Complete: Achieved level " + endLevel + ".";
     }
 
     @Override
     public String getName() {
-        return "[Skill Goal:] Set: [Start level: " + current_level + "| End level: " + end_level + "].";
+        return "[Skill Goal:] Set: [Start level: " + currentLevel + "| End level: " + endLevel + "].";
     }
 
     public String toString() {
-        return "[Skill Goal:] Left: [Current level: " + current_level + "| End level: " + end_level + "].";
+        return "[Skill Goal:] Left: [Current level: " + currentLevel + "| End level: " + endLevel + "].";
     }
 
-    public void update(int current_level) {
-        this.current_level = current_level;
+    public void update(int currentLevel) {
+        this.currentLevel = currentLevel;
     }
 
     public int getGoal() {
-        return end_level;
+        return endLevel;
     }
 }
 

@@ -15,16 +15,16 @@ public enum LogType {
     REDWOOD("Redwood logs", 19669, 19670, 90, true);
 
     private final String name;
-    private final int item_id;
-    private final int noted_item_id;
-    private final int required_firemaking_level;
+    private final int itemId;
+    private final int notedItemId;
+    private final int requiredFiremakingLevel;
     private final boolean members;
 
-    LogType(String name, int item_id, int noted_item_id, int required_firemaking_level, boolean members) {
+    LogType(String name, int itemId, int notedItemId, int requiredFiremakingLevel, boolean members) {
         this.name = name;
-        this.item_id = item_id;
-        this.noted_item_id = noted_item_id;
-        this.required_firemaking_level = required_firemaking_level;
+        this.itemId = itemId;
+        this.notedItemId = notedItemId;
+        this.requiredFiremakingLevel = requiredFiremakingLevel;
         this.members = members;
     }
 
@@ -32,16 +32,16 @@ public enum LogType {
         return name;
     }
 
-    public int getItemID() {
-        return item_id;
+    public int getItemId() {
+        return itemId;
     }
 
-    public int getNotedItemID() {
-        return noted_item_id;
+    public int getNotedItemId() {
+        return notedItemId;
     }
 
     public int getRequiredFiremakingLevel() {
-        return required_firemaking_level;
+        return requiredFiremakingLevel;
     }
 
     public boolean isMembers() {

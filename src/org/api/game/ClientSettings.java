@@ -7,6 +7,7 @@ import org.rspeer.runetek.api.input.Mouse;
 
 import java.awt.*;
 
+@SuppressWarnings("deprecation")
 public class ClientSettings {
 
     private static final int INTER_OPTION_MASTER = 261;
@@ -27,19 +28,19 @@ public class ClientSettings {
      * @return The zoom level between 1-5.
      */
     public static int getZoomLevel() {
-        final InterfaceComponent zoom_option = Interfaces.getComponent(INTER_OPTION_MASTER, INTER_ZOOM);
-        if (zoom_option == null)
+        final InterfaceComponent zoomOption = Interfaces.getComponent(INTER_OPTION_MASTER, INTER_ZOOM);
+        if (zoomOption == null)
             return 0;
 
-        final InterfaceComponent[] zoom_indexes = Interfaces.get(INTER_OPTION_MASTER, a -> a.getIndex() >= 9 && a.getIndex() <= 13);
-        if (zoom_indexes.length < 5)
+        final InterfaceComponent[] zoomIndexes = Interfaces.get(INTER_OPTION_MASTER, a -> a.getIndex() >= 9 && a.getIndex() <= 13);
+        if (zoomIndexes.length < 5)
             return 0;
 
-        for (InterfaceComponent zoom_lvl : zoom_indexes) {
-            if (!zoom_lvl.getBounds().contains(zoom_option.getBounds()))
+        for (InterfaceComponent zoomLvl : zoomIndexes) {
+            if (!zoomLvl.getBounds().contains(zoomOption.getBounds()))
                 continue;
 
-            return zoom_lvl.getIndex() - 8;
+            return zoomLvl.getIndex() - 8;
         }
 
         return 0;
@@ -52,12 +53,12 @@ public class ClientSettings {
      * @return True if the zoom level was set; false otherwise.
      */
     public static boolean setZoomLevel(int level) {
-        final InterfaceComponent zoom_indexes = Interfaces.getComponent(INTER_OPTION_MASTER, level + 8);
-        if (zoom_indexes == null)
+        final InterfaceComponent zoomIndexes = Interfaces.getComponent(INTER_OPTION_MASTER, level + 8);
+        if (zoomIndexes == null)
             return false;
 
-        final Point POINT = Random.nextPoint(zoom_indexes.getBounds());
-        Mouse.click(true, POINT.x, POINT.y);
+        final Point point = Random.nextPoint(zoomIndexes.getBounds());
+        Mouse.click(true, point.x, point.y);
         return true;
     }
 
@@ -68,8 +69,8 @@ public class ClientSettings {
      * @return True if the brightness level was set; false otherwise.
      */
     public static boolean setBrightnessLevel(int level) {
-        final InterfaceComponent brightness_index = Interfaces.getComponent(INTER_OPTION_MASTER, INTER_BRIGHTNESS + level);
-        return brightness_index != null && brightness_index.click();
+        final InterfaceComponent brightnessIndex = Interfaces.getComponent(INTER_OPTION_MASTER, INTER_BRIGHTNESS + level);
+        return brightnessIndex != null && brightnessIndex.click();
     }
 
     /**
@@ -79,8 +80,8 @@ public class ClientSettings {
      * @return True if the music audio level was set; false otherwise.
      */
     public static boolean setMusicAudioLevel(int level) {
-        final InterfaceComponent music_audio_index = Interfaces.getComponent(INTER_OPTION_MASTER, INTER_MUSIC_AUDIO + level);
-        return music_audio_index != null && music_audio_index.click();
+        final InterfaceComponent musicAudioIndex = Interfaces.getComponent(INTER_OPTION_MASTER, INTER_MUSIC_AUDIO + level);
+        return musicAudioIndex != null && musicAudioIndex.click();
     }
 
     /**
@@ -90,8 +91,8 @@ public class ClientSettings {
      * @return True if the effect audio level was set; false otherwise.
      */
     public static boolean setEffectAudioLevel(int level) {
-        final InterfaceComponent effect_audio_index = Interfaces.getComponent(INTER_OPTION_MASTER, INTER_EFFECT_AUDIO + level);
-        return effect_audio_index != null && effect_audio_index.click();
+        final InterfaceComponent effectAudioIndex = Interfaces.getComponent(INTER_OPTION_MASTER, INTER_EFFECT_AUDIO + level);
+        return effectAudioIndex != null && effectAudioIndex.click();
     }
 
     /**
@@ -101,8 +102,8 @@ public class ClientSettings {
      * @return True if the area audio level was set; false otherwise.
      */
     public static boolean setAreaAudioLevel(int level) {
-        final InterfaceComponent area_audio_index = Interfaces.getComponent(INTER_OPTION_MASTER, INTER_AREA_AUDIO + level);
-        return area_audio_index != null && area_audio_index.click();
+        final InterfaceComponent areaAudioIndex = Interfaces.getComponent(INTER_OPTION_MASTER, INTER_AREA_AUDIO + level);
+        return areaAudioIndex != null && areaAudioIndex.click();
     }
 
     /**
@@ -111,12 +112,12 @@ public class ClientSettings {
      * @return True if the roof visibility was successfully toggled.
      */
     public static boolean toggleRoofs() {
-        final InterfaceComponent advanced_button = Interfaces.getComponent(INTER_OPTION_MASTER, INTER_ADVANCED_BUTTON);
-        if (advanced_button != null)
-            advanced_button.click();
+        final InterfaceComponent advancedButton = Interfaces.getComponent(INTER_OPTION_MASTER, INTER_ADVANCED_BUTTON);
+        if (advancedButton != null)
+            advancedButton.click();
 
-        final InterfaceComponent toggle_roofs = Interfaces.getComponent(INTER_ADVANCED_MASTER, INTER_TOGGLE_ROOFS);
-        return toggle_roofs != null && toggle_roofs.click();
+        final InterfaceComponent toggleRoofs = Interfaces.getComponent(INTER_ADVANCED_MASTER, INTER_TOGGLE_ROOFS);
+        return toggleRoofs != null && toggleRoofs.click();
     }
 }
 

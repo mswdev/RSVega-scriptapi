@@ -31,30 +31,30 @@ public class CharacterDisplayNameWorker extends Worker {
             return;
 
         if (Varps.getBitValue(DISPLAY_NAME_VARPBIT) == DisplayNameType.NOT_AVAILABLE.getVarpbitValue()) {
-            final InterfaceComponent display_name_suggestion = Interfaces.getFirst(CHOOSE_DISPLAY_NAME_INTER, a -> a.getIndex() == Random.nextInt(14, 16));
-            if (display_name_suggestion != null && display_name_suggestion.isVisible()) {
-                display_name_suggestion.click();
+            final InterfaceComponent displayNameSuggestion = Interfaces.getFirst(CHOOSE_DISPLAY_NAME_INTER, a -> a.getIndex() == Random.nextInt(14, 16));
+            if (displayNameSuggestion != null && displayNameSuggestion.isVisible()) {
+                displayNameSuggestion.click();
                 return;
             }
 
-            final InterfaceComponent lookup_display_name = Interfaces.getFirst(CHOOSE_DISPLAY_NAME_INTER, a -> a.containsAction("Look up name"));
-            if (lookup_display_name == null)
+            final InterfaceComponent lookupDisplayName = Interfaces.getFirst(CHOOSE_DISPLAY_NAME_INTER, a -> a.containsAction("Look up name"));
+            if (lookupDisplayName == null)
                 return;
 
             if (!EnterInput.isOpen()) {
-                lookup_display_name.click();
+                lookupDisplayName.click();
                 Time.sleepUntil(EnterInput::isOpen, 1500);
             }
 
-            String display_name = mission.getScript().getAccount().getUsername().split("@")[0];
-            EnterInput.initiate(display_name);
+            String displayName = mission.getScript().getAccount().getUsername().split("@")[0];
+            EnterInput.initiate(displayName);
         }
 
-        final InterfaceComponent set_display_name = Interfaces.getFirst(CHOOSE_DISPLAY_NAME_INTER, a -> a.containsAction("Set name") && a.isVisible() && a.getText().isEmpty());
-        if (set_display_name == null)
+        final InterfaceComponent setDisplayName = Interfaces.getFirst(CHOOSE_DISPLAY_NAME_INTER, a -> a.containsAction("Set name") && a.isVisible() && a.getText().isEmpty());
+        if (setDisplayName == null)
             return;
 
-        set_display_name.click();
+        setDisplayName.click();
         Time.sleepUntil(() -> Varps.getBitValue(DISPLAY_NAME_VARPBIT) == DisplayNameType.SET.getVarpbitValue(), 1500);
     }
 

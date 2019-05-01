@@ -11,29 +11,29 @@ import org.rspeer.runetek.api.component.tab.Inventory;
 
 public class FishingWorkerHandler extends WorkerHandler {
 
-    private boolean temp_bool;
+    private boolean tempBool;
 
     @Override
     public Worker decide() {
-        final FishType fish_type = FishType.SHRIMP;
-        final Item shrimp_item = Inventory.getFirst(fish_type.getName());
-        final Item anchovies_item = Inventory.getFirst("Raw anchovies");
-        if (Inventory.containsOnly(fish_type.getRequiredEquipmentIDs()))
-            temp_bool = false;
+        final FishType fishType = FishType.SHRIMP;
+        final Item shrimpItem = Inventory.getFirst(fishType.getName());
+        final Item anchoviesItem = Inventory.getFirst("Raw anchovies");
+        if (Inventory.containsOnly(fishType.getRequiredEquipmentIds()))
+            tempBool = false;
 
-        if ((shrimp_item != null || anchovies_item != null) && (temp_bool || Inventory.isFull())) {
-            temp_bool = true;
+        if ((shrimpItem != null || anchoviesItem != null) && (tempBool || Inventory.isFull())) {
+            tempBool = true;
 
-            if (shrimp_item != null)
-                shrimp_item.interact(a -> a.equals("Drop"));
+            if (shrimpItem != null)
+                shrimpItem.interact(a -> a.equals("Drop"));
 
-            if (anchovies_item != null)
-                anchovies_item.interact(a -> a.equals("Drop"));
+            if (anchoviesItem != null)
+                anchoviesItem.interact(a -> a.equals("Drop"));
             return null;
         }
 
-        if (!Inventory.contains(fish_type.getRequiredEquipmentIDs())) {
-            for (int id : fish_type.getRequiredEquipmentIDs()) {
+        if (!Inventory.contains(fishType.getRequiredEquipmentIds())) {
+            for (int id : fishType.getRequiredEquipmentIds()) {
                 if (Inventory.contains(id))
                     continue;
 
@@ -41,6 +41,6 @@ public class FishingWorkerHandler extends WorkerHandler {
             }
         }
 
-        return new NpcWorker(a -> a.getName().equals("Fishing spot"), a -> a.contains(fish_type.getAction()), new MovementWorker(fish_type.getFishLocation()[4].getPosition()));
+        return new NpcWorker(a -> a.getName().equals("Fishing spot"), a -> a.contains(fishType.getAction()), new MovementWorker(fishType.getFishLocation()[4].getPosition()));
     }
 }

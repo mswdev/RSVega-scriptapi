@@ -14,7 +14,7 @@ public class FishingUtil {
      */
     public static FishType getAppropriateFish() {
         return Arrays.stream(FishType.values())
-                .filter(fish_type -> Skills.getLevel(Skill.FISHING) >= fish_type.getRequiredFishingLevel() && fish_type.isProgressive())
+                .filter(fishType -> Skills.getLevel(Skill.FISHING) >= fishType.getRequiredFishingLevel() && fishType.isProgressive())
                 .reduce((first, second) -> second)
                 .orElse(FishType.SHRIMP);
     }

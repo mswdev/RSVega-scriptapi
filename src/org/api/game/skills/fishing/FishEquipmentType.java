@@ -18,30 +18,30 @@ public enum FishEquipmentType {
     DARK_FISHING_BAIT("Dark fishing bait", 11940, 85, true);
 
     private final String name;
-    private final int item_id;
-    private final int required_fishing_level;
-    private final boolean is_members;
+    private final int itemId;
+    private final int requiredFishingLevel;
+    private final boolean isMembers;
 
-    FishEquipmentType(String name, int item_id, int required_fishing_level, boolean is_members) {
+    FishEquipmentType(String name, int itemId, int requiredFishingLevel, boolean isMembers) {
         this.name = name;
-        this.item_id = item_id;
-        this.required_fishing_level = required_fishing_level;
-        this.is_members = is_members;
+        this.itemId = itemId;
+        this.requiredFishingLevel = requiredFishingLevel;
+        this.isMembers = isMembers;
     }
 
     public String getName() {
         return name;
     }
 
-    public int getItemID() {
-        return item_id;
+    public int getItemId() {
+        return itemId;
     }
 
     public int getRequiredFishingLevel() {
-        return required_fishing_level;
+        return requiredFishingLevel;
     }
 
     public boolean isMembers() {
-        return is_members;
+        return isMembers;
     }
 }

@@ -16,10 +16,10 @@ public class DrinkStamina extends Worker {
 
     public static final Predicate<Item> stamina = a -> a.getName().contains("Stamina");
     public static final Predicate<Item> vial = a -> a.getName().equals("Vial");
-    private final ItemWorker item_worker = new ItemWorker(stamina);
-    private final OpenBankWorker open_bank_worker = new OpenBankWorker(false);
-    private final DepositWorker deposit_worker = new DepositWorker();
-    public boolean out_of_stamina;
+    private final ItemWorker itemWorker = new ItemWorker(stamina);
+    private final OpenBankWorker openBankWorker = new OpenBankWorker(false);
+    private final DepositWorker depositWorker = new DepositWorker();
+    public boolean outOfStamina;
 
     @Override
     public boolean needsRepeat() {
@@ -36,14 +36,14 @@ public class DrinkStamina extends Worker {
                 if (Bank.depositAll(stamina))
                     Time.sleepUntil(() -> !Inventory.contains(stamina), 1500);
             } else {
-                open_bank_worker.work();
+                openBankWorker.work();
             }
         } else {
             if (Inventory.isFull())
-                deposit_worker.work();
+                depositWorker.work();
 
-            item_worker.work();
-            out_of_stamina = item_worker.itemNotFound();
+            itemWorker.work();
+            outOfStamina = itemWorker.itemNotFound();
         }
     }
 

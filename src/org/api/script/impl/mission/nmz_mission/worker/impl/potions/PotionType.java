@@ -12,21 +12,21 @@ public enum PotionType {
     ABSORPTION("Absorption", "Absorption potion", 9, 3954, 3956);
 
     private final String name;
-    private final String barrel_name;
-    private final int shop_interface_id;
-    private final int amount_owned_varpbit;
-    private final int active_varpbit;
+    private final String barrelName;
+    private final int shopInterfaceId;
+    private final int amountOwnedVarpbit;
+    private final int activeVarpbit;
 
-    PotionType(String name, String barrel_name, int shop_interface_id, int amount_owned_varpbit, int active_varpbit) {
+    PotionType(String name, String barrelName, int shopInterfaceId, int amountOwnedVarpbit, int activeVarpbit) {
         this.name = name;
-        this.barrel_name = barrel_name;
-        this.shop_interface_id = shop_interface_id;
-        this.amount_owned_varpbit = amount_owned_varpbit;
-        this.active_varpbit = active_varpbit;
+        this.barrelName = barrelName;
+        this.shopInterfaceId = shopInterfaceId;
+        this.amountOwnedVarpbit = amountOwnedVarpbit;
+        this.activeVarpbit = activeVarpbit;
     }
 
-    public static int getCount(PotionType potion_type) {
-        return Arrays.stream(Inventory.getItems()).filter(a -> a.getName().contains(potion_type.getName())).mapToInt(a -> Integer.parseInt(a.getName().replaceAll("[^0-9]+", ""))).sum();
+    public static int getCount(PotionType potionType) {
+        return Arrays.stream(Inventory.getItems()).filter(a -> a.getName().contains(potionType.getName())).mapToInt(a -> Integer.parseInt(a.getName().replaceAll("[^0-9]+", ""))).sum();
     }
 
     public String getName() {
@@ -34,19 +34,19 @@ public enum PotionType {
     }
 
     public String getBarrelName() {
-        return barrel_name;
+        return barrelName;
     }
 
-    public int getShopInterfaceID() {
-        return shop_interface_id;
+    public int getShopInterfaceId() {
+        return shopInterfaceId;
     }
 
     public int getAmountOwnedVarpbit() {
-        return amount_owned_varpbit;
+        return amountOwnedVarpbit;
     }
 
     public int getActiveVarpbit() {
-        return active_varpbit;
+        return activeVarpbit;
     }
 }
 

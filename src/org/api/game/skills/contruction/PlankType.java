@@ -8,24 +8,24 @@ public enum PlankType {
     MAHOGANY("Mahogany plank", 8782, 1500);
 
     private final String name;
-    private final int item_id;
-    private final int sawmill_cost;
+    private final int itemId;
+    private final int sawmillCost;
 
-    PlankType(String name, int item_id, int sawmill_cost) {
+    PlankType(String name, int itemId, int sawmillCost) {
         this.name = name;
-        this.item_id = item_id;
-        this.sawmill_cost = sawmill_cost;
+        this.itemId = itemId;
+        this.sawmillCost = sawmillCost;
     }
 
     public String getName() {
         return name;
     }
 
-    public int getItemID() {
-        return item_id;
+    public int getItemId() {
+        return itemId;
     }
 
     public int getSawmillCost() {
-        return sawmill_cost;
+        return sawmillCost;
     }
 }

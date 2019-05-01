@@ -9,7 +9,7 @@ public class MissionHandler {
 
     private Queue<Mission> missions;
     private boolean end;
-    private boolean end_current;
+    private boolean endCurrent;
 
     public MissionHandler(Queue<Mission> missions) {
         this.missions = missions;
@@ -33,11 +33,11 @@ public class MissionHandler {
             mission.setStarted(true);
         }
 
-        if (mission.shouldEnd() || end_current) {
+        if (mission.shouldEnd() || endCurrent) {
             Log.fine("[MISSION]: " + mission.getMissionName() + " mission has ended.");
             mission.onMissionEnd();
             missions.poll();
-            end_current = false;
+            endCurrent = false;
             return 100;
         } else {
             if (mission.shouldPrintWorkerString())
@@ -59,7 +59,7 @@ public class MissionHandler {
      * Ends the current mission.
      */
     public void endCurrent() {
-        end_current = true;
+        endCurrent = true;
     }
 
     /**

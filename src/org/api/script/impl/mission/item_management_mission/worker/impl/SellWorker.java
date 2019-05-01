@@ -29,15 +29,15 @@ public class SellWorker extends Worker {
     @Override
     public void work() {
         if (GrandExchange.getFirst(a -> a.getProgress() == RSGrandExchangeOffer.Progress.FINISHED) != null && GrandExchange.getView() == GrandExchange.View.OVERVIEW) {
-            final int inventory_cache = Inventory.getCount(true);
+            final int inventoryCache = Inventory.getCount(true);
             if (GrandExchange.collectAll())
-                Time.sleepUntil(() -> inventory_cache != Inventory.getCount(true), 1500);
+                Time.sleepUntil(() -> inventoryCache != Inventory.getCount(true), 1500);
             return;
         }
 
-        for (int item_id : mission.items_to_sell) {
-            final Item item_to_sell = Inventory.getFirst(item_id + 1);
-            if (item_to_sell == null)
+        for (int itemId : mission.itemsToSell) {
+            final Item itemToSell = Inventory.getFirst(itemId + 1);
+            if (itemToSell == null)
                 continue;
 
             if (GrandExchange.getView() != GrandExchange.View.SELL_OFFER) {
@@ -46,15 +46,15 @@ public class SellWorker extends Worker {
                 return;
             }
 
-            if (GrandExchangeSetup.getItem() == null || GrandExchangeSetup.getItem().getId() != item_to_sell.getId() - 1) {
-                if (GrandExchangeSetup.setItem(item_to_sell.getId()))
-                    Time.sleepUntil(() -> GrandExchangeSetup.getItem() != null && GrandExchangeSetup.getItem().getId() == item_to_sell.getId() - 1, 1500);
+            if (GrandExchangeSetup.getItem() == null || GrandExchangeSetup.getItem().getId() != itemToSell.getId() - 1) {
+                if (GrandExchangeSetup.setItem(itemToSell.getId()))
+                    Time.sleepUntil(() -> GrandExchangeSetup.getItem() != null && GrandExchangeSetup.getItem().getId() == itemToSell.getId() - 1, 1500);
                 return;
             }
 
-            if (GrandExchangeSetup.getPricePerItem() != getItemSellPrice(item_to_sell)) {
-                if (GrandExchangeSetup.setPrice(getItemSellPrice(item_to_sell)))
-                    Time.sleepUntil(() -> GrandExchangeSetup.getPricePerItem() == getItemSellPrice(item_to_sell), 1500);
+            if (GrandExchangeSetup.getPricePerItem() != getItemSellPrice(itemToSell)) {
+                if (GrandExchangeSetup.setPrice(getItemSellPrice(itemToSell)))
+                    Time.sleepUntil(() -> GrandExchangeSetup.getPricePerItem() == getItemSellPrice(itemToSell), 1500);
                 return;
             }
 
@@ -63,9 +63,9 @@ public class SellWorker extends Worker {
         }
     }
 
-    private int getItemSellPrice(Item item_to_sell) {
+    private int getItemSellPrice(Item itemToSell) {
         try {
-            return (int) (PriceCheck.getOSBuddyPrice(item_to_sell.getId() - 1) * mission.getItemManagementTracker().getItemManagement().sellPriceModifier());
+            return (int) (PriceCheck.getOSBuddyPrice(itemToSell.getId() - 1) * mission.getItemManagementTracker().getItemManagement().sellPriceModifier());
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -32,17 +32,17 @@ public class TutorialIslandMission extends Mission {
     private final Path createdAccountsPath;
     private final Args args;
     private final HashMap<String, String> accountData;
-    private final boolean create_account;
-    private final TutorialIslandWorkerHandler worker_handler;
-    private int create_account_tries;
-    private boolean should_stop;
+    private final boolean createAccount;
+    private final TutorialIslandWorkerHandler workerHandler;
+    private int createAccountTries;
+    private boolean shouldEnd;
 
-    public TutorialIslandMission(SPXScript script, Args args, HashMap<String, String> accountData, boolean create_account) {
+    public TutorialIslandMission(SPXScript script, Args args, HashMap<String, String> accountData, boolean createAccount) {
         super(script);
         this.args = args;
         this.accountData = accountData;
-        this.create_account = create_account;
-        worker_handler = new TutorialIslandWorkerHandler(this);
+        this.createAccount = createAccount;
+        workerHandler = new TutorialIslandWorkerHandler(this);
         createdAccountsPath = Paths.get(SPXScriptUtil.getDataPath(script.getMeta().name()) + File.separator + "created_accounts.txt");
     }
 
@@ -54,13 +54,13 @@ public class TutorialIslandMission extends Mission {
 
     @Override
     public String getWorkerName() {
-        Worker c = worker_handler.getCurrent();
+        Worker c = workerHandler.getCurrent();
         return c == null ? "WORKER" : c.getClass().getSimpleName();
     }
 
     @Override
     public String getWorkerString() {
-        Worker c = worker_handler.getCurrent();
+        Worker c = workerHandler.getCurrent();
         return c == null ? "Loading next available worker" : c.toString();
     }
 
@@ -71,7 +71,7 @@ public class TutorialIslandMission extends Mission {
 
     @Override
     public boolean shouldEnd() {
-        return should_stop;
+        return shouldEnd;
     }
 
     @Override
@@ -86,9 +86,9 @@ public class TutorialIslandMission extends Mission {
 
         //Temporary until rspeer forces fixed mode upon login.
         if (Game.getClientPreferences().getResizable() == 2) {
-            final InterfaceComponent fixed_mode_component = Interfaces.getFirst(a -> a.isVisible() && a.containsAction("Fixed mode"));
-            if (fixed_mode_component != null)
-                if (fixed_mode_component.click())
+            final InterfaceComponent fixedModeComponent = Interfaces.getFirst(a -> a.isVisible() && a.containsAction("Fixed mode"));
+            if (fixedModeComponent != null)
+                if (fixedModeComponent.click())
                     Time.sleepUntil(() -> Game.getClientPreferences().getResizable() == 1, 2500);
         }
 
@@ -99,7 +99,7 @@ public class TutorialIslandMission extends Mission {
         }
 
 
-        worker_handler.work();
+        workerHandler.work();
         return 100;
     }
 
@@ -128,8 +128,8 @@ public class TutorialIslandMission extends Mission {
         script.setAccount(new GameAccount(email, password));
     }
 
-    public void setShouldEnd(boolean should_stop) {
-        this.should_stop = should_stop;
+    public void setShouldEnd(boolean shouldEnd) {
+        this.shouldEnd = shouldEnd;
     }
 
     public Path getCreatedAccountsPath() {
@@ -145,22 +145,22 @@ public class TutorialIslandMission extends Mission {
     }
 
     public boolean shouldCreateAccount() {
-        return create_account;
+        return createAccount;
     }
 
     public JsonObject createAccount() {
-        if (create_account_tries >= 3) {
+        if (createAccountTries >= 3) {
             setShouldEnd(true);
             return null;
         }
 
-        getAccountData().put("two_captcha_api_key", getArgs().two_captcha_api_key);
+        getAccountData().put("twoCaptchaApiKey", getArgs().twoCaptchaApiKey);
         Log.log(Level.WARNING, "Info", "[Account Creation]: Attempting to create account...");
         final JsonObject accountData = CreateAccount.post(getAccountData());
 
         if (accountData == null || !accountData.get("response").getAsString().equals("ACCOUNT_CREATED")) {
             Log.severe("[Account Creation]: Failed to create account; trying up to 3 more times...");
-            create_account_tries++;
+            createAccountTries++;
             return createAccount();
         }
 

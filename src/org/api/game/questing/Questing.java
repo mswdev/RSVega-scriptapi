@@ -42,17 +42,17 @@ public class Questing {
                 Time.sleepUntil(() -> Interfaces.get(QUEST_INTERFACE).length > 0, 2500);
         }
 
-        final StringBuilder string_builder = new StringBuilder();
-        final InterfaceComponent[] free_quests = Interfaces.getComponent(QUEST_INTERFACE, QUEST_FREE_INTERFACE).getComponents(a -> a.getTextColor() == COMPLETED_QUEST_COLOR);
-        Arrays.stream(free_quests).forEach(a -> string_builder.append(a.getText()).append(", "));
+        final StringBuilder stringBuilder = new StringBuilder();
+        final InterfaceComponent[] freeQuests = Interfaces.getComponent(QUEST_INTERFACE, QUEST_FREE_INTERFACE).getComponents(a -> a.getTextColor() == COMPLETED_QUEST_COLOR);
+        Arrays.stream(freeQuests).forEach(a -> stringBuilder.append(a.getText()).append(", "));
 
-        final InterfaceComponent[] member_quests = Interfaces.getComponent(QUEST_INTERFACE, QUEST_MEMBER_INTERFACE).getComponents(a -> a.getTextColor() == COMPLETED_QUEST_COLOR);
-        Arrays.stream(member_quests).forEach(a -> string_builder.append(a.getText()).append(", "));
+        final InterfaceComponent[] memberQuests = Interfaces.getComponent(QUEST_INTERFACE, QUEST_MEMBER_INTERFACE).getComponents(a -> a.getTextColor() == COMPLETED_QUEST_COLOR);
+        Arrays.stream(memberQuests).forEach(a -> stringBuilder.append(a.getText()).append(", "));
 
-        final InterfaceComponent[] mini_quests = Interfaces.getComponent(QUEST_INTERFACE, QUEST_MINI_INTERFACE).getComponents(a -> a.getTextColor() == COMPLETED_QUEST_COLOR);
-        Arrays.stream(mini_quests).forEach(a -> string_builder.append(a.getText()).append(", "));
+        final InterfaceComponent[] miniQuests = Interfaces.getComponent(QUEST_INTERFACE, QUEST_MINI_INTERFACE).getComponents(a -> a.getTextColor() == COMPLETED_QUEST_COLOR);
+        Arrays.stream(miniQuests).forEach(a -> stringBuilder.append(a.getText()).append(", "));
 
-        return string_builder.toString().replaceAll(", $", "");
+        return stringBuilder.toString().replaceAll(", $", "");
     }
 }
 

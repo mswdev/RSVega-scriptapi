@@ -26,24 +26,24 @@ public class UseWaterBucket extends Worker {
 
     @Override
     public void work() {
-        Item bucket_item = Inventory.getFirst(BUCKET_ITEM);
-        final Item bucket_of_water_item = Inventory.getFirst(BUCKET_OF_WATER_ITEM);
+        Item bucketItem = Inventory.getFirst(BUCKET_ITEM);
+        final Item bucketOfWaterItem = Inventory.getFirst(BUCKET_OF_WATER_ITEM);
         final Pickable pickable = Pickables.getNearest(BUCKET_PICKABLE);
-        if (bucket_of_water_item != null) {
-            final SceneObject bar_dispenser = SceneObjects.getNearest(CollectBars.COLLECT_BARS);
-            if (bar_dispenser == null)
+        if (bucketOfWaterItem != null) {
+            final SceneObject barDispenser = SceneObjects.getNearest(CollectBars.COLLECT_BARS);
+            if (barDispenser == null)
                 return;
 
-            if (Inventory.use(BUCKET_OF_WATER_ITEM, bar_dispenser))
+            if (Inventory.use(BUCKET_OF_WATER_ITEM, barDispenser))
                 if (Time.sleepUntil(() -> Inventory.getFirst(BUCKET_OF_WATER_ITEM) == null, 1500)) {
-                    bucket_item = Inventory.getFirst(BUCKET_ITEM);
-                    if (bucket_item == null)
+                    bucketItem = Inventory.getFirst(BUCKET_ITEM);
+                    if (bucketItem == null)
                         return;
 
-                    if (bucket_item.interact(a -> a.equals("Drop")))
+                    if (bucketItem.interact(a -> a.equals("Drop")))
                         Time.sleepUntil(() -> Inventory.getFirst(BUCKET_ITEM) == null, 1500);
                 }
-        } else if (bucket_item != null) {
+        } else if (bucketItem != null) {
             final SceneObject sink = SceneObjects.getNearest(SINK);
             if (sink == null)
                 return;

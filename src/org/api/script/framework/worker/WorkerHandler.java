@@ -3,7 +3,7 @@ package org.api.script.framework.worker;
 
 public abstract class WorkerHandler {
 
-    private Worker current_worker;
+    private Worker currentWorker;
 
     /**
      * Handles the flow of the mission to decide what worker to execute.
@@ -16,10 +16,10 @@ public abstract class WorkerHandler {
      * Handles the execution of the workers and repetition.
      */
     public void work() {
-        current_worker = current_worker == null || !current_worker.needsRepeat() ? decide() : current_worker;
+        currentWorker = currentWorker == null || !currentWorker.needsRepeat() ? decide() : currentWorker;
 
-        if (current_worker != null)
-            current_worker.work();
+        if (currentWorker != null)
+            currentWorker.work();
     }
 
     /**
@@ -28,7 +28,7 @@ public abstract class WorkerHandler {
      * @return The current worker.
      */
     public Worker getCurrent() {
-        return current_worker;
+        return currentWorker;
     }
 
 }

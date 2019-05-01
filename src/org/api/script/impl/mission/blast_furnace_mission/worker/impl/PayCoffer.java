@@ -22,7 +22,7 @@ public class PayCoffer extends Worker {
     private static final Predicate<SceneObject> COFFER = a -> a.getName().equals("Coffer");
     private final BlastFurnaceMission mission;
 
-    private final WithdrawWorker withdraw_worker = new WithdrawWorker(BlastFurnaceMission.COINS, DEPOSIT_AMOUNT, Bank.WithdrawMode.ITEM);
+    private final WithdrawWorker withdrawWorker = new WithdrawWorker(BlastFurnaceMission.COINS, DEPOSIT_AMOUNT, Bank.WithdrawMode.ITEM);
 
     public PayCoffer(BlastFurnaceMission mission) {
         this.mission = mission;
@@ -36,8 +36,8 @@ public class PayCoffer extends Worker {
     @Override
     public void work() {
         if (Inventory.getCount(true, BlastFurnaceMission.COINS) < DEPOSIT_AMOUNT) {
-            withdraw_worker.work();
-            mission.should_end = withdraw_worker.itemNotFound();
+            withdrawWorker.work();
+            mission.shouldEnd = withdrawWorker.itemNotFound();
         } else {
             final SceneObject object = SceneObjects.getNearest(COFFER);
             if (object == null)

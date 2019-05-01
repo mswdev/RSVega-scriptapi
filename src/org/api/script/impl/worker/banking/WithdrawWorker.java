@@ -13,15 +13,12 @@ import java.util.function.Predicate;
 public class WithdrawWorker extends Worker {
 
     private final Predicate<Item> item;
-    private final Bank.WithdrawMode withdraw_mode;
+    private final Bank.WithdrawMode withdrawMode;
     private final int amount;
-    private final int inventory_cache;
-    private final OpenBankWorker open_bank_worker;
-    private final DepositWorker deposit_worker;
-    private boolean item_not_found;
-
-    // [TODO - 3/7/2019]: Temporary until contains bug is fixed.
-    private boolean has_checked_twice;
+    private final int inventoryCache;
+    private final OpenBankWorker openBankWorker;
+    private final DepositWorker depositWorker;
+    private boolean itemNotFound;
 
     public WithdrawWorker(Predicate<Item> item) {
         this(item, 1, Bank.WithdrawMode.ITEM);
@@ -31,45 +28,45 @@ public class WithdrawWorker extends Worker {
         this(item, amount, Bank.WithdrawMode.ITEM);
     }
 
-    public WithdrawWorker(Predicate<Item> item, Bank.WithdrawMode withdraw_mode) {
-        this(item, 1, withdraw_mode);
+    public WithdrawWorker(Predicate<Item> item, Bank.WithdrawMode withdrawMode) {
+        this(item, 1, withdrawMode);
     }
 
-    public WithdrawWorker(Predicate<Item> item, int amount, Bank.WithdrawMode withdraw_mode) {
+    public WithdrawWorker(Predicate<Item> item, int amount, Bank.WithdrawMode withdrawMode) {
         this.item = item;
-        this.withdraw_mode = withdraw_mode;
+        this.withdrawMode = withdrawMode;
         this.amount = amount;
-        inventory_cache = Inventory.getCount(true);
-        open_bank_worker = new OpenBankWorker(false);
-        this.deposit_worker = new DepositWorker();
+        inventoryCache = Inventory.getCount(true);
+        openBankWorker = new OpenBankWorker(false);
+        this.depositWorker = new DepositWorker();
     }
 
     @Override
     public boolean needsRepeat() {
-        return deposit_worker.needsRepeat() || open_bank_worker.needsRepeat() || Inventory.getCount(true) == inventory_cache;
+        return depositWorker.needsRepeat() || openBankWorker.needsRepeat() || Inventory.getCount(true) == inventoryCache;
     }
 
     @Override
     public void work() {
-        item_not_found = false;
+        itemNotFound = false;
         if (!Bank.isOpen()) {
-            open_bank_worker.work();
+            openBankWorker.work();
             return;
         }
 
-        if (Bank.getWithdrawMode() != withdraw_mode) {
-            Bank.setWithdrawMode(withdraw_mode);
+        if (Bank.getWithdrawMode() != withdrawMode) {
+            Bank.setWithdrawMode(withdrawMode);
             return;
         }
 
         if (Inventory.isFull()) {
             if (!Bank.getFirst(item).isStackable()) {
-                deposit_worker.work();
+                depositWorker.work();
                 return;
             }
 
             if (!Inventory.contains(item)) {
-                deposit_worker.work();
+                depositWorker.work();
                 return;
             }
         }
@@ -79,29 +76,29 @@ public class WithdrawWorker extends Worker {
             return;
         }
 
-        final int withdraw_cache = Inventory.getCount(true);
-        BooleanSupplier boolean_supplier = () -> withdraw_cache != Inventory.getCount(true);
+        final int withdrawCache = Inventory.getCount(true);
+        BooleanSupplier booleanSupplier = () -> withdrawCache != Inventory.getCount(true);
         if (amount == 0) {
             if (Bank.withdrawAll(item))
-                Time.sleepUntil(boolean_supplier, 2500);
+                Time.sleepUntil(booleanSupplier, 2500);
             else
                 setItemNotFound();
             return;
         }
 
         if (Bank.withdraw(item, amount))
-            Time.sleepUntil(boolean_supplier, 2500);
+            Time.sleepUntil(booleanSupplier, 2500);
         else
             setItemNotFound();
     }
 
     private void setItemNotFound() {
         Log.severe("You do not have the required items in your bank.");
-        item_not_found = true;
+        itemNotFound = true;
     }
 
     public boolean itemNotFound() {
-        return item_not_found;
+        return itemNotFound;
     }
 
     @Override

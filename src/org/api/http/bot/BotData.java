@@ -1,7 +1,7 @@
 package org.api.http.bot;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import okhttp3.FormBody;
 import okhttp3.RequestBody;
 import okhttp3.Response;
@@ -20,8 +20,8 @@ public class BotData {
 
     private static int BOT_ID;
 
-    public static boolean insertBot(RequestBody request_body) {
-        try (final Response response = Request.post(RSVegaTracker.API_URL + "/bot/add", request_body)) {
+    public static boolean insertBot(RequestBody requestBody) {
+        try (final Response response = Request.post(RSVegaTracker.API_URL + "/bot/add", requestBody)) {
             return response.isSuccessful();
         } catch (IOException e) {
             e.printStackTrace();
@@ -30,8 +30,8 @@ public class BotData {
         return false;
     }
 
-    public static boolean updateBot(int bot_id, RequestBody request_body) {
-        try (final Response response = Request.put(RSVegaTracker.API_URL + "/bot/id/" + bot_id + "/update", request_body)) {
+    public static boolean updateBot(int botId, RequestBody requestBody) {
+        try (final Response response = Request.put(RSVegaTracker.API_URL + "/bot/id/" + botId + "/update", requestBody)) {
             return response.isSuccessful();
         } catch (IOException e) {
             e.printStackTrace();
@@ -41,12 +41,12 @@ public class BotData {
     }
 
     /**
-     * Gets a json array of the bot data.
+     * Gets a json object of the bot data.
      *
      * @param username The username of the bot.
-     * @return A json array of the bot data; null otherwise.
+     * @return A json object of the bot data; null otherwise.
      */
-    private static JsonArray getBotByUsername(String username) {
+    private static JsonObject getBotByUsername(String username) {
         try (final Response response = Request.get(RSVegaTracker.API_URL + "/bot/user/" + username)) {
             if (!response.isSuccessful())
                 return null;
@@ -55,7 +55,7 @@ public class BotData {
                 return null;
 
             final Gson gson = new Gson().newBuilder().create();
-            return gson.fromJson(response.body().string(), JsonArray.class);
+            return gson.fromJson(response.body().string(), JsonObject.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -68,31 +68,31 @@ public class BotData {
      *
      * @return The bot id associated with the bot username.
      */
-    public static int getBotID() {
+    public static int getBotId() {
         if (BOT_ID == 0) {
-            JsonArray json_array = BotData.getBotByUsername(getUsername());
-            if (json_array == null)
+            JsonObject jsonObject = BotData.getBotByUsername(getUsername());
+            if (jsonObject == null)
                 return 0;
 
-            if (json_array.size() == 0)
+            if (jsonObject.size() == 0)
                 return 0;
 
-            BOT_ID = json_array.get(0).getAsJsonObject().get("id").getAsInt();
+            BOT_ID = jsonObject.get("id").getAsInt();
         }
 
         return BOT_ID;
     }
 
     public static RequestBody getBotDataRequestBody() {
-        final FormBody.Builder form_builder = new FormBody.Builder();
-        form_builder.add("account_id", String.valueOf(AccountData.getAccountID()));
-        form_builder.add("username", getUsername());
-        form_builder.add("display_name", getDisplayName());
-        form_builder.add("world", String.valueOf(Worlds.getCurrent()));
-        form_builder.add("last_sign_in", String.valueOf(getLastSignIn()));
-        form_builder.add("is_members", String.valueOf(isMembers()));
-        form_builder.add("is_bank_pin", String.valueOf(hasBankPin()));
-        return form_builder.build();
+        final FormBody.Builder formBuilder = new FormBody.Builder();
+        formBuilder.add("account_id", String.valueOf(AccountData.getAccountId()));
+        formBuilder.add("username", getUsername());
+        formBuilder.add("display_name", getDisplayName());
+        formBuilder.add("world", String.valueOf(Worlds.getCurrent()));
+        formBuilder.add("last_sign_in", String.valueOf(getLastSignIn()));
+        formBuilder.add("is_members", String.valueOf(isMembers()));
+        formBuilder.add("is_bank_pin", String.valueOf(hasBankPin()));
+        return formBuilder.build();
     }
 
     private static String getUsername() {
@@ -110,31 +110,31 @@ public class BotData {
         if (Players.getLocal() == null)
             return "";
 
-        final String display_name = Players.getLocal().getName();
-        if (display_name == null)
+        final String displayName = Players.getLocal().getName();
+        if (displayName == null)
             return "";
 
-        return display_name;
+        return displayName;
     }
 
     private static int getLastSignIn() {
-        final InterfaceComponent last_sign_in = Interfaces.getFirst(a -> a.getText().contains("You last logged in"));
-        if (last_sign_in == null)
+        final InterfaceComponent lastSignIn = Interfaces.getFirst(a -> a.getText().contains("You last logged in"));
+        if (lastSignIn == null)
             return 0;
 
-        if (last_sign_in.getText().contains("earlier today"))
+        if (lastSignIn.getText().contains("earlier today"))
             return 1;
 
-        return Integer.parseInt(last_sign_in.getText().replaceAll("[^0-9]", ""));
+        return Integer.parseInt(lastSignIn.getText().replaceAll("[^0-9]", ""));
     }
 
     private static int isMembers() {
-        final InterfaceComponent not_members = Interfaces.getFirst(a -> a.getText().contains("You are not a member."));
-        return not_members != null ? 0 : 1;
+        final InterfaceComponent notMembers = Interfaces.getFirst(a -> a.getText().contains("You are not a member."));
+        return notMembers != null ? 0 : 1;
     }
 
     private static int hasBankPin() {
-        final InterfaceComponent bank_pin_not_set = Interfaces.getFirst(a -> a.getText().contains("You do not have a Bank PIN."));
-        return bank_pin_not_set != null ? 0 : 1;
+        final InterfaceComponent bankPinNotSet = Interfaces.getFirst(a -> a.getText().contains("You do not have a Bank PIN."));
+        return bankPinNotSet != null ? 0 : 1;
     }
 }

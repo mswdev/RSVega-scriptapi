@@ -27,14 +27,14 @@ public class SetAudio extends Worker {
             if (Tabs.open(Tab.OPTIONS))
                 Time.sleepUntil(() -> Tabs.isOpen(Tab.OPTIONS), 1500);
 
-        if (ClientSettings.setMusicAudioLevel(mission.getArgs().set_audio))
-            Time.sleepUntil(() -> 5 - InterfaceOptions.Audio.getMusicVolume() == mission.getArgs().set_audio, 1500);
+        if (ClientSettings.setMusicAudioLevel(mission.getArgs().setAudio))
+            Time.sleepUntil(() -> 5 - InterfaceOptions.Audio.getMusicVolume() == mission.getArgs().setAudio, 1500);
 
-        if (ClientSettings.setEffectAudioLevel(mission.getArgs().set_audio))
-            Time.sleepUntil(() -> 5 - InterfaceOptions.Audio.getSoundEffectVolume() == mission.getArgs().set_audio, 1500);
+        if (ClientSettings.setEffectAudioLevel(mission.getArgs().setAudio))
+            Time.sleepUntil(() -> 5 - InterfaceOptions.Audio.getSoundEffectVolume() == mission.getArgs().setAudio, 1500);
 
-        if (ClientSettings.setAreaAudioLevel(mission.getArgs().set_audio))
-            Time.sleepUntil(() -> 5 - InterfaceOptions.Audio.getAreaSoundVolume() == mission.getArgs().set_audio, 1500);
+        if (ClientSettings.setAreaAudioLevel(mission.getArgs().setAudio))
+            Time.sleepUntil(() -> 5 - InterfaceOptions.Audio.getAreaSoundVolume() == mission.getArgs().setAudio, 1500);
     }
 
     @Override

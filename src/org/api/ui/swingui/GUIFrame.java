@@ -2,17 +2,17 @@ package org.api.ui.swingui;
 
 public class GUIFrame {
 
-    private final GUI spx_gui;
+    private final GUI gui;
 
-    GUIFrame(GUI spx_gui) {
-        this.spx_gui = spx_gui;
+    GUIFrame(GUI gui) {
+        this.gui = gui;
     }
 
     void initialize() {
-        spx_gui.getFrame().setTitle(spx_gui.getName());
-        spx_gui.getFrame().setSize(spx_gui.getWidth(), spx_gui.getHeight());
-        spx_gui.getFrame().setLocationRelativeTo(null);
-        spx_gui.getFrame().setResizable(spx_gui.getFrame().isResizable());
+        gui.getFrame().setTitle(gui.getName());
+        gui.getFrame().setSize(gui.getWidth(), gui.getHeight());
+        gui.getFrame().setLocationRelativeTo(null);
+        gui.getFrame().setResizable(gui.getFrame().isResizable());
     }
 }
 

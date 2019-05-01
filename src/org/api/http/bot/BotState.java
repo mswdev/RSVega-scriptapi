@@ -8,13 +8,13 @@ public enum BotState {
     BILLING("is_billing"),
     INVALID("is_invalid");
 
-    private final String table_name;
+    private final String tableName;
 
-    BotState(String table_name) {
-        this.table_name = table_name;
+    BotState(String tableName) {
+        this.tableName = tableName;
     }
 
     public String getTableName() {
-        return table_name;
+        return tableName;
     }
 }

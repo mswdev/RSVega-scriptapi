@@ -10,7 +10,7 @@ import java.util.function.Predicate;
 public class DialogueWorker extends Worker {
 
     private final Predicate<String> action;
-    private final BooleanSupplier cutscene_delay;
+    private final BooleanSupplier cutsceneDelay;
 
     public DialogueWorker() {
         this(a -> true);
@@ -20,13 +20,13 @@ public class DialogueWorker extends Worker {
         this(action, null);
     }
 
-    public DialogueWorker(BooleanSupplier cutscene_delay) {
-        this(a -> true, cutscene_delay);
+    public DialogueWorker(BooleanSupplier cutsceneDelay) {
+        this(a -> true, cutsceneDelay);
     }
 
-    public DialogueWorker(Predicate<String> action, BooleanSupplier cutscene_delay) {
+    public DialogueWorker(Predicate<String> action, BooleanSupplier cutsceneDelay) {
         this.action = action;
-        this.cutscene_delay = cutscene_delay;
+        this.cutsceneDelay = cutsceneDelay;
     }
 
     @Override
@@ -36,7 +36,7 @@ public class DialogueWorker extends Worker {
 
     @Override
     public void work() {
-        if (cutscene_delay != null && cutscene_delay.getAsBoolean()) {
+        if (cutsceneDelay != null && cutsceneDelay.getAsBoolean()) {
             processDialog();
             Time.sleepUntil(() -> !Dialog.isProcessing() && Dialog.isOpen(), 5000);
             return;

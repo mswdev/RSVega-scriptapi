@@ -28,24 +28,24 @@ public class SmeltBars extends Worker {
 
     @Override
     public void work() {
-        final SceneObject conveyor_belt = SceneObjects.getNearest(CONVEYOR_BELT);
-        if (conveyor_belt == null)
+        final SceneObject conveyorBelt = SceneObjects.getNearest(CONVEYOR_BELT);
+        if (conveyorBelt == null)
             return;
 
         if (Inventory.isFull()) {
-            if (conveyor_belt.click())
+            if (conveyorBelt.click())
                 Time.sleepUntil(() -> !Inventory.isFull(), 1500);
 
-            if (mission.is_coal_bag_empty)
-                mission.is_smelting = false;
+            if (mission.isCoalBagEmpty)
+                mission.isSmelting = false;
         } else {
-            final Item coal_bag = Inventory.getFirst(WithdrawCoalBag.COAL_BAG);
-            if (coal_bag == null)
+            final Item coalBag = Inventory.getFirst(WithdrawCoalBag.COAL_BAG);
+            if (coalBag == null)
                 return;
 
-            if (coal_bag.interact(EMPTY_COAL_BAG))
+            if (coalBag.interact(EMPTY_COAL_BAG))
                 if (Time.sleepUntil(Inventory::isFull, 1500))
-                    mission.is_coal_bag_empty = true;
+                    mission.isCoalBagEmpty = true;
         }
     }
 

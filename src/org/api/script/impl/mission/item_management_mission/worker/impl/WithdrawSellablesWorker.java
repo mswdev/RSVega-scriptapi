@@ -10,8 +10,8 @@ import org.rspeer.ui.Log;
 public class WithdrawSellablesWorker extends Worker {
 
     private ItemManagementMission mission;
-    private OpenBankWorker open_bank_worker = new OpenBankWorker();
-    private WithdrawWorker withdraw_worker;
+    private OpenBankWorker openBankWorker = new OpenBankWorker();
+    private WithdrawWorker withdrawWorker;
 
 
     public WithdrawSellablesWorker(ItemManagementMission mission) {
@@ -26,7 +26,7 @@ public class WithdrawSellablesWorker extends Worker {
     @Override
     public void work() {
         if (!Bank.isOpen()) {
-            open_bank_worker.work();
+            openBankWorker.work();
             return;
         }
 
@@ -35,22 +35,22 @@ public class WithdrawSellablesWorker extends Worker {
             return;
         }
 
-        int withdraw_count = 0;
-        for (int item_id : mission.items_to_sell) {
-            withdraw_worker = new WithdrawWorker(a -> a.getId() == item_id, 0, Bank.WithdrawMode.NOTE);
-            withdraw_worker.work();
+        int withdrawCount = 0;
+        for (int itemId : mission.itemsToSell) {
+            withdrawWorker = new WithdrawWorker(a -> a.getId() == itemId, 0, Bank.WithdrawMode.NOTE);
+            withdrawWorker.work();
 
-            if (withdraw_worker.itemNotFound())
-                withdraw_count++;
+            if (withdrawWorker.itemNotFound())
+                withdrawCount++;
         }
 
-        if (withdraw_count == mission.items_to_sell.length) {
+        if (withdrawCount == mission.itemsToSell.length) {
             Log.severe("You do not have any items to sell in your bank.");
-            mission.should_end = true;
+            mission.shouldEnd = true;
             return;
         }
 
-        mission.has_withdrawn_sellables = true;
+        mission.hasWithdrawnSellables = true;
     }
 
     @Override

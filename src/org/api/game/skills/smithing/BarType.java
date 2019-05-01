@@ -16,54 +16,54 @@ public enum BarType {
     RUNITE("Rune bar", 2363, 85, false, OreType.COAL, OreType.RUNITE, 8, 1);
 
     private final String name;
-    private final int item_id;
-    private final int required_smithing_level;
-    private final boolean is_members;
-    private final OreType ingrediant_one;
-    private final OreType ingrediant_two;
-    private final int ingrediant_one_amount;
-    private final int ingrediant_two_amount;
+    private final int itemId;
+    private final int requiredSmithingLevel;
+    private final boolean isMembers;
+    private final OreType ingredientOne;
+    private final OreType ingredientTwo;
+    private final int ingredientOneAmount;
+    private final int ingredientTwoAmount;
 
-    BarType(String name, int item_id, int required_smithing_level, boolean is_members, OreType ingrediant_one, OreType ingrediant_two, int ingrediant_one_amount, int ingrediant_two_amount) {
+    BarType(String name, int itemId, int requiredSmithingLevel, boolean isMembers, OreType ingredientOne, OreType ingredientTwo, int ingredientOneAmount, int ingredientTwoAmount) {
         this.name = name;
-        this.item_id = item_id;
-        this.required_smithing_level = required_smithing_level;
-        this.is_members = is_members;
-        this.ingrediant_one = ingrediant_one;
-        this.ingrediant_two = ingrediant_two;
-        this.ingrediant_one_amount = ingrediant_one_amount;
-        this.ingrediant_two_amount = ingrediant_two_amount;
+        this.itemId = itemId;
+        this.requiredSmithingLevel = requiredSmithingLevel;
+        this.isMembers = isMembers;
+        this.ingredientOne = ingredientOne;
+        this.ingredientTwo = ingredientTwo;
+        this.ingredientOneAmount = ingredientOneAmount;
+        this.ingredientTwoAmount = ingredientTwoAmount;
     }
 
     public String getName() {
         return name;
     }
 
-    public int getItemID() {
-        return item_id;
+    public int getItemId() {
+        return itemId;
     }
 
     public int getRequiredSmithingLevel() {
-        return required_smithing_level;
+        return requiredSmithingLevel;
     }
 
     public boolean isMembers() {
-        return is_members;
+        return isMembers;
     }
 
-    public OreType getIngrediantOne() {
-        return ingrediant_one;
+    public OreType getIngredientOne() {
+        return ingredientOne;
     }
 
-    public OreType getIngrediantTwo() {
-        return ingrediant_two;
+    public OreType getIngredientTwo() {
+        return ingredientTwo;
     }
 
-    public int getIngrediantOneAmount() {
-        return ingrediant_one_amount;
+    public int getIngredientOneAmount() {
+        return ingredientOneAmount;
     }
 
-    public int getIngrediantTwoAmount() {
-        return ingrediant_two_amount;
+    public int getIngredientTwoAmount() {
+        return ingredientTwoAmount;
     }
 }

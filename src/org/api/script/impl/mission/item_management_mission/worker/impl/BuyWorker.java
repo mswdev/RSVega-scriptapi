@@ -29,25 +29,25 @@ public class BuyWorker extends Worker {
     @Override
     public void work() {
         if (mission.getItemManagementEntry().getId() == ItemManagementTracker.GOLD_ID) {
-            mission.should_end = true;
+            mission.shouldEnd = true;
             return;
         }
 
-        final RSGrandExchangeOffer item_management_entry = GrandExchange.getFirst(a -> a.getItemId() == mission.getItemManagementEntry().getId());
-        if (item_management_entry != null) {
-            mission.has_put_in_offer = true;
+        final RSGrandExchangeOffer itemManagementEntry = GrandExchange.getFirst(a -> a.getItemId() == mission.getItemManagementEntry().getId());
+        if (itemManagementEntry != null) {
+            mission.hasPutInOffer = true;
 
             if (GrandExchange.getFirst(a -> a.getProgress() == RSGrandExchangeOffer.Progress.FINISHED) != null && GrandExchange.getView() == GrandExchange.View.OVERVIEW) {
-                final int inventory_cache = Inventory.getCount(true);
+                final int inventoryCache = Inventory.getCount(true);
                 if (GrandExchange.collectAll())
-                    if (Time.sleepUntil(() -> Inventory.getCount(true) != inventory_cache, 1500))
-                        mission.should_end = true;
+                    if (Time.sleepUntil(() -> Inventory.getCount(true) != inventoryCache, 1500))
+                        mission.shouldEnd = true;
 
                 return;
             }
         }
 
-        if (!mission.has_put_in_offer) {
+        if (!mission.hasPutInOffer) {
             if (GrandExchange.getView() != GrandExchange.View.BUY_OFFER) {
                 if (GrandExchange.createOffer(RSGrandExchangeOffer.Type.BUY))
                     Time.sleepUntil(() -> GrandExchange.getView() == GrandExchange.View.BUY_OFFER, 1500);
@@ -74,7 +74,7 @@ public class BuyWorker extends Worker {
 
             if (GrandExchangeSetup.confirm())
                 if (Time.sleepUntil(() -> GrandExchangeSetup.getItem() == null, 1500))
-                    mission.has_put_in_offer = true;
+                    mission.hasPutInOffer = true;
         }
     }
 

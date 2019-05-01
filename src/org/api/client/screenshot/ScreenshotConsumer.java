@@ -20,8 +20,8 @@ public class ScreenshotConsumer implements Consumer<Image> {
 
     @Override
     public void accept(Image image) {
-        final BufferedImage buffered_image = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-        final Graphics2D graphics_2d = buffered_image.createGraphics();
+        final BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+        final Graphics2D graphics_2d = bufferedImage.createGraphics();
         graphics_2d.drawImage(image, 0, 0, null);
         graphics_2d.dispose();
 
@@ -35,7 +35,7 @@ public class ScreenshotConsumer implements Consumer<Image> {
                 return;
             }
 
-            ImageIO.write(buffered_image, "png", img);
+            ImageIO.write(bufferedImage, "png", img);
         } catch (IOException e) {
             e.printStackTrace();
         }

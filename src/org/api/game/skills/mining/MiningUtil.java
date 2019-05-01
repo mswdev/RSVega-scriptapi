@@ -17,7 +17,7 @@ public class MiningUtil {
      */
     public static PickaxeType getAppropriateOwnedPickaxe() {
         return Arrays.stream(PickaxeType.values())
-                .filter(pickaxe_type -> Skills.getLevel(Skill.MINING) >= pickaxe_type.getRequiredMiningLevel() && Equipment.contains(pickaxe_type.getItemID()) || Inventory.contains(pickaxe_type.getItemID()) || Bank.contains(pickaxe_type.getItemID()))
+                .filter(pickaxeType -> Skills.getLevel(Skill.MINING) >= pickaxeType.getRequiredMiningLevel() && Equipment.contains(pickaxeType.getItemId()) || Inventory.contains(pickaxeType.getItemId()) || Bank.contains(pickaxeType.getItemId()))
                 .reduce((first, second) -> second)
                 .orElse(PickaxeType.IRON);
     }
@@ -29,7 +29,7 @@ public class MiningUtil {
      */
     public static PickaxeType getAppropriatePickaxe() {
         return Arrays.stream(PickaxeType.values())
-                .filter(pickaxe_type -> Skills.getLevel(Skill.MINING) >= pickaxe_type.getRequiredMiningLevel())
+                .filter(pickaxeType -> Skills.getLevel(Skill.MINING) >= pickaxeType.getRequiredMiningLevel())
                 .reduce((first, second) -> second)
                 .orElse(PickaxeType.IRON);
     }
@@ -41,7 +41,7 @@ public class MiningUtil {
      */
     public static OreType getAppropriateOre() {
         return Arrays.stream(OreType.values())
-                .filter(ore_type -> Skills.getLevel(Skill.MINING) >= ore_type.getRequiredMiningLevel() && ore_type.isProgressive())
+                .filter(oreType -> Skills.getLevel(Skill.MINING) >= oreType.getRequiredMiningLevel() && oreType.isProgressive())
                 .reduce((first, second) -> second)
                 .orElse(OreType.CLAY);
     }

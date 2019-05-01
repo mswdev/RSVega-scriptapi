@@ -80,23 +80,23 @@ public enum FishType {
     }, FishLocation.WILDERNESS_RESOURCE_AREA, FishLocation.WILDERNESS_EAST_1, FishLocation.WILDERNESS_EAST_2);
 
     private final String name;
-    private final int item_id;
-    private final int required_fishing_level;
+    private final int itemId;
+    private final int requiredFishingLevel;
     private String action;
     private boolean members;
     private boolean progressive;
-    private FishEquipmentType[] required_equipment;
-    private FishLocation[] fish_location;
+    private FishEquipmentType[] requiredEquipment;
+    private FishLocation[] fishLocation;
 
-    FishType(String name, int item_id, int required_fishing_level, String action, boolean members, boolean progressive, FishEquipmentType[] required_equipment, FishLocation... fish_location) {
+    FishType(String name, int itemId, int requiredFishingLevel, String action, boolean members, boolean progressive, FishEquipmentType[] requiredEquipment, FishLocation... fishLocation) {
         this.name = name;
-        this.item_id = item_id;
-        this.required_fishing_level = required_fishing_level;
+        this.itemId = itemId;
+        this.requiredFishingLevel = requiredFishingLevel;
         this.action = action;
         this.members = members;
         this.progressive = progressive;
-        this.required_equipment = required_equipment;
-        this.fish_location = fish_location;
+        this.requiredEquipment = requiredEquipment;
+        this.fishLocation = fishLocation;
     }
 
     /**
@@ -104,20 +104,20 @@ public enum FishType {
      *
      * @return An array containing all of the fish item ids in the enum.
      */
-    public static int[] getItemIDs() {
-        return Arrays.stream(FishType.values()).mapToInt(FishType::getItemID).toArray();
+    public static int[] getItemIds() {
+        return Arrays.stream(FishType.values()).mapToInt(FishType::getItemId).toArray();
     }
 
     public String getName() {
         return name;
     }
 
-    public int getItemID() {
-        return item_id;
+    public int getItemId() {
+        return itemId;
     }
 
     public int getRequiredFishingLevel() {
-        return required_fishing_level;
+        return requiredFishingLevel;
     }
 
     public String getAction() {
@@ -129,19 +129,19 @@ public enum FishType {
     }
 
     public FishEquipmentType[] getRequiredEquipment() {
-        return required_equipment;
+        return requiredEquipment;
     }
 
     public boolean isProgressive() {
         return progressive;
     }
 
-    public int[] getRequiredEquipmentIDs() {
-        return Arrays.stream(required_equipment).mapToInt(FishEquipmentType::getItemID).toArray();
+    public int[] getRequiredEquipmentIds() {
+        return Arrays.stream(requiredEquipment).mapToInt(FishEquipmentType::getItemId).toArray();
     }
 
     public FishLocation[] getFishLocation() {
-        return fish_location;
+        return fishLocation;
     }
 }
 

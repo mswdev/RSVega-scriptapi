@@ -16,11 +16,11 @@ import java.util.function.Predicate;
 public class BlastFurnaceMission extends Mission {
 
     public static final Predicate<Item> COINS = a -> a.getName().equals("Coins");
-    public static BarType bar_type = BarType.STEEL;
-    private final BlastFurnaceWorkerHandler worker_handler = new BlastFurnaceWorkerHandler(this);
-    public boolean is_coal_bag_empty = true;
-    public boolean is_smelting;
-    public boolean should_end;
+    public static BarType barType = BarType.STEEL;
+    private final BlastFurnaceWorkerHandler workerHandler = new BlastFurnaceWorkerHandler(this);
+    public boolean isCoalBagEmpty = true;
+    public boolean isSmelting;
+    public boolean shouldEnd;
 
     public BlastFurnaceMission(SPXScript script) {
         super(script);
@@ -33,13 +33,13 @@ public class BlastFurnaceMission extends Mission {
 
     @Override
     public String getWorkerName() {
-        final Worker c = worker_handler.getCurrent();
+        final Worker c = workerHandler.getCurrent();
         return c == null ? "WORKER" : c.getClass().getSimpleName();
     }
 
     @Override
     public String getWorkerString() {
-        final Worker c = worker_handler.getCurrent();
+        final Worker c = workerHandler.getCurrent();
         return c == null ? "Waiting for worker." : c.toString();
     }
 
@@ -50,7 +50,7 @@ public class BlastFurnaceMission extends Mission {
 
     @Override
     public boolean shouldEnd() {
-        return should_end;
+        return shouldEnd;
     }
 
     @Override
@@ -66,7 +66,7 @@ public class BlastFurnaceMission extends Mission {
         if (!Movement.isRunEnabled() && Movement.getRunEnergy() > 20)
             Movement.toggleRun(true);
 
-        worker_handler.work();
+        workerHandler.work();
         return 100;
     }
 }

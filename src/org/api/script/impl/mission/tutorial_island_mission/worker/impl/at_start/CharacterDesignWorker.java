@@ -30,24 +30,24 @@ public class CharacterDesignWorker extends Worker {
 
     @Override
     public void work() {
-        final List<DesignOption> design_options = new ArrayList<>(Arrays.asList(DesignOption.values()));
-        Collections.shuffle(design_options);
-        design_options.remove(DesignOption.GENDER);
-        design_options.add(0, DesignOption.GENDER);
+        final List<DesignOption> designOptions = new ArrayList<>(Arrays.asList(DesignOption.values()));
+        Collections.shuffle(designOptions);
+        designOptions.remove(DesignOption.GENDER);
+        designOptions.add(0, DesignOption.GENDER);
 
-        for (DesignOption option : design_options) {
-            final InterfaceComponent left_option = Interfaces.getFirst(INTER_MASTER, a -> a.getIndex() == option.getComponentIndexLeft());
-            final InterfaceComponent right_option = Interfaces.getFirst(INTER_MASTER, a -> a.getIndex() == option.getComponentIndexRight());
-            if (left_option == null || right_option == null)
+        for (DesignOption option : designOptions) {
+            final InterfaceComponent leftOption = Interfaces.getFirst(INTER_MASTER, a -> a.getIndex() == option.getComponentIndexLeft());
+            final InterfaceComponent rightOption = Interfaces.getFirst(INTER_MASTER, a -> a.getIndex() == option.getComponentIndexRight());
+            if (leftOption == null || rightOption == null)
                 continue;
 
             int options = Random.nextInt(0, option.getTotalOptions());
             for (int i = 0; i < options; i++) {
-                final boolean right_click = Random.nextInt(0, 1) == 0;
-                if (right_click)
-                    right_option.interact(a -> true);
+                final boolean rightClick = Random.nextInt(0, 1) == 0;
+                if (rightClick)
+                    rightOption.interact(a -> true);
                 else
-                    left_option.interact(a -> true);
+                    leftOption.interact(a -> true);
             }
         }
 

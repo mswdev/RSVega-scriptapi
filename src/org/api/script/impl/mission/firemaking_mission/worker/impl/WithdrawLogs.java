@@ -13,7 +13,7 @@ import org.rspeer.ui.Log;
 
 public class WithdrawLogs extends Worker {
 
-    private final OpenBankWorker open_bank_worker = new OpenBankWorker(false);
+    private final OpenBankWorker openBankWorker = new OpenBankWorker(false);
     private final FireMakingMission mission;
 
     public WithdrawLogs(FireMakingMission mission) {
@@ -31,18 +31,18 @@ public class WithdrawLogs extends Worker {
             return;
 
         if (Bank.isOpen()) {
-            if (mission.getArgs().set_progressive)
-                mission.getArgs().log_type = FiremakingUtil.getAppropriateOwnedLogs();
+            if (mission.getArgs().setProgressive)
+                mission.getArgs().logType = FiremakingUtil.getAppropriateOwnedLogs();
 
-            if (mission.getArgs().log_type != null && Bank.contains(mission.getArgs().log_type.getName())) {
-                if (Bank.withdrawAll(mission.getArgs().log_type.getName()))
-                    Time.sleepUntil(() -> Inventory.contains(mission.getArgs().log_type.getName()), 1500);
+            if (mission.getArgs().logType != null && Bank.contains(mission.getArgs().logType.getName())) {
+                if (Bank.withdrawAll(mission.getArgs().logType.getName()))
+                    Time.sleepUntil(() -> Inventory.contains(mission.getArgs().logType.getName()), 1500);
             } else {
                 Log.severe("[FIREMAKING]: You do not have any usable logs in your bank.");
-                mission.setShouldStop(true);
+                mission.setShouldEnd(true);
             }
         } else {
-            open_bank_worker.work();
+            openBankWorker.work();
         }
     }
 

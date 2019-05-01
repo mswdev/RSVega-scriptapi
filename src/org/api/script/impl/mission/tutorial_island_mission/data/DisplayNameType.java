@@ -8,13 +8,13 @@ public enum DisplayNameType {
     AVAILABLE(4),
     SET(5);
 
-    public final int varpbit_value;
+    public final int varpbitValue;
 
-    DisplayNameType(int varpbit_value) {
-        this.varpbit_value = varpbit_value;
+    DisplayNameType(int varpbitValue) {
+        this.varpbitValue = varpbitValue;
     }
 
     public int getVarpbitValue() {
-        return varpbit_value;
+        return varpbitValue;
     }
 }
