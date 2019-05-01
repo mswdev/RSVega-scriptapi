@@ -11,14 +11,14 @@ import java.util.function.Predicate;
 
 public class WithdrawPotion extends Worker {
 
-    private final Predicate<SceneObject> potion_barrel;
-    private final SceneObjectWorker scene_object_worker;
+    private final Predicate<SceneObject> potionBarrel;
+    private final SceneObjectWorker sceneObjectWorker;
     private final int amount;
 
-    public WithdrawPotion(PotionType potion_type, int amount) {
+    public WithdrawPotion(PotionType potionType, int amount) {
         this.amount = amount;
-        potion_barrel = a -> a.getName().equals(potion_type.getBarrelName());
-        scene_object_worker = new SceneObjectWorker(potion_barrel, a -> a.equals("Take"));
+        potionBarrel = a -> a.getName().equals(potionType.getBarrelName());
+        sceneObjectWorker = new SceneObjectWorker(potionBarrel, a -> a.equals("Take"));
     }
 
     @Override
@@ -29,13 +29,13 @@ public class WithdrawPotion extends Worker {
     @Override
     public void work() {
         if (!EnterInput.isOpen()) {
-            scene_object_worker.work();
+            sceneObjectWorker.work();
             return;
         }
 
-        final int inventory_cache = Inventory.getCount();
+        final int inventoryCache = Inventory.getCount();
         EnterInput.initiate(amount);
-        Time.sleepUntil(() -> inventory_cache != Inventory.getCount(), 1500);
+        Time.sleepUntil(() -> inventoryCache != Inventory.getCount(), 1500);
     }
 
     @Override

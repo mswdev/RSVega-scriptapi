@@ -22,22 +22,22 @@ public class RSVegaTracker {
     }
 
     public static void updateBot() {
-        if (!BotData.updateBot(BotData.getBotID(), BotData.getBotDataRequestBody()))
+        if (!BotData.updateBot(BotData.getBotId(), BotData.getBotDataRequestBody()))
             Log.severe("Bot data update HTTP request failed.");
     }
 
     public static void updateStatsOSRS() {
-        if (!StatsOSRS.updateStatsOSRS(BotData.getBotID(), StatsOSRS.getStatsOSRSDataRequestBody()))
+        if (!StatsOSRS.updateStatsOSRS(BotData.getBotId(), StatsOSRS.getStatsOSRSDataRequestBody()))
             Log.severe("Stats OSRS data update HTTP request failed.");
     }
 
-    public static void insertSession(String script_name, Date time_started) {
-        if (!SessionData.insertSession(SessionData.getSessionDataRequestBody(script_name, time_started, null)))
+    public static void insertSession(String scriptName, Date timeStarted) {
+        if (!SessionData.insertSession(SessionData.getSessionDataRequestBody(scriptName, timeStarted, null)))
             Log.severe("Session data insert HTTP request failed.");
     }
 
-    public static void updateSession(Date time_ended) {
-        if (!SessionData.updateSession(SessionData.getSessionID(), SessionData.getSessionDataRequestBody(null, null, time_ended)))
+    public static void updateSession(Date timeEnded) {
+        if (!SessionData.updateSession(SessionData.getSessionId(), SessionData.getSessionDataRequestBody(null, null, timeEnded)))
             Log.severe("Session data update HTTP request failed.");
     }
 }

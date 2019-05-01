@@ -16,7 +16,7 @@ public class FiremakingUtil {
      */
     public static LogType getAppropriateOwnedLogs() {
         return Arrays.stream(LogType.values())
-                .filter(log_type -> Skills.getLevel(Skill.FIREMAKING) >= log_type.getRequiredFiremakingLevel() && (Inventory.contains(log_type.getItemID()) || Bank.contains(log_type.getItemID())))
+                .filter(logType -> Skills.getLevel(Skill.FIREMAKING) >= logType.getRequiredFiremakingLevel() && (Inventory.contains(logType.getItemId()) || Bank.contains(logType.getItemId())))
                 .reduce((first, second) -> second)
                 .orElse(LogType.LOGS);
     }
@@ -28,7 +28,7 @@ public class FiremakingUtil {
      */
     public static LogType getAppropriateLogs() {
         return Arrays.stream(LogType.values())
-                .filter(log_type -> Skills.getLevel(Skill.FIREMAKING) >= log_type.getRequiredFiremakingLevel())
+                .filter(logType -> Skills.getLevel(Skill.FIREMAKING) >= logType.getRequiredFiremakingLevel())
                 .reduce((first, second) -> second)
                 .orElse(LogType.LOGS);
     }

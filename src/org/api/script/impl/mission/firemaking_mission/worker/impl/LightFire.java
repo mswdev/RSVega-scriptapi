@@ -27,7 +27,7 @@ public class LightFire extends Worker {
             return;
 
         final Item tinderbox = Inventory.getFirst(WithdrawTinderBox.TINDERBOX);
-        final Item logs = Inventory.getFirst(mission.getArgs().log_type.getName());
+        final Item logs = Inventory.getFirst(mission.getArgs().logType.getName());
         if (tinderbox == null || logs == null)
             return;
 

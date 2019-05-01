@@ -15,49 +15,49 @@ import java.util.function.Predicate;
 
 public class NpcWorker extends Worker {
 
-    private final Predicate<Npc> npc_predicate;
+    private final Predicate<Npc> npcPredicate;
     private final Predicate<String> action;
-    private final DialogueWorker dialogue_worker;
-    private final MovementWorker movement_worker;
+    private final DialogueWorker dialogueWorker;
+    private final MovementWorker movementWorker;
 
-    public NpcWorker(Predicate<Npc> npc_predicate) {
-        this(npc_predicate, a -> true, new DialogueWorker(), null);
+    public NpcWorker(Predicate<Npc> npcPredicate) {
+        this(npcPredicate, a -> true, new DialogueWorker(), null);
     }
 
-    public NpcWorker(Predicate<Npc> npc_predicate, Predicate<String> action) {
-        this(npc_predicate, action, new DialogueWorker(), null);
+    public NpcWorker(Predicate<Npc> npcPredicate, Predicate<String> action) {
+        this(npcPredicate, action, new DialogueWorker(), null);
     }
 
-    public NpcWorker(Predicate<Npc> npc_predicate, DialogueWorker dialogue_worker) {
-        this(npc_predicate, a -> true, dialogue_worker, null);
+    public NpcWorker(Predicate<Npc> npcPredicate, DialogueWorker dialogueWorker) {
+        this(npcPredicate, a -> true, dialogueWorker, null);
     }
 
-    public NpcWorker(Predicate<Npc> npc_predicate, MovementWorker movement_worker) {
-        this(npc_predicate, a -> true, new DialogueWorker(), movement_worker);
+    public NpcWorker(Predicate<Npc> npcPredicate, MovementWorker movementWorker) {
+        this(npcPredicate, a -> true, new DialogueWorker(), movementWorker);
     }
 
-    public NpcWorker(Predicate<Npc> npc_predicate, DialogueWorker dialogue_worker, MovementWorker movement_worker) {
-        this(npc_predicate, a -> true, dialogue_worker, movement_worker);
+    public NpcWorker(Predicate<Npc> npcPredicate, DialogueWorker dialogueWorker, MovementWorker movementWorker) {
+        this(npcPredicate, a -> true, dialogueWorker, movementWorker);
     }
 
-    public NpcWorker(Predicate<Npc> npc_predicate, Predicate<String> action, DialogueWorker dialogue_worker) {
-        this(npc_predicate, action, dialogue_worker, null);
+    public NpcWorker(Predicate<Npc> npcPredicate, Predicate<String> action, DialogueWorker dialogueWorker) {
+        this(npcPredicate, action, dialogueWorker, null);
     }
 
-    public NpcWorker(Predicate<Npc> npc_predicate, Predicate<String> action, MovementWorker movement_worker) {
-        this(npc_predicate, action, new DialogueWorker(), movement_worker);
+    public NpcWorker(Predicate<Npc> npcPredicate, Predicate<String> action, MovementWorker movementWorker) {
+        this(npcPredicate, action, new DialogueWorker(), movementWorker);
     }
 
-    public NpcWorker(Predicate<Npc> npc_predicate, Predicate<String> action, DialogueWorker dialogue_worker, MovementWorker movement_worker) {
-        this.npc_predicate = npc_predicate;
+    public NpcWorker(Predicate<Npc> npcPredicate, Predicate<String> action, DialogueWorker dialogueWorker, MovementWorker movementWorker) {
+        this.npcPredicate = npcPredicate;
         this.action = action;
-        this.dialogue_worker = dialogue_worker;
-        this.movement_worker = movement_worker;
+        this.dialogueWorker = dialogueWorker;
+        this.movementWorker = movementWorker;
     }
 
     @Override
     public boolean needsRepeat() {
-        return dialogue_worker.needsRepeat() || (movement_worker != null && movement_worker.needsRepeat());
+        return dialogueWorker.needsRepeat() || (movementWorker != null && movementWorker.needsRepeat());
     }
 
     @Override
@@ -66,16 +66,16 @@ public class NpcWorker extends Worker {
             return;
 
         if (Dialog.isOpen() || Game.isInCutscene() || Game.isLoadingRegion() || Dialog.isProcessing()) {
-            dialogue_worker.work();
+            dialogueWorker.work();
             return;
         }
 
-        final Npc npc = Npcs.getNearest(npc_predicate);
+        final Npc npc = Npcs.getNearest(npcPredicate);
         if (npc == null) {
-            if (movement_worker == null)
+            if (movementWorker == null)
                 return;
 
-            movement_worker.work();
+            movementWorker.work();
             return;
         }
 

@@ -18,16 +18,16 @@ public enum AxeType {
     INFERNAL("Infernal axe", 13241, 61, -1, true);
 
     private final String name;
-    private final int item_id;
-    private final int required_woodcutting_level;
-    private final int required_attack_level;
+    private final int itemId;
+    private final int requiredWoodcuttingLevel;
+    private final int requiredAttackLevel;
     private final boolean members;
 
-    AxeType(String name, int item_id, int required_woodcutting_level, int required_attack_level, boolean members) {
+    AxeType(String name, int itemId, int requiredWoodcuttingLevel, int requiredAttackLevel, boolean members) {
         this.name = name;
-        this.item_id = item_id;
-        this.required_woodcutting_level = required_woodcutting_level;
-        this.required_attack_level = required_attack_level;
+        this.itemId = itemId;
+        this.requiredWoodcuttingLevel = requiredWoodcuttingLevel;
+        this.requiredAttackLevel = requiredAttackLevel;
         this.members = members;
     }
 
@@ -36,24 +36,24 @@ public enum AxeType {
      *
      * @return An array containing all of the axe item ids in the enum.
      */
-    public static int[] getItemIDs() {
-        return Arrays.stream(PickaxeType.values()).mapToInt(PickaxeType::getItemID).toArray();
+    public static int[] getItemIds() {
+        return Arrays.stream(PickaxeType.values()).mapToInt(PickaxeType::getItemId).toArray();
     }
 
     public String getName() {
         return name;
     }
 
-    public int getItemID() {
-        return item_id;
+    public int getItemId() {
+        return itemId;
     }
 
     public int getRequiredWoodcuttingLevel() {
-        return required_woodcutting_level;
+        return requiredWoodcuttingLevel;
     }
 
     public int getRequiredAttackLevel() {
-        return required_attack_level;
+        return requiredAttackLevel;
     }
 
     public boolean isMembers() {

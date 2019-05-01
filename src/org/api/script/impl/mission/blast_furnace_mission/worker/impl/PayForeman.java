@@ -20,9 +20,9 @@ public class PayForeman extends Worker {
     private static final Predicate<InterfaceComponent> PAY_FOREMAN = a -> a.getText().contains("You must ask the foreman");
     private static final Predicate<Npc> FOREMAN = a -> a.getName().equals("Blast Furnace Foreman");
     private static final Predicate<String> PAY = a -> a.equals("Pay");
-    private final WithdrawWorker withdraw_worker = new WithdrawWorker(BlastFurnaceMission.COINS, 2500, Bank.WithdrawMode.ITEM);
+    private final WithdrawWorker withdrawWorker = new WithdrawWorker(BlastFurnaceMission.COINS, 2500, Bank.WithdrawMode.ITEM);
     private final BlastFurnaceMission mission;
-    public boolean paid_foreman;
+    public boolean paidForeman;
 
     public PayForeman(BlastFurnaceMission mission) {
         this.mission = mission;
@@ -43,10 +43,10 @@ public class PayForeman extends Worker {
 
     @Override
     public void work() {
-        paid_foreman = false;
+        paidForeman = false;
         if (Inventory.getCount(true, BlastFurnaceMission.COINS) < DEPOSIT_AMOUNT) {
-            withdraw_worker.work();
-            mission.should_end = withdraw_worker.itemNotFound();
+            withdrawWorker.work();
+            mission.shouldEnd = withdrawWorker.itemNotFound();
         } else {
             final Npc npc = Npcs.getFirst(FOREMAN);
             if (npc == null)
@@ -58,7 +58,7 @@ public class PayForeman extends Worker {
             } else {
                 if (Dialog.process(0))
                     if (Time.sleepUntil(Dialog::isProcessing, 1500))
-                        paid_foreman = true;
+                        paidForeman = true;
             }
         }
     }

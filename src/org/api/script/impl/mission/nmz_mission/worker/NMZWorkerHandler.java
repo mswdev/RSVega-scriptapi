@@ -17,7 +17,7 @@ import org.rspeer.runetek.api.local.Health;
 
 public class NMZWorkerHandler extends WorkerHandler {
 
-    private int drink_value;
+    private int drinkValue;
 
     @Override
     public Worker decide() {
@@ -34,15 +34,15 @@ public class NMZWorkerHandler extends WorkerHandler {
             if (PotionType.getCount(PotionType.OVERLOAD) < 32)
                 return new WithdrawPotion(PotionType.OVERLOAD, 32 - PotionType.getCount(PotionType.OVERLOAD));
 
-            if (Varps.getBitValue(BuyDream.dream_potion_varbit) == 0)
+            if (Varps.getBitValue(BuyDream.DREAM_POTION_VARBIT) == 0)
                 return new BuyDream();
 
-            if (Varps.getBitValue(BuyDream.dream_potion_varbit) > 0) {
-                drink_value = Random.nextInt(500, 750);
+            if (Varps.getBitValue(BuyDream.DREAM_POTION_VARBIT) > 0) {
+                drinkValue = Random.nextInt(500, 750);
                 return new EnterDream();
             }
         } else {
-            if (Inventory.contains(a -> a.getName().contains(PotionType.ABSORPTION.getName())) && Varps.getBitValue(PotionType.ABSORPTION.getActiveVarpbit()) <= drink_value)
+            if (Inventory.contains(a -> a.getName().contains(PotionType.ABSORPTION.getName())) && Varps.getBitValue(PotionType.ABSORPTION.getActiveVarpbit()) <= drinkValue)
                 return new DrinkPotion();
 
             if (Inventory.contains(a -> a.getName().contains(PotionType.OVERLOAD.getName())) && Varps.getBitValue(PotionType.OVERLOAD.getActiveVarpbit()) <= 1 && Health.getCurrent() > 50)

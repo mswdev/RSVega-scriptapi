@@ -30,14 +30,14 @@ public class HintWorker extends Worker {
             return;
 
         final SceneObject object = getHintSceneObject();
-        final BooleanSupplier boolean_supplier = () -> Players.getLocal().isMoving();
+        final BooleanSupplier booleanSupplier = () -> Players.getLocal().isMoving();
         if (object != null) {
             if (object.isPositionInteractable()) {
                 if (object.interact(a -> true))
-                    Time.sleepUntil(boolean_supplier, 1500);
+                    Time.sleepUntil(booleanSupplier, 1500);
             } else {
                 if (Movement.walkTo(object))
-                    Time.sleepUntil(boolean_supplier, 1500);
+                    Time.sleepUntil(booleanSupplier, 1500);
             }
         } else {
             final Npc npc = getHintNPC();
@@ -46,10 +46,10 @@ public class HintWorker extends Worker {
 
             if (npc.isPositionInteractable()) {
                 if (npc.interact(a -> true))
-                    Time.sleepUntil(boolean_supplier, 1500);
+                    Time.sleepUntil(booleanSupplier, 1500);
             } else {
                 if (Movement.walkTo(npc))
-                    Time.sleepUntil(boolean_supplier, 1500);
+                    Time.sleepUntil(booleanSupplier, 1500);
             }
         }
     }

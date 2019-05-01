@@ -26,8 +26,8 @@ public class SetZoom extends Worker {
             if (Tabs.open(Tab.OPTIONS))
                 Time.sleepUntil(() -> Tabs.isOpen(Tab.OPTIONS), 1500);
 
-        if (ClientSettings.setZoomLevel(mission.getArgs().set_zoom))
-            Time.sleepUntil(() -> ClientSettings.getZoomLevel() == mission.getArgs().set_zoom, 1500);
+        if (ClientSettings.setZoomLevel(mission.getArgs().setZoom))
+            Time.sleepUntil(() -> ClientSettings.getZoomLevel() == mission.getArgs().setZoom, 1500);
     }
 
     @Override

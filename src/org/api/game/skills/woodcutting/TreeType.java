@@ -17,17 +17,17 @@ public enum TreeType {
     REDWOOD("Redwood", 90, true, false, LogType.REDWOOD);
 
     private final String name;
-    private final int required_woodcutting_level;
+    private final int requiredWoodcuttingLevel;
     private final boolean members;
     private final boolean progressive;
-    private final LogType log_type;
+    private final LogType logType;
 
-    TreeType(String name, int required_woodcutting_level, boolean members, boolean progressive, LogType log_type) {
+    TreeType(String name, int requiredWoodcuttingLevel, boolean members, boolean progressive, LogType logType) {
         this.name = name;
-        this.required_woodcutting_level = required_woodcutting_level;
+        this.requiredWoodcuttingLevel = requiredWoodcuttingLevel;
         this.members = members;
         this.progressive = progressive;
-        this.log_type = log_type;
+        this.logType = logType;
     }
 
     public String getName() {
@@ -35,7 +35,7 @@ public enum TreeType {
     }
 
     public int getRequiredWoodcuttingLevel() {
-        return required_woodcutting_level;
+        return requiredWoodcuttingLevel;
     }
 
     public boolean isMembers() {
@@ -47,7 +47,7 @@ public enum TreeType {
     }
 
     public LogType getLogType() {
-        return log_type;
+        return logType;
     }
 }
 

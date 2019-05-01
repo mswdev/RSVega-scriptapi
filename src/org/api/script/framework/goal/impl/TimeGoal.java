@@ -4,36 +4,36 @@ import org.api.script.framework.goal.Goal;
 
 public class TimeGoal implements Goal {
 
-    private long start_time;
-    private long time_amount;
+    private long startTime;
+    private long timeAmount;
 
-    public TimeGoal(long time_amount) {
-        this.start_time = System.currentTimeMillis();
-        this.time_amount = time_amount;
+    public TimeGoal(long timeAmount) {
+        this.startTime = System.currentTimeMillis();
+        this.timeAmount = timeAmount;
     }
 
     @Override
     public boolean hasReached() {
-        return System.currentTimeMillis() - start_time >= time_amount;
+        return System.currentTimeMillis() - startTime >= timeAmount;
     }
 
     @Override
     public String getCompletionMessage() {
-        return "[Time Goal]: Complete: Ran for" + (time_amount / 1000) / 60 + " minutes.";
+        return "[Time Goal]: Complete: Ran for" + (timeAmount / 1000) / 60 + " minutes.";
     }
 
     @Override
     public String getName() {
-        return "[Time Goal:] Set: " + (time_amount / 1000) / 60 + " minutes.";
+        return "[Time Goal:] Set: " + (timeAmount / 1000) / 60 + " minutes.";
     }
 
     @Override
     public String toString() {
-        return "[Time Goal:] Left: " + ((System.currentTimeMillis() - start_time) / 1000) / 60 + "minutes.";
+        return "[Time Goal:] Left: " + ((System.currentTimeMillis() - startTime) / 1000) / 60 + "minutes.";
     }
 
     public void reset() {
-        start_time = System.currentTimeMillis();
+        startTime = System.currentTimeMillis();
     }
 }
 

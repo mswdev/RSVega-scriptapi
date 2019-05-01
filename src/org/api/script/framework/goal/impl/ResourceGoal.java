@@ -5,23 +5,23 @@ import org.api.script.framework.goal.Goal;
 public class ResourceGoal implements Goal {
 
     private int[] ids;
-    private int current_amount;
-    private int goal_amount;
-    private String item_string;
+    private int currentAmount;
+    private int goalAmount;
+    private String itemString;
 
-    public ResourceGoal(int goal_amount, int... ids) {
+    public ResourceGoal(int goalAmount, int... ids) {
         this.ids = ids;
-        this.goal_amount = goal_amount;
-        item_string = getItemString();
+        this.goalAmount = goalAmount;
+        itemString = getItemString();
     }
 
     @Override
     public boolean hasReached() {
-        return current_amount >= goal_amount;
+        return currentAmount >= goalAmount;
     }
 
     public void update(int count) {
-        current_amount += count;
+        currentAmount += count;
     }
 
     public int[] getIds() {
@@ -30,16 +30,16 @@ public class ResourceGoal implements Goal {
 
     @Override
     public String getCompletionMessage() {
-        return "[Resource Goal]: Collected " + goal_amount + " of " + item_string + ".";
+        return "[Resource Goal]: Collected " + goalAmount + " of " + itemString + ".";
     }
 
     @Override
     public String getName() {
-        return "[Resource Goal]: Set: Collecting " + goal_amount + " of " + item_string + ".";
+        return "[Resource Goal]: Set: Collecting " + goalAmount + " of " + itemString + ".";
     }
 
     public String toString() {
-        return "[Resource Goal]: Left: Collected " + current_amount + " of " + goal_amount + ".";
+        return "[Resource Goal]: Left: Collected " + currentAmount + " of " + goalAmount + ".";
     }
 
     private String getItemString() {

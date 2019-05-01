@@ -23,17 +23,17 @@ public class Player {
      * @return The players ironman state.
      */
     public static IronmanState getIronManState() {
-        final int ironman_state = Varps.getBitValue(IRONMAN_VARP);
-        if (ironman_state == IronmanState.NONE.getState())
+        final int ironmanState = Varps.getBitValue(IRONMAN_VARP);
+        if (ironmanState == IronmanState.NONE.getState())
             return IronmanState.NONE;
 
-        if (ironman_state == IronmanState.IRONMAN.getState())
+        if (ironmanState == IronmanState.IRONMAN.getState())
             return IronmanState.IRONMAN;
 
-        if (ironman_state == IronmanState.ULTIMATE.getState())
+        if (ironmanState == IronmanState.ULTIMATE.getState())
             return IronmanState.ULTIMATE;
 
-        if (ironman_state == IronmanState.HARDCORE.getState())
+        if (ironmanState == IronmanState.HARDCORE.getState())
             return IronmanState.HARDCORE;
 
         return IronmanState.NONE;

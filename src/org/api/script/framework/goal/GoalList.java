@@ -9,6 +9,8 @@ import java.util.Arrays;
 
 public class GoalList extends ArrayList<Goal> {
 
+    private static final long serialVersionUID = -4775194842287397338L;
+
     public GoalList(Goal... goals) {
         this.addAll(Arrays.asList(goals));
     }

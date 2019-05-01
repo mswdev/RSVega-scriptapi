@@ -7,12 +7,12 @@ import org.rspeer.runetek.api.Varps;
 
 public class CharacterSetupWorker extends Worker {
 
-    private final CharacterDesignWorker character_design_worker;
-    private final CharacterDisplayNameWorker character_display_name_worker;
+    private final CharacterDesignWorker characterDesignWorker;
+    private final CharacterDisplayNameWorker characterDisplayNameWorker;
 
     public CharacterSetupWorker(TutorialIslandMission mission) {
-        this.character_design_worker = new CharacterDesignWorker();
-        this.character_display_name_worker = new CharacterDisplayNameWorker(mission);
+        this.characterDesignWorker = new CharacterDesignWorker();
+        this.characterDisplayNameWorker = new CharacterDisplayNameWorker(mission);
     }
 
     @Override
@@ -23,9 +23,9 @@ public class CharacterSetupWorker extends Worker {
     @Override
     public void work() {
         if (Varps.getBitValue(CharacterDisplayNameWorker.DISPLAY_NAME_VARPBIT) == DisplayNameType.UNKNOWN.getVarpbitValue() || Varps.getBitValue(CharacterDisplayNameWorker.DISPLAY_NAME_VARPBIT) == DisplayNameType.SET.getVarpbitValue())
-            character_design_worker.work();
+            characterDesignWorker.work();
 
-        character_display_name_worker.work();
+        characterDisplayNameWorker.work();
     }
 
     @Override

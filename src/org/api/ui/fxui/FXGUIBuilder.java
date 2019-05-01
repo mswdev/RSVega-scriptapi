@@ -2,13 +2,13 @@ package org.api.ui.fxui;
 
 public class FXGUIBuilder /*extends Application */ {
 
-    /*private final FXGUI fx_gui;
+    /*private final FXGUI fxGui;
     private Stage stage;
     private Scene scene;
-    private boolean is_invoking = true;*/
+    private boolean isInvoking = true;*/
 
-    public FXGUIBuilder(FXGUI fx_gui) {
-        /*this.fx_gui = fx_gui;*/
+    public FXGUIBuilder(FXGUI fxGui) {
+        /*this.fxGui = fxGui;*/
     }
 
     /*@Override
@@ -17,24 +17,24 @@ public class FXGUIBuilder /*extends Application */ {
 
         FXMLLoader loader = new FXMLLoader();
         loader.setClassLoader(getClass().getClassLoader());
-        byte[] fxml_bytes = null;
+        byte[] fxmlBytes = null;
         switch (fx_gui.getFXMLType()) {
             case URL:
                 final URLConnection connection = new URL(fx_gui.getFXML()).openConnection();
                 final BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                fxml_bytes = reader.lines().collect(Collectors.joining("\n")).getBytes();
+                fxmlBytes = reader.lines().collect(Collectors.joining("\n")).getBytes();
                 break;
             case FILE:
                 final Path path = Paths.get(fx_gui.getFXML());
-                fxml_bytes = Files.readAllBytes(path);
+                fxmlBytes = Files.readAllBytes(path);
                 break;
             case STRING:
-                fxml_bytes = fx_gui.getFXML().getBytes();
+                fxmlBytes = fxGui.getFXML().getBytes();
                 break;
         }
 
         final Parent root = loader.load(new ByteArrayInputStream(fxml_bytes));
-        scene = new Scene(root, fx_gui.getWidth(), fx_gui.getHeight());
+        scene = new Scene(root, fxGui.getWidth(), fxGui.getHeight());
 
         stage.setTitle(fx_gui.getTitle());
         stage.setResizable(fx_gui.isResizable());
@@ -45,7 +45,7 @@ public class FXGUIBuilder /*extends Application */ {
             stage.show();
 
         Platform.setImplicitExit(false);
-        is_invoking = false;
+        isInvoking = false;
     }*/
 
     public void invokeGUI() {
@@ -53,7 +53,7 @@ public class FXGUIBuilder /*extends Application */ {
         Platform.runLater(() -> {
             try {
                 start(new Stage());
-                is_invoking = false;
+                isInvoking = false;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -61,7 +61,7 @@ public class FXGUIBuilder /*extends Application */ {
     }
 
     public FXGUI getGUI() {
-        /*return fx_gui;*/
+        /*return fxGui;*/
         return null;
     }
 
@@ -90,7 +90,7 @@ public class FXGUIBuilder /*extends Application */ {
        /* if (fx_gui == null)
             return false;
 
-        return is_invoking || stage.isShowing();*/
+        return isInvoking || stage.isShowing();*/
 
         return false;
     }

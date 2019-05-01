@@ -7,7 +7,7 @@ public abstract class Mission {
 
     protected SPXScript script;
     protected GoalList goals;
-    private boolean has_started;
+    private boolean hasStarted;
 
     public Mission(SPXScript script) {
         this.script = script;
@@ -83,14 +83,14 @@ public abstract class Mission {
      * @return True if the mission has started; false otherwise.
      */
     boolean hasStarted() {
-        return has_started;
+        return hasStarted;
     }
 
     /**
      * Sets whether the mission has started.
      */
     void setStarted(boolean started) {
-        has_started = started;
+        hasStarted = started;
     }
 
     /**

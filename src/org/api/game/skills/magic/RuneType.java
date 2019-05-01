@@ -29,15 +29,15 @@ public enum RuneType {
     WRATH("Wrath rune", 21880, 95, true);
 
     private final String name;
-    private final int item_id;
-    private final int required_runecrafting_level;
-    private final boolean is_members;
+    private final int itemId;
+    private final int requiredRunecraftingLevel;
+    private final boolean isMembers;
 
-    RuneType(String name, int item_id, int required_runecrafting_level, boolean is_members) {
+    RuneType(String name, int itemId, int requiredRunecraftingLevel, boolean isMembers) {
         this.name = name;
-        this.item_id = item_id;
-        this.required_runecrafting_level = required_runecrafting_level;
-        this.is_members = is_members;
+        this.itemId = itemId;
+        this.requiredRunecraftingLevel = requiredRunecraftingLevel;
+        this.isMembers = isMembers;
     }
 
     /**
@@ -45,23 +45,23 @@ public enum RuneType {
      *
      * @return An array containing all of the pickaxe item ids in the enum.
      */
-    public static int[] getItemIDs() {
-        return Arrays.stream(PickaxeType.values()).mapToInt(PickaxeType::getItemID).toArray();
+    public static int[] getItemIds() {
+        return Arrays.stream(PickaxeType.values()).mapToInt(PickaxeType::getItemId).toArray();
     }
 
     public String getName() {
         return name;
     }
 
-    public int getItemID() {
-        return item_id;
+    public int getItemId() {
+        return itemId;
     }
 
     public int getRequiredRunecraftingLevel() {
-        return required_runecrafting_level;
+        return requiredRunecraftingLevel;
     }
 
     public boolean isMembers() {
-        return is_members;
+        return isMembers;
     }
 }

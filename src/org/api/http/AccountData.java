@@ -1,7 +1,7 @@
 package org.api.http;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import okhttp3.FormBody;
 import okhttp3.RequestBody;
 import okhttp3.Response;
@@ -14,8 +14,8 @@ public class AccountData {
 
     private static int ACCOUNT_ID;
 
-    public static boolean insertAccount(RequestBody request_body) {
-        try (final Response response = Request.post(RSVegaTracker.API_URL + "/account/add", request_body)) {
+    public static boolean insertAccount(RequestBody requestBody) {
+        try (final Response response = Request.post(RSVegaTracker.API_URL + "/account/add", requestBody)) {
             return response.isSuccessful();
         } catch (IOException e) {
             e.printStackTrace();
@@ -25,18 +25,18 @@ public class AccountData {
     }
 
     public static RequestBody getAccountDataRequestBody() {
-        final FormBody.Builder form_builder = new FormBody.Builder();
-        form_builder.add("username", Script.getRSPeerUser().getUsername());
-        return form_builder.build();
+        final FormBody.Builder formBuilder = new FormBody.Builder();
+        formBuilder.add("username", Script.getRSPeerUser().getUsername());
+        return formBuilder.build();
     }
 
     /**
-     * Gets a json array of the rspeer users account data.
+     * Gets a json object of the rspeer users account data.
      *
      * @param username The username of the rspeer user.
-     * @return A json array of the rspeer users account data; null otherwise.
+     * @return A json object of the rspeer users account data; null otherwise.
      */
-    private static JsonArray getAccountByUsername(String username) {
+    private static JsonObject getAccountByUsername(String username) {
         try (final Response response = Request.get(RSVegaTracker.API_URL + "/account/user/" + username)) {
             if (!response.isSuccessful())
                 return null;
@@ -45,7 +45,7 @@ public class AccountData {
                 return null;
 
             final Gson gson = new Gson().newBuilder().create();
-            return gson.fromJson(response.body().string(), JsonArray.class);
+            return gson.fromJson(response.body().string(), JsonObject.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -58,16 +58,16 @@ public class AccountData {
      *
      * @return The account id associated with the rspeer user.
      */
-    public static int getAccountID() {
+    public static int getAccountId() {
         if (ACCOUNT_ID == 0) {
-            JsonArray json_array = AccountData.getAccountByUsername(Script.getRSPeerUser().getUsername());
-            if (json_array == null)
+            JsonObject jsonObject = AccountData.getAccountByUsername(Script.getRSPeerUser().getUsername());
+            if (jsonObject == null)
                 return 0;
 
-            if (json_array.size() == 0)
+            if (jsonObject.size() == 0)
                 return 0;
 
-            ACCOUNT_ID = json_array.get(0).getAsJsonObject().get("id").getAsInt();
+            ACCOUNT_ID = jsonObject.get("id").getAsInt();
         }
 
         return ACCOUNT_ID;

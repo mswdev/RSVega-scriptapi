@@ -9,7 +9,7 @@ import java.util.function.Predicate;
 public class WithdrawTinderBox extends Worker {
 
     public static final Predicate<Item> TINDERBOX = a -> a.getName().equals("Tinderbox");
-    private final WithdrawWorker withdraw_worker = new WithdrawWorker(TINDERBOX);
+    private final WithdrawWorker withdrawWorker = new WithdrawWorker(TINDERBOX);
 
     @Override
     public boolean needsRepeat() {
@@ -18,7 +18,7 @@ public class WithdrawTinderBox extends Worker {
 
     @Override
     public void work() {
-        withdraw_worker.work();
+        withdrawWorker.work();
     }
 
     @Override

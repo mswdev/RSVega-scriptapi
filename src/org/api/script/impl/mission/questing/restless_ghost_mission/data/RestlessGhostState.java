@@ -41,21 +41,21 @@ public enum RestlessGhostState {
     COMPLETE(null, null, 5);
 
     private final Worker worker;
-    private final BooleanSupplier condition_supplier;
+    private final BooleanSupplier conditionSupplier;
     private final int[] varps;
 
-    RestlessGhostState(Worker worker, BooleanSupplier condition_supplier, int... varps) {
+    RestlessGhostState(Worker worker, BooleanSupplier conditionSupplier, int... varps) {
         this.varps = varps;
-        this.condition_supplier = condition_supplier;
+        this.conditionSupplier = conditionSupplier;
         this.worker = worker;
     }
 
     public static RestlessGhostState getValidState() {
         return Arrays.stream(values())
-                .filter(a -> a.condition_supplier != null && isInCondition(a) && isInVarp(a))
+                .filter(a -> a.conditionSupplier != null && isInCondition(a) && isInVarp(a))
                 .findFirst()
                 .orElseGet(() -> Arrays.stream(values())
-                        .filter(a -> a.condition_supplier == null && isInVarp(a))
+                        .filter(a -> a.conditionSupplier == null && isInVarp(a))
                         .findFirst()
                         .orElse(null));
     }
@@ -73,7 +73,7 @@ public enum RestlessGhostState {
     }
 
     public BooleanSupplier getConditionSupplier() {
-        return condition_supplier;
+        return conditionSupplier;
     }
 
     public int[] getVarps() {

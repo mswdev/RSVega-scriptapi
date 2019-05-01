@@ -24,7 +24,7 @@ public class WalkToPosition extends Worker {
         if (Players.getLocal().isMoving() && Movement.getDestinationDistance() > 10)
             return;
 
-        if (Movement.walkTo(mission.getArgs().walk_position))
+        if (Movement.walkTo(mission.getArgs().walkPosition))
             Time.sleepUntil(() -> Players.getLocal().isMoving(), 1500);
     }
 

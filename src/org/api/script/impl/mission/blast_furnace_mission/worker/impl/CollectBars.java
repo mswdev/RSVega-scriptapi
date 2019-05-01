@@ -19,7 +19,7 @@ public class CollectBars extends Worker {
     public static final int COLLECT_BARS_VARP = 543;
     public static final int COLLECT_BARS_COOLED_SETTING = 768;
     static final Predicate<SceneObject> COLLECT_BARS = a -> a.getName().equals("Bar dispenser");
-    private final OpenBankWorker open_bank_worker = new OpenBankWorker(false);
+    private final OpenBankWorker openBankWorker = new OpenBankWorker(false);
     private final BlastFurnaceMission mission;
 
     public CollectBars(BlastFurnaceMission mission) {
@@ -39,18 +39,18 @@ public class CollectBars extends Worker {
                 if (Bank.depositAll("Steel bar"))
                     Time.sleepUntil(() -> Inventory.getFirst("Steel bar") == null, 1500);
             } else {
-                open_bank_worker.work();
+                openBankWorker.work();
             }
         } else if (Production.isOpen()) {
             if (Production.initiate(0))
                 Time.sleepUntil(() -> Inventory.getFirst("Steel bar") != null, 1500);
-            mission.is_smelting = false;
+            mission.isSmelting = false;
         } else {
-            final SceneObject bar_dispenser = SceneObjects.getNearest(COLLECT_BARS);
-            if (bar_dispenser == null)
+            final SceneObject barDispenser = SceneObjects.getNearest(COLLECT_BARS);
+            if (barDispenser == null)
                 return;
 
-            if (bar_dispenser.click())
+            if (barDispenser.click())
                 Time.sleepUntil(Production::isOpen, 1500);
         }
     }

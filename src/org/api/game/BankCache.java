@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class BankCache extends Thread {
 
-    private final Map<Integer, Integer> bank_cache = new HashMap<>();
+    private final Map<Integer, Integer> bankCache = new HashMap<>();
     private final Script script;
 
     public BankCache(Script script) {
@@ -28,7 +28,7 @@ public class BankCache extends Thread {
             if (!Bank.isOpen())
                 continue;
 
-            bank_cache.clear();
+            bankCache.clear();
             update();
         }
     }
@@ -42,7 +42,7 @@ public class BankCache extends Thread {
             return;
 
         for (Item item : items)
-            bank_cache.put(item.getId(), item.getStackSize());
+            bankCache.put(item.getId(), item.getStackSize());
     }
 
     /**
@@ -51,7 +51,7 @@ public class BankCache extends Thread {
      * @return The bank cache;
      */
     public Map<Integer, Integer> get() {
-        return bank_cache;
+        return bankCache;
     }
 }
 

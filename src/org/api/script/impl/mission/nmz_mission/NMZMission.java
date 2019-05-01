@@ -10,8 +10,8 @@ import org.rspeer.runetek.api.movement.Movement;
 
 public class NMZMission extends Mission {
 
-    private final NMZWorkerHandler worker_handler = new NMZWorkerHandler();
-    public boolean should_end;
+    private final NMZWorkerHandler workerHandler = new NMZWorkerHandler();
+    public boolean shouldEnd;
 
     public NMZMission(SPXScript script) {
         super(script);
@@ -24,13 +24,13 @@ public class NMZMission extends Mission {
 
     @Override
     public String getWorkerName() {
-        final Worker c = worker_handler.getCurrent();
+        final Worker c = workerHandler.getCurrent();
         return c == null ? "WORKER" : c.getClass().getSimpleName();
     }
 
     @Override
     public String getWorkerString() {
-        final Worker c = worker_handler.getCurrent();
+        final Worker c = workerHandler.getCurrent();
         return c == null ? "Waiting for worker." : c.toString();
     }
 
@@ -41,7 +41,7 @@ public class NMZMission extends Mission {
 
     @Override
     public boolean shouldEnd() {
-        return should_end;
+        return shouldEnd;
     }
 
     @Override
@@ -54,7 +54,7 @@ public class NMZMission extends Mission {
         if (!Movement.isRunEnabled() && Movement.getRunEnergy() > 10)
             Movement.toggleRun(true);
 
-        worker_handler.work();
+        workerHandler.work();
         return 100;
     }
 }

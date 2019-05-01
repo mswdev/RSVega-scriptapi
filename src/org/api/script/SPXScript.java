@@ -35,14 +35,14 @@ import java.util.logging.Level;
 
 public abstract class SPXScript extends Script implements RenderListener {
 
-    public BankCache bank_cache;
-    protected String script_data_path = getDataDirectory() + File.separator + "SPX" + File.separator + getMeta().name();
-    private MissionHandler mission_handler;
-    private FXGUIBuilder fx_gui_builder;
-    private GUIBuilder gui_builder;
-    private ItemManagementTracker item_management_tracker;
-    private MissionHandler item_management_mission_handler;
-    private ScheduledThreadPoolExecutor thread_pool_executor;
+    public BankCache bankCache;
+    protected String scriptDataPath = getDataDirectory() + File.separator + "SPX" + File.separator + getMeta().name();
+    private MissionHandler missionHandler;
+    private FXGUIBuilder fxGuiBuilder;
+    private GUIBuilder guiBuilder;
+    private ItemManagementTracker itemManagementTracker;
+    private MissionHandler itemManagementMissionHandler;
+    private ScheduledThreadPoolExecutor scheduledThreadPoolExecutor;
 
     @Override
     public void onStart() {
@@ -61,59 +61,59 @@ public abstract class SPXScript extends Script implements RenderListener {
                     .parse(getArgs().split(" "));
         }
 
-        mission_handler = new MissionHandler(createMissionQueue());
+        missionHandler = new MissionHandler(createMissionQueue());
 
         if (getFXGUI() != null) {
-            fx_gui_builder = new FXGUIBuilder(getFXGUI());
-            fx_gui_builder.invokeGUI();
+            fxGuiBuilder = new FXGUIBuilder(getFXGUI());
+            fxGuiBuilder.invokeGUI();
         }
 
         if (getGUI() != null) {
-            gui_builder = new GUIBuilder(getGUI());
-            gui_builder.invokeGUI();
+            guiBuilder = new GUIBuilder(getGUI());
+            guiBuilder.invokeGUI();
         }
 
-        bank_cache = new BankCache(this);
-        bank_cache.start();
+        bankCache = new BankCache(this);
+        bankCache.start();
     }
 
     @Override
     public int loop() {
-        if (fx_gui_builder != null)
-            if (fx_gui_builder.isInvoked())
+        if (fxGuiBuilder != null)
+            if (fxGuiBuilder.isInvoked())
                 return 100;
 
-        if (gui_builder != null)
-            if (gui_builder.isInvoked())
+        if (guiBuilder != null)
+            if (guiBuilder.isInvoked())
                 return 100;
 
-        if (mission_handler.isStopped())
+        if (missionHandler.isStopped())
             setStopping(true);
 
-        final ItemManagementEntry item_management_entry = getReadyItemManagementEntry();
-        if (item_management_entry != null || item_management_mission_handler != null) {
-            if (item_management_mission_handler == null)
-                item_management_mission_handler = new MissionHandler(new LinkedList<>(Collections.singleton(new ItemManagementMission(this, item_management_entry, item_management_tracker, item_management_tracker.getItemManagement().itemsToSell()))));
+        final ItemManagementEntry itemManagementEntry = getReadyItemManagementEntry();
+        if (itemManagementEntry != null || itemManagementMissionHandler != null) {
+            if (itemManagementMissionHandler == null)
+                itemManagementMissionHandler = new MissionHandler(new LinkedList<>(Collections.singleton(new ItemManagementMission(this, itemManagementEntry, itemManagementTracker, itemManagementTracker.getItemManagement().itemsToSell()))));
 
-            if (!item_management_mission_handler.isStopped())
-                return item_management_mission_handler.execute();
+            if (!itemManagementMissionHandler.isStopped())
+                return itemManagementMissionHandler.execute();
             else
-                item_management_mission_handler = null;
+                itemManagementMissionHandler = null;
         }
 
-        return mission_handler.execute();
+        return missionHandler.execute();
     }
 
     @Override
     public void onStop() {
         RSVegaTracker.updateSession(new Date());
-        thread_pool_executor.shutdown();
+        scheduledThreadPoolExecutor.shutdown();
 
-        if (fx_gui_builder != null)
-            fx_gui_builder.close();
+        if (fxGuiBuilder != null)
+            fxGuiBuilder.close();
 
-        if (gui_builder != null)
-            gui_builder.close();
+        if (guiBuilder != null)
+            guiBuilder.close();
 
         Log.log(Level.FINE, "Info", "Thanks for using " + getMeta().name() + "!");
     }
@@ -133,15 +133,15 @@ public abstract class SPXScript extends Script implements RenderListener {
     }
 
     public MissionHandler getMissionHandler() {
-        return mission_handler;
+        return missionHandler;
     }
 
     public FXGUIBuilder getFXMLHandler() {
-        return fx_gui_builder;
+        return fxGuiBuilder;
     }
 
     public GUIBuilder getGUIBuilder() {
-        return gui_builder;
+        return guiBuilder;
     }
 
     @Override
@@ -153,8 +153,8 @@ public abstract class SPXScript extends Script implements RenderListener {
      * Schedules the thread pool executor.
      */
     private void scheduleThreadPool() {
-        thread_pool_executor = new ScheduledThreadPoolExecutor(1);
-        thread_pool_executor.scheduleAtFixedRate(new RSVegaTrackerThread(), 10, 10, TimeUnit.SECONDS);
+        scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1);
+        scheduledThreadPoolExecutor.scheduleAtFixedRate(new RSVegaTrackerThread(), 10, 10, TimeUnit.SECONDS);
     }
 
     /**
@@ -163,25 +163,25 @@ public abstract class SPXScript extends Script implements RenderListener {
      * @return A ready item management entry.
      */
     private ItemManagementEntry getReadyItemManagementEntry() {
-        final Mission current_mission = mission_handler.getCurrent();
-        if (!(current_mission instanceof ItemManagement))
+        final Mission currentMission = missionHandler.getCurrent();
+        if (!(currentMission instanceof ItemManagement))
             return null;
 
-        if (item_management_tracker == null || item_management_tracker.getItemManagement() != current_mission)
-            item_management_tracker = new ItemManagementTracker(this, (ItemManagement) current_mission);
+        if (itemManagementTracker == null || itemManagementTracker.getItemManagement() != currentMission)
+            itemManagementTracker = new ItemManagementTracker(this, (ItemManagement) currentMission);
 
-        item_management_tracker.update();
-        return item_management_tracker.shouldBuy();
+        itemManagementTracker.update();
+        return itemManagementTracker.shouldBuy();
     }
 
     /**
      * Creates the script directories if they do not exist.
      */
     private void createDirectoryFolders() {
-        final Path bot_directory_path = Paths.get(script_data_path);
-        if (!Files.exists(bot_directory_path)) {
+        final Path botDirectoryPath = Paths.get(scriptDataPath);
+        if (!Files.exists(botDirectoryPath)) {
             try {
-                Files.createDirectories(bot_directory_path);
+                Files.createDirectories(botDirectoryPath);
             } catch (IOException e) {
                 e.printStackTrace();
             }

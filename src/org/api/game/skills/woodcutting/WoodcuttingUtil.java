@@ -17,7 +17,7 @@ public class WoodcuttingUtil {
      */
     public static AxeType getAppropriateOwnedAxe() {
         return Arrays.stream(AxeType.values())
-                .filter(axe_type -> Skills.getLevel(Skill.WOODCUTTING) >= axe_type.getRequiredWoodcuttingLevel() && Equipment.contains(axe_type.getItemID()) || Inventory.contains(axe_type.getItemID()) || Bank.contains(axe_type.getItemID()))
+                .filter(axeType -> Skills.getLevel(Skill.WOODCUTTING) >= axeType.getRequiredWoodcuttingLevel() && Equipment.contains(axeType.getItemId()) || Inventory.contains(axeType.getItemId()) || Bank.contains(axeType.getItemId()))
                 .reduce((first, second) -> second)
                 .orElse(AxeType.IRON);
     }
@@ -29,7 +29,7 @@ public class WoodcuttingUtil {
      */
     public static AxeType getAppropriateAxe() {
         return Arrays.stream(AxeType.values())
-                .filter(axe_type -> Skills.getLevel(Skill.WOODCUTTING) >= axe_type.getRequiredWoodcuttingLevel())
+                .filter(axeType -> Skills.getLevel(Skill.WOODCUTTING) >= axeType.getRequiredWoodcuttingLevel())
                 .reduce((first, second) -> second)
                 .orElse(AxeType.IRON);
     }
@@ -41,7 +41,7 @@ public class WoodcuttingUtil {
      */
     public static TreeType getAppropriateTree() {
         return Arrays.stream(TreeType.values())
-                .filter(tree_type -> Skills.getLevel(Skill.WOODCUTTING) >= tree_type.getRequiredWoodcuttingLevel() && tree_type.isProgressive())
+                .filter(treeType -> Skills.getLevel(Skill.WOODCUTTING) >= treeType.getRequiredWoodcuttingLevel() && treeType.isProgressive())
                 .reduce((first, second) -> second)
                 .orElse(TreeType.TREE);
     }

@@ -13,7 +13,7 @@ import java.util.function.Predicate;
 public class EquipIceGloves extends Worker {
 
     private static final Predicate<Item> ICE_GLOVES = a -> a.getName().equals("Ice gloves");
-    private final WithdrawWorker withdraw_worker = new WithdrawWorker(ICE_GLOVES, Bank.WithdrawMode.ITEM);
+    private final WithdrawWorker withdrawWorker = new WithdrawWorker(ICE_GLOVES, Bank.WithdrawMode.ITEM);
     private final BlastFurnaceMission mission;
 
     public EquipIceGloves(BlastFurnaceMission mission) {
@@ -29,8 +29,8 @@ public class EquipIceGloves extends Worker {
     public void work() {
         final Item item = Inventory.getFirst(ICE_GLOVES);
         if (item == null) {
-            withdraw_worker.work();
-            mission.should_end = withdraw_worker.itemNotFound();
+            withdrawWorker.work();
+            mission.shouldEnd = withdrawWorker.itemNotFound();
         } else {
             if (item.click())
                 Time.sleepUntil(() -> Inventory.getFirst(ICE_GLOVES) == null, 1500);

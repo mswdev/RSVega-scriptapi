@@ -17,18 +17,18 @@ public class FireMakingMission extends Mission {
     public static final int LANE_LENGTH = 15;
     public static final int MINIMUM_SCORE = 0;
     private final Args args;
-    private final FireMakingWorkerHandler worker_handler;
-    private final LinkedList<Position> ignored_tiles;
-    private Position current_lane_start_position;
-    private Position search_position;
-    private boolean is_stuck_in_lane;
-    private boolean should_stop;
+    private final FireMakingWorkerHandler workerHandler;
+    private final LinkedList<Position> ignoredTiles;
+    private Position currentLaneStartPosition;
+    private Position searchPosition;
+    private boolean isStuckInLane;
+    private boolean shouldEnd;
 
     public FireMakingMission(SPXScript script, Args args) {
         super(script);
         this.args = args;
-        worker_handler = new FireMakingWorkerHandler(this);
-        ignored_tiles = new LinkedList<>();
+        workerHandler = new FireMakingWorkerHandler(this);
+        ignoredTiles = new LinkedList<>();
     }
 
     @Override
@@ -38,13 +38,13 @@ public class FireMakingMission extends Mission {
 
     @Override
     public String getWorkerName() {
-        Worker c = worker_handler.getCurrent();
+        Worker c = workerHandler.getCurrent();
         return c == null ? "WORKER" : c.getClass().getSimpleName();
     }
 
     @Override
     public String getWorkerString() {
-        Worker c = worker_handler.getCurrent();
+        Worker c = workerHandler.getCurrent();
         return c == null ? "Waiting for worker." : c.toString();
     }
 
@@ -55,7 +55,7 @@ public class FireMakingMission extends Mission {
 
     @Override
     public boolean shouldEnd() {
-        return should_stop;
+        return shouldEnd;
     }
 
     @Override
@@ -65,40 +65,40 @@ public class FireMakingMission extends Mission {
 
     @Override
     public int execute() {
-        worker_handler.work();
+        workerHandler.work();
         return 100;
     }
 
     public Position getCurrentLaneStartPosition() {
-        return current_lane_start_position;
+        return currentLaneStartPosition;
     }
 
-    public void setCurrentLaneStartPosition(Position current_lane_start_position) {
-        this.current_lane_start_position = current_lane_start_position;
+    public void setCurrentLaneStartPosition(Position currentLaneStartPosition) {
+        this.currentLaneStartPosition = currentLaneStartPosition;
     }
 
     public boolean isStuckInLane() {
-        return is_stuck_in_lane;
+        return isStuckInLane;
     }
 
-    public void setIsStuckInLane(boolean is_stuck_in_lane) {
-        this.is_stuck_in_lane = is_stuck_in_lane;
+    public void setIsStuckInLane(boolean isStuckInLane) {
+        this.isStuckInLane = isStuckInLane;
     }
 
-    public void setShouldStop(boolean should_stop) {
-        this.should_stop = should_stop;
+    public void setShouldEnd(boolean shouldEnd) {
+        this.shouldEnd = shouldEnd;
     }
 
     public LinkedList<Position> getIgnoredTiles() {
-        return ignored_tiles;
+        return ignoredTiles;
     }
 
     public Position getSearchPosition() {
-        return search_position;
+        return searchPosition;
     }
 
-    public void setSearchPosition(Position search_position) {
-        this.search_position = search_position;
+    public void setSearchPosition(Position searchPosition) {
+        this.searchPosition = searchPosition;
     }
 
     public Args getArgs() {

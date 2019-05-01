@@ -39,17 +39,17 @@ public enum OreType {
     AMETHYST("Amethyst", 21347, 92, -1, true, false);
 
     private final String name;
-    private final int item_id;
-    private final int required_mining_level;
-    private final int rock_color_id;
+    private final int itemId;
+    private final int requiredMiningLevel;
+    private final int rockColorId;
     private final boolean members;
     private final boolean progressive;
 
-    OreType(String name, int item_id, int required_mining_level, int rock_color_id, boolean members, boolean progressive) {
+    OreType(String name, int itemId, int requiredMiningLevel, int rockColorId, boolean members, boolean progressive) {
         this.name = name;
-        this.item_id = item_id;
-        this.required_mining_level = required_mining_level;
-        this.rock_color_id = rock_color_id;
+        this.itemId = itemId;
+        this.requiredMiningLevel = requiredMiningLevel;
+        this.rockColorId = rockColorId;
         this.members = members;
         this.progressive = progressive;
     }
@@ -58,16 +58,16 @@ public enum OreType {
         return name;
     }
 
-    public int getItemID() {
-        return item_id;
+    public int getItemId() {
+        return itemId;
     }
 
     public int getRequiredMiningLevel() {
-        return required_mining_level;
+        return requiredMiningLevel;
     }
 
-    public int getColorID() {
-        return rock_color_id;
+    public int getColorId() {
+        return rockColorId;
     }
 
     public boolean isMembers() {

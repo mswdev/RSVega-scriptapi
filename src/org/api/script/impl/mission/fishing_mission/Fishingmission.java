@@ -9,12 +9,12 @@ import org.api.script.impl.mission.fishing_mission.worker.FishingWorkerHandler;
 
 public class Fishingmission extends Mission {
 
-    private final FishingWorkerHandler worker_handler;
-    private boolean should_stop;
+    private final FishingWorkerHandler workerHandler;
+    private boolean shouldEnd;
 
     public Fishingmission(SPXScript script) {
         super(script);
-        worker_handler = new FishingWorkerHandler();
+        workerHandler = new FishingWorkerHandler();
     }
 
     @Override
@@ -24,13 +24,13 @@ public class Fishingmission extends Mission {
 
     @Override
     public String getWorkerName() {
-        Worker c = worker_handler.getCurrent();
+        Worker c = workerHandler.getCurrent();
         return c == null ? "WORKER" : c.getClass().getSimpleName();
     }
 
     @Override
     public String getWorkerString() {
-        Worker c = worker_handler.getCurrent();
+        Worker c = workerHandler.getCurrent();
         return c == null ? "Waiting for worker." : c.toString();
     }
 
@@ -41,7 +41,7 @@ public class Fishingmission extends Mission {
 
     @Override
     public boolean shouldEnd() {
-        return should_stop;
+        return shouldEnd;
     }
 
     @Override
@@ -51,7 +51,7 @@ public class Fishingmission extends Mission {
 
     @Override
     public int execute() {
-        worker_handler.work();
+        workerHandler.work();
         return 100;
     }
 }

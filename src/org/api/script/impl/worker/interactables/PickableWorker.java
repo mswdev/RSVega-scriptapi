@@ -12,31 +12,31 @@ import java.util.function.Predicate;
 
 public class PickableWorker extends Worker {
 
-    private final Predicate<Pickable> pickable_predicate;
+    private final Predicate<Pickable> pickablePredicate;
     private final Predicate<String> action;
-    private final MovementWorker movement_worker;
+    private final MovementWorker movementWorker;
 
-    public PickableWorker(Predicate<Pickable> pickable_predicate) {
-        this(pickable_predicate, a -> true, null);
+    public PickableWorker(Predicate<Pickable> pickablePredicate) {
+        this(pickablePredicate, a -> true, null);
     }
 
-    public PickableWorker(Predicate<Pickable> pickable_predicate, Predicate<String> action) {
-        this(pickable_predicate, action, null);
+    public PickableWorker(Predicate<Pickable> pickablePredicate, Predicate<String> action) {
+        this(pickablePredicate, action, null);
     }
 
-    public PickableWorker(Predicate<Pickable> pickable_predicate, MovementWorker movement_worker) {
-        this(pickable_predicate, a -> true, movement_worker);
+    public PickableWorker(Predicate<Pickable> pickablePredicate, MovementWorker movementWorker) {
+        this(pickablePredicate, a -> true, movementWorker);
     }
 
-    public PickableWorker(Predicate<Pickable> pickable_predicate, Predicate<String> action, MovementWorker movement_worker) {
-        this.pickable_predicate = pickable_predicate;
+    public PickableWorker(Predicate<Pickable> pickablePredicate, Predicate<String> action, MovementWorker movementWorker) {
+        this.pickablePredicate = pickablePredicate;
         this.action = action;
-        this.movement_worker = movement_worker;
+        this.movementWorker = movementWorker;
     }
 
     @Override
     public boolean needsRepeat() {
-        return movement_worker != null && movement_worker.needsRepeat();
+        return movementWorker != null && movementWorker.needsRepeat();
     }
 
     @Override
@@ -44,12 +44,12 @@ public class PickableWorker extends Worker {
         if (Players.getLocal().getAnimation() != -1)
             return;
 
-        final Pickable pickable = Pickables.getNearest(pickable_predicate);
+        final Pickable pickable = Pickables.getNearest(pickablePredicate);
         if (pickable == null) {
-            if (movement_worker == null)
+            if (movementWorker == null)
                 return;
 
-            movement_worker.work();
+            movementWorker.work();
             return;
         }
 

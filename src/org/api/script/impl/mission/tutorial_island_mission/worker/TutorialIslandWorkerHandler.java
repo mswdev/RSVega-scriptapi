@@ -15,63 +15,63 @@ import org.rspeer.runetek.api.component.tab.Inventory;
 public class TutorialIslandWorkerHandler extends WorkerHandler {
 
     private final TutorialIslandMission mission;
-    private final CharacterSetupWorker character_setup_worker;
-    private final HideRoofs hide_roofs;
-    private final SetAudio set_audio;
-    private final SetBrightness set_brightness;
-    private final SetZoom set_zoom;
-    private final DropItems drop_items;
-    private final DepositItems bank_items;
-    private final StayLoggedIn stay_logged_in;
-    private final WalkToPosition walk_to_position;
+    private final CharacterSetupWorker characterSetupWorker;
+    private final HideRoofs hideRoofs;
+    private final SetAudio setAudio;
+    private final SetBrightness setBrightness;
+    private final SetZoom setZoom;
+    private final DropItems dropItems;
+    private final DepositItems bankItems;
+    private final StayLoggedIn stayLoggedIn;
+    private final WalkToPosition walkToPosition;
     private final Logout logout;
 
     public TutorialIslandWorkerHandler(TutorialIslandMission mission) {
         this.mission = mission;
-        character_setup_worker = new CharacterSetupWorker(mission);
-        hide_roofs = new HideRoofs();
-        set_audio = new SetAudio(mission);
-        set_brightness = new SetBrightness(mission);
-        set_zoom = new SetZoom(mission);
-        drop_items = new DropItems();
-        bank_items = new DepositItems();
-        stay_logged_in = new StayLoggedIn();
-        walk_to_position = new WalkToPosition(mission);
+        characterSetupWorker = new CharacterSetupWorker(mission);
+        hideRoofs = new HideRoofs();
+        setAudio = new SetAudio(mission);
+        setBrightness = new SetBrightness(mission);
+        setZoom = new SetZoom(mission);
+        dropItems = new DropItems();
+        bankItems = new DepositItems();
+        stayLoggedIn = new StayLoggedIn();
+        walkToPosition = new WalkToPosition(mission);
         logout = new Logout(mission);
     }
 
     @Override
     public Worker decide() {
         if (TutorialState.isInVarp(TutorialState.CHARACTER_DESIGN))
-            return character_setup_worker;
+            return characterSetupWorker;
 
         if (Varps.get(TutorialIslandMission.TUTORIAL_ISLAND_VARP) >= 1000) {
             if (Dialog.canContinue())
                 Dialog.processContinue();
 
-            if (mission.getArgs().hide_roofs && !InterfaceOptions.Display.isRoofsHidden())
-                return hide_roofs;
+            if (mission.getArgs().hideRoofs && !InterfaceOptions.Display.isRoofsHidden())
+                return hideRoofs;
 
-            if (mission.getArgs().set_audio > 0 && (5 - InterfaceOptions.Audio.getMusicVolume() != mission.getArgs().set_audio || 5 - InterfaceOptions.Audio.getSoundEffectVolume() != mission.getArgs().set_audio || 5 - InterfaceOptions.Audio.getAreaSoundVolume() != mission.getArgs().set_audio))
-                return set_audio;
+            if (mission.getArgs().setAudio > 0 && (5 - InterfaceOptions.Audio.getMusicVolume() != mission.getArgs().setAudio || 5 - InterfaceOptions.Audio.getSoundEffectVolume() != mission.getArgs().setAudio || 5 - InterfaceOptions.Audio.getAreaSoundVolume() != mission.getArgs().setAudio))
+                return setAudio;
 
-            if (mission.getArgs().set_brightness > 0 && InterfaceOptions.Display.getBrightness() != mission.getArgs().set_brightness)
-                return set_brightness;
+            if (mission.getArgs().setBrightness > 0 && InterfaceOptions.Display.getBrightness() != mission.getArgs().setBrightness)
+                return setBrightness;
 
-            if (mission.getArgs().set_zoom > 0 && ClientSettings.getZoomLevel() != mission.getArgs().set_zoom)
-                return set_zoom;
+            if (mission.getArgs().setZoom > 0 && ClientSettings.getZoomLevel() != mission.getArgs().setZoom)
+                return setZoom;
 
-            if (mission.getArgs().drop_items && Inventory.getCount() > 0)
-                return drop_items;
+            if (mission.getArgs().dropItems && Inventory.getCount() > 0)
+                return dropItems;
 
-            if (mission.getArgs().bank_items && Inventory.getCount() > 0)
-                return bank_items;
+            if (mission.getArgs().bankItems && Inventory.getCount() > 0)
+                return bankItems;
 
-            if (mission.getArgs().walk_position != null && mission.getArgs().walk_position.distance() > 10)
-                return walk_to_position;
+            if (mission.getArgs().walkPosition != null && mission.getArgs().walkPosition.distance() > 10)
+                return walkToPosition;
 
-            if (mission.getArgs().stay_logged_in)
-                return stay_logged_in;
+            if (mission.getArgs().stayLoggedIn)
+                return stayLoggedIn;
 
             return logout;
         }

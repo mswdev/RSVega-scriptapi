@@ -12,31 +12,31 @@ import java.util.function.Predicate;
 
 public class SceneObjectWorker extends Worker {
 
-    private final Predicate<SceneObject> scene_object_predicate;
+    private final Predicate<SceneObject> sceneObjectPredicate;
     private final Predicate<String> action;
-    private final MovementWorker movement_worker;
+    private final MovementWorker movementWorker;
 
-    public SceneObjectWorker(Predicate<SceneObject> scene_object_predicate) {
-        this(scene_object_predicate, a -> true, null);
+    public SceneObjectWorker(Predicate<SceneObject> sceneObjectPredicate) {
+        this(sceneObjectPredicate, a -> true, null);
     }
 
-    public SceneObjectWorker(Predicate<SceneObject> scene_object_predicate, Predicate<String> action) {
-        this(scene_object_predicate, action, null);
+    public SceneObjectWorker(Predicate<SceneObject> sceneObjectPredicate, Predicate<String> action) {
+        this(sceneObjectPredicate, action, null);
     }
 
-    public SceneObjectWorker(Predicate<SceneObject> scene_object_predicate, MovementWorker movement_worker) {
-        this(scene_object_predicate, a -> true, movement_worker);
+    public SceneObjectWorker(Predicate<SceneObject> sceneObjectPredicate, MovementWorker movementWorker) {
+        this(sceneObjectPredicate, a -> true, movementWorker);
     }
 
-    public SceneObjectWorker(Predicate<SceneObject> scene_object_predicate, Predicate<String> action, MovementWorker movement_worker) {
-        this.scene_object_predicate = scene_object_predicate;
+    public SceneObjectWorker(Predicate<SceneObject> sceneObjectPredicate, Predicate<String> action, MovementWorker movementWorker) {
+        this.sceneObjectPredicate = sceneObjectPredicate;
         this.action = action;
-        this.movement_worker = movement_worker;
+        this.movementWorker = movementWorker;
     }
 
     @Override
     public boolean needsRepeat() {
-        return movement_worker != null && movement_worker.needsRepeat();
+        return movementWorker != null && movementWorker.needsRepeat();
     }
 
     @Override
@@ -44,21 +44,21 @@ public class SceneObjectWorker extends Worker {
         if (Players.getLocal().getAnimation() != -1)
             return;
 
-        final SceneObject scene_object = SceneObjects.getNearest(scene_object_predicate);
-        if (scene_object == null) {
-            if (movement_worker == null)
+        final SceneObject sceneObject = SceneObjects.getNearest(sceneObjectPredicate);
+        if (sceneObject == null) {
+            if (movementWorker == null)
                 return;
 
-            movement_worker.work();
+            movementWorker.work();
             return;
         }
 
-        if (!scene_object.isPositionInteractable()) {
-            Movement.walkTo(scene_object);
+        if (!sceneObject.isPositionInteractable()) {
+            Movement.walkTo(sceneObject);
             return;
         }
 
-        scene_object.interact(action);
+        sceneObject.interact(action);
         Time.sleepWhile(() -> Players.getLocal().isMoving(), 2500);
     }
 

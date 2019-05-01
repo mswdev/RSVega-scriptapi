@@ -24,8 +24,8 @@ public class Wilderness {
      * @return True if the enter wilderness warning interface is present; false otherwise.
      */
     public static boolean hasWarning() {
-        final InterfaceComponent enter_wilderness = Interfaces.getFirst(INTER_MASTER_ENTER_WILDERNESS_WARNING, a -> a.containsAction("Enter Wilderness"));
-        return enter_wilderness != null;
+        final InterfaceComponent enterWilderness = Interfaces.getFirst(INTER_MASTER_ENTER_WILDERNESS_WARNING, a -> a.containsAction("Enter Wilderness"));
+        return enterWilderness != null;
     }
 
     /**
@@ -35,15 +35,15 @@ public class Wilderness {
      * @return True if the enter wilderness button was clicked; false otherwise.
      */
     public static boolean enter() {
-        final InterfaceComponent enter_wilderness = Interfaces.getFirst(INTER_MASTER_ENTER_WILDERNESS_WARNING, a -> a.containsAction("Enter Wilderness"));
-        if (enter_wilderness == null)
+        final InterfaceComponent enterWilderness = Interfaces.getFirst(INTER_MASTER_ENTER_WILDERNESS_WARNING, a -> a.containsAction("Enter Wilderness"));
+        if (enterWilderness == null)
             return false;
 
-        final InterfaceComponent enter_wilderness_remember = Interfaces.getFirst(INTER_MASTER_ENTER_WILDERNESS_WARNING, a -> a.containsAction("Disable warning"));
-        if (enter_wilderness_remember != null)
-            enter_wilderness_remember.click();
+        final InterfaceComponent enterWildernessRemember = Interfaces.getFirst(INTER_MASTER_ENTER_WILDERNESS_WARNING, a -> a.containsAction("Disable warning"));
+        if (enterWildernessRemember != null)
+            enterWildernessRemember.click();
 
-        return enter_wilderness.click();
+        return enterWilderness.click();
     }
 }
 

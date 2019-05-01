@@ -16,27 +16,27 @@ public enum DesignOption {
     SKIN(125, 131, 9),
     GENDER(136, 137, 2);
 
-    private final int component_index_left;
-    private final int component_index_right;
+    private final int componentIndexLeft;
+    private final int componentIndexRight;
 
-    private final int total_options;
+    private final int totalOptions;
 
-    DesignOption(int component_index_left, int component_index_right, int total_options) {
-        this.component_index_left = component_index_left;
-        this.component_index_right = component_index_right;
-        this.total_options = total_options;
+    DesignOption(int componentIndexLeft, int componentIndexRight, int totalOptions) {
+        this.componentIndexLeft = componentIndexLeft;
+        this.componentIndexRight = componentIndexRight;
+        this.totalOptions = totalOptions;
     }
 
     public int getComponentIndexLeft() {
-        return component_index_left;
+        return componentIndexLeft;
     }
 
     public int getComponentIndexRight() {
-        return component_index_right;
+        return componentIndexRight;
     }
 
     public int getTotalOptions() {
-        return total_options;
+        return totalOptions;
     }
 }
 
