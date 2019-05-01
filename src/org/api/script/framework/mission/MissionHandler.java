@@ -28,13 +28,13 @@ public class MissionHandler {
 
         final Mission mission = missions.peek();
         if (!mission.hasStarted()) {
-            Log.info(mission.getMissionName() + " mission started");
+            Log.fine("[MISSION]: " + mission.getMissionName() + " mission has started.");
             mission.onMissionStart();
             mission.setStarted(true);
         }
 
         if (mission.shouldEnd() || end_current) {
-            Log.info(mission.getMissionName() + " mission ended");
+            Log.fine("[MISSION]: " + mission.getMissionName() + " mission has ended.");
             mission.onMissionEnd();
             missions.poll();
             end_current = false;

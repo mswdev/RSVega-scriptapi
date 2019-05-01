@@ -46,7 +46,7 @@ public class CharacterDisplayNameWorker extends Worker {
                 Time.sleepUntil(EnterInput::isOpen, 1500);
             }
 
-            String display_name = mission.getUsername().split("@")[0];
+            String display_name = mission.getScript().getAccount().getUsername().split("@")[0];
             EnterInput.initiate(display_name);
         }
 
