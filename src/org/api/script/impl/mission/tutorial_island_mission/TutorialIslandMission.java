@@ -117,7 +117,7 @@ public class TutorialIslandMission extends Mission {
             return;
 
         try {
-            Files.writeString(getCreatedAccountsPath(), getFormattedAccountData(accountData));
+            Files.write(getCreatedAccountsPath(), getFormattedAccountData(accountData).getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
