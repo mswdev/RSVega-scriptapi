@@ -73,11 +73,6 @@ public class TutorialIslandWorkerHandler extends WorkerHandler {
             if (mission.getArgs().stay_logged_in)
                 return stay_logged_in;
 
-            if (mission.getArgs().end_on_completion) {
-                mission.setShouldEnd(true);
-                return stay_logged_in;
-            }
-
             return logout;
         }
 

@@ -29,9 +29,6 @@ public class Args {
     @Parameter(names = "-stay_logged_in", arity = 1)
     public boolean stay_logged_in;
 
-    @Parameter(names = "-end_on_completion")
-    public boolean end_on_completion;
-
     @Parameter(names = "-two_captcha_api_key")
     public String two_captcha_api_key;
 
