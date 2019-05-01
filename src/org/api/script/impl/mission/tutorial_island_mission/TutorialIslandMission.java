@@ -29,7 +29,7 @@ import java.util.logging.Level;
 public class TutorialIslandMission extends Mission {
 
     public static final int TUTORIAL_ISLAND_VARP = 281;
-    private final Path createdAccountsPath = Paths.get(SPXScriptUtil.getDataPath(script.getMeta().name()) + File.separator + "created_accounts.txt");
+    private final Path createdAccountsPath;
     private final Args args;
     private final HashMap<String, String> accountData;
     private final boolean create_account;
@@ -43,6 +43,7 @@ public class TutorialIslandMission extends Mission {
         this.accountData = accountData;
         this.create_account = create_account;
         worker_handler = new TutorialIslandWorkerHandler(this);
+        createdAccountsPath = Paths.get(SPXScriptUtil.getDataPath(script.getMeta().name()) + File.separator + "created_accounts.txt");
     }
 
 
