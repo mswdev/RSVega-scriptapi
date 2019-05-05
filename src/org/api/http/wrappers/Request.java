@@ -10,8 +10,8 @@ import java.util.concurrent.TimeUnit;
 public class Request {
 
     private static final OkHttpClient HTTP_CLIENT = new OkHttpClient.Builder()
-            .connectTimeout(10, TimeUnit.SECONDS)
-            .writeTimeout(10, TimeUnit.SECONDS)
+            .connectTimeout(80, TimeUnit.SECONDS)
+            .writeTimeout(80, TimeUnit.SECONDS)
             .readTimeout(80, TimeUnit.SECONDS)
             .build();
 
