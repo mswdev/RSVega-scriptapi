@@ -1,7 +1,7 @@
 package org.api.http.bot;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
+import com.google.gson.JsonArray;
 import okhttp3.FormBody;
 import okhttp3.RequestBody;
 import okhttp3.Response;
@@ -41,12 +41,12 @@ public class BotData {
     }
 
     /**
-     * Gets a json object of the bot data.
+     * Gets a json array of the bot data.
      *
      * @param username The username of the bot.
-     * @return A json object of the bot data; null otherwise.
+     * @return A json array of the bot data; null otherwise.
      */
-    private static JsonObject getBotByUsername(String username) {
+    private static JsonArray getBotByUsername(String username) {
         try (final Response response = Request.get(RSVegaTracker.API_URL + "/bot/user/" + username)) {
             if (!response.isSuccessful())
                 return null;
@@ -55,7 +55,7 @@ public class BotData {
                 return null;
 
             final Gson gson = new Gson().newBuilder().create();
-            return gson.fromJson(response.body().string(), JsonObject.class);
+            return gson.fromJson(response.body().string(), JsonArray.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -70,14 +70,14 @@ public class BotData {
      */
     public static int getBotId() {
         if (BOT_ID == 0) {
-            JsonObject jsonObject = BotData.getBotByUsername(getUsername());
-            if (jsonObject == null)
+            JsonArray jsonArray = BotData.getBotByUsername(getUsername());
+            if (jsonArray == null)
                 return 0;
 
-            if (jsonObject.size() == 0)
+            if (jsonArray.size() == 0)
                 return 0;
 
-            BOT_ID = jsonObject.get("id").getAsInt();
+            BOT_ID = jsonArray.get(0).getAsJsonObject().get("id").getAsInt();
         }
 
         return BOT_ID;

@@ -1,7 +1,7 @@
 package org.api.http.bot.session;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
+import com.google.gson.JsonArray;
 import okhttp3.FormBody;
 import okhttp3.RequestBody;
 import okhttp3.Response;
@@ -53,12 +53,12 @@ public class SessionData {
     }
 
     /**
-     * Gets a json object of the newest bot session.
+     * Gets a json array of the newest bot session.
      *
      * @param botId The bot id;
-     * @return A json object of the newest bot session.; null otherwise.
+     * @return A json array of the newest bot session.; null otherwise.
      */
-    private static JsonObject getNewestSessionByBotId(int botId) {
+    private static JsonArray getNewestSessionByBotId(int botId) {
         try (final Response response = Request.get(RSVegaTracker.API_URL + "/bot/session/bot-id/" + botId + "/newest")) {
             if (!response.isSuccessful())
                 return null;
@@ -67,7 +67,7 @@ public class SessionData {
                 return null;
 
             final Gson gson = new Gson().newBuilder().create();
-            return gson.fromJson(response.body().string(), JsonObject.class);
+            return gson.fromJson(response.body().string(), JsonArray.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -82,14 +82,14 @@ public class SessionData {
      */
     public static int getSessionId() {
         if (SESSION_ID == 0) {
-            JsonObject jsonObject = SessionData.getNewestSessionByBotId(BotData.getBotId());
-            if (jsonObject == null)
+            JsonArray jsonArray = SessionData.getNewestSessionByBotId(BotData.getBotId());
+            if (jsonArray == null)
                 return 0;
 
-            if (jsonObject.size() == 0)
+            if (jsonArray.size() == 0)
                 return 0;
 
-            SESSION_ID = jsonObject.get("id").getAsInt();
+            SESSION_ID = jsonArray.get(0).getAsJsonObject().get("id").getAsInt();
         }
 
         return SESSION_ID;

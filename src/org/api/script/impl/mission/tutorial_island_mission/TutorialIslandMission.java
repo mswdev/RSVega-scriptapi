@@ -132,7 +132,7 @@ public class TutorialIslandMission extends Mission {
         this.shouldEnd = shouldEnd;
     }
 
-    public Path getCreatedAccountsPath() {
+    private Path getCreatedAccountsPath() {
         return createdAccountsPath;
     }
 
@@ -140,24 +140,25 @@ public class TutorialIslandMission extends Mission {
         return args;
     }
 
-    public HashMap<String, String> getAccountData() {
+    private HashMap<String, String> getAccountData() {
         return accountData;
     }
 
-    public boolean shouldCreateAccount() {
+    private boolean shouldCreateAccount() {
         return createAccount;
     }
 
-    public JsonObject createAccount() {
+    private JsonObject createAccount() {
         if (createAccountTries >= 3) {
             setShouldEnd(true);
             return null;
         }
 
-        getAccountData().put("twoCaptchaApiKey", getArgs().twoCaptchaApiKey);
+        getAccountData().put("two_captcha_api_key", getArgs().twoCaptchaApiKey);
         Log.log(Level.WARNING, "Info", "[Account Creation]: Attempting to create account...");
         final JsonObject accountData = CreateAccount.post(getAccountData());
 
+        Log.fine(accountData == null);
         if (accountData == null || !accountData.get("response").getAsString().equals("ACCOUNT_CREATED")) {
             Log.severe("[Account Creation]: Failed to create account; trying up to 3 more times...");
             createAccountTries++;

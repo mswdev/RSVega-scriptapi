@@ -43,9 +43,11 @@ public class CreateAccount {
      */
     public static JsonObject post(HashMap<String, String> accountData) {
         final FormBody.Builder formBuilder = new FormBody.Builder();
-        formBuilder.add("twoCaptchaApiKey", accountData.getOrDefault("twoCaptchaApiKey", ""));
+        formBuilder.add("two_captcha_api_key", accountData.getOrDefault("two_captcha_api_key", ""));
+
         formBuilder.add("email", accountData.getOrDefault("email", ""));
         formBuilder.add("password", accountData.getOrDefault("password", ""));
+
         formBuilder.add("socks_ip", accountData.getOrDefault("socks_ip", ""));
         formBuilder.add("socks_port", accountData.getOrDefault("socks_port", ""));
         formBuilder.add("socks_username", accountData.getOrDefault("socks_username", ""));
