@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
 import java.util.logging.Level;
 
@@ -117,7 +118,7 @@ public class TutorialIslandMission extends Mission {
             return;
 
         try {
-            Files.write(getCreatedAccountsPath(), getFormattedAccountData(accountData).getBytes());
+            Files.write(getCreatedAccountsPath(), (getFormattedAccountData(accountData) + System.lineSeparator()).getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
         } catch (IOException e) {
             e.printStackTrace();
         }
