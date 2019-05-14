@@ -20,6 +20,8 @@ import org.rspeer.ui.Log;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.Authenticator;
+import java.net.PasswordAuthentication;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -159,7 +161,6 @@ public class TutorialIslandMission extends Mission {
         Log.log(Level.WARNING, "Info", "[Account Creation]: Attempting to create account...");
         final JsonObject accountData = CreateAccount.post(getAccountData());
 
-        Log.fine(accountData == null);
         if (accountData == null || !accountData.get("response").getAsString().equals("ACCOUNT_CREATED")) {
             Log.severe("[Account Creation]: Failed to create account; trying up to 3 more times...");
             createAccountTries++;
@@ -177,7 +178,6 @@ public class TutorialIslandMission extends Mission {
         if (accountData.has("proxy"))
             stringBuilder.append(":").append(accountData.get("proxy").getAsString());
 
-        Log.fine(stringBuilder.toString());
         return stringBuilder.toString();
     }
 
@@ -192,6 +192,13 @@ public class TutorialIslandMission extends Mission {
             Log.fine("Setting Proxy: Username: " + socksUsername + " | Password: " + socksPassword);
             System.setProperty("java.net.socks.username", socksUsername);
             System.setProperty("java.net.socks.password", socksPassword);
+
+            Authenticator.setDefault(new Authenticator() {
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(socksUsername, socksPassword.toCharArray());
+                }
+            });
         }
     }
 }
