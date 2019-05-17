@@ -111,7 +111,7 @@ public class TutorialIslandMission extends Mission {
         setProxy(getAccountData().get("socks_ip"), getAccountData().get("socks_port"), getAccountData().get("socks_username"), getAccountData().get("socks_password"));
 
         if (!shouldCreateAccount()) {
-            script.setAccount(new GameAccount(getAccountData().get("username"), getAccountData().get("password")));
+            script.setAccount(new GameAccount(getAccountData().get("email"), getAccountData().get("password")));
             return;
         }
 
@@ -125,10 +125,10 @@ public class TutorialIslandMission extends Mission {
             e.printStackTrace();
         }
 
-        final String username = accountData.get("username").getAsString();
+        final String email = accountData.get("email").getAsString();
         final String password = accountData.get("password").getAsString();
-        Log.log(Level.WARNING, "Info", "[Account Creation]: Username: " + username + " | Password: " + password);
-        script.setAccount(new GameAccount(username, password));
+        Log.log(Level.WARNING, "Info", "[Account Creation]: Email: " + email + " | Password: " + password);
+        script.setAccount(new GameAccount(email, password));
     }
 
     public void setShouldEnd(boolean shouldEnd) {
@@ -175,11 +175,14 @@ public class TutorialIslandMission extends Mission {
 
     private String getFormattedAccountData(JsonObject accountData) {
         final StringBuilder stringBuilder = new StringBuilder();
-        if (accountData.has("username") && accountData.has("password"))
-            stringBuilder.append(accountData.get("username").getAsString()).append(":").append(accountData.get("password").getAsString());
+        if (accountData.has("email") && accountData.has("password"))
+            stringBuilder.append(accountData.get("email").getAsString()).append(":").append(accountData.get("password").getAsString());
 
-        if (accountData.has("proxy"))
-            stringBuilder.append(":").append(accountData.get("proxy").getAsString());
+        if (accountData.has("socks_ip") && accountData.has("socks_port"))
+            stringBuilder.append(accountData.get("socks_ip").getAsString()).append(":").append(accountData.get("socks_port").getAsString());
+
+        if (accountData.has("socks_username") && accountData.has("socks_password"))
+            stringBuilder.append(accountData.get("socks_username").getAsString()).append(":").append(accountData.get("socks_password").getAsString());
 
         return stringBuilder.toString();
     }
