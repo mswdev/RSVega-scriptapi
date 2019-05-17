@@ -5,7 +5,6 @@ import com.google.gson.JsonArray;
 import okhttp3.FormBody;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import org.api.http.AccountData;
 import org.api.http.RSVegaTracker;
 import org.api.http.wrappers.Request;
 import org.rspeer.RSPeer;
@@ -17,8 +16,6 @@ import org.rspeer.runetek.api.scene.Players;
 import java.io.IOException;
 
 public class BotData {
-
-    private static int BOT_ID;
 
     public static boolean insertBot(RequestBody requestBody) {
         try (final Response response = Request.post(RSVegaTracker.API_URL + "/bot/add", requestBody)) {
@@ -43,11 +40,11 @@ public class BotData {
     /**
      * Gets a json array of the bot data.
      *
-     * @param username The username of the bot.
+     * @param email The email of the bot.
      * @return A json array of the bot data; null otherwise.
      */
-    private static JsonArray getBotByUsername(String username) {
-        try (final Response response = Request.get(RSVegaTracker.API_URL + "/bot/user/" + username)) {
+    private static JsonArray getBotByEmail(String email) {
+        try (final Response response = Request.get(RSVegaTracker.API_URL + "/bot/user/" + email)) {
             if (!response.isSuccessful())
                 return null;
 
@@ -64,29 +61,25 @@ public class BotData {
     }
 
     /**
-     * Gets the bot id associated with the bot username.
+     * Gets the bot id associated with the bot email.
      *
-     * @return The bot id associated with the bot username.
+     * @return The bot id associated with the bot email.
      */
     public static int getBotId() {
-        if (BOT_ID == 0) {
-            JsonArray jsonArray = BotData.getBotByUsername(getUsername());
-            if (jsonArray == null)
-                return 0;
+        JsonArray jsonArray = BotData.getBotByEmail(getEmail());
+        if (jsonArray == null)
+            return 0;
 
-            if (jsonArray.size() == 0)
-                return 0;
+        if (jsonArray.size() == 0)
+            return 0;
 
-            BOT_ID = jsonArray.get(0).getAsJsonObject().get("id").getAsInt();
-        }
-
-        return BOT_ID;
+        return jsonArray.get(0).getAsJsonObject().get("id").getAsInt();
     }
 
-    public static RequestBody getBotDataRequestBody() {
+    public static RequestBody getBotDataRequestBody(int accountID) {
         final FormBody.Builder formBuilder = new FormBody.Builder();
-        formBuilder.add("account_id", String.valueOf(AccountData.getAccountId()));
-        formBuilder.add("username", getUsername());
+        formBuilder.add("account_id", String.valueOf(accountID));
+        formBuilder.add("username", getEmail());
         formBuilder.add("display_name", getDisplayName());
         formBuilder.add("world", String.valueOf(Worlds.getCurrent()));
         formBuilder.add("last_sign_in", String.valueOf(getLastSignIn()));
@@ -95,15 +88,15 @@ public class BotData {
         return formBuilder.build();
     }
 
-    private static String getUsername() {
+    private static String getEmail() {
         if (RSPeer.getGameAccount() == null)
             return "";
 
-        final String username = RSPeer.getGameAccount().getUsername();
-        if (username == null)
+        final String email = RSPeer.getGameAccount().getUsername();
+        if (email == null)
             return "";
 
-        return username;
+        return email;
     }
 
     private static String getDisplayName() {

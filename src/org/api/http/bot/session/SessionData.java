@@ -6,7 +6,6 @@ import okhttp3.FormBody;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import org.api.http.RSVegaTracker;
-import org.api.http.bot.BotData;
 import org.api.http.wrappers.Request;
 
 import java.io.IOException;
@@ -14,8 +13,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class SessionData {
-
-    private static int SESSION_ID;
 
     public static boolean insertSession(RequestBody requestBody) {
         try (final Response response = Request.post(RSVegaTracker.API_URL + "/bot/session/add", requestBody)) {
@@ -37,9 +34,9 @@ public class SessionData {
         return false;
     }
 
-    public static RequestBody getSessionDataRequestBody(String scriptName, Date timeStarted, Date timeEnded) {
+    public static RequestBody getSessionDataRequestBody(int botID, String scriptName, Date timeStarted, Date timeEnded) {
         final FormBody.Builder formBuilder = new FormBody.Builder();
-        formBuilder.add("bot_id", String.valueOf(BotData.getBotId()));
+        formBuilder.add("bot_id", String.valueOf(botID));
 
         if (scriptName != null)
             formBuilder.add("script", scriptName);
@@ -78,20 +75,17 @@ public class SessionData {
     /**
      * Gets the session id associated with the bot id.
      *
+     * @param botID The bot id;
      * @return The session id associated with the bot id.
      */
-    public static int getSessionId() {
-        if (SESSION_ID == 0) {
-            JsonArray jsonArray = SessionData.getNewestSessionByBotId(BotData.getBotId());
-            if (jsonArray == null)
-                return 0;
+    public static int getSessionId(int botID) {
+        JsonArray jsonArray = SessionData.getNewestSessionByBotId(botID);
+        if (jsonArray == null)
+            return 0;
 
-            if (jsonArray.size() == 0)
-                return 0;
+        if (jsonArray.size() == 0)
+            return 0;
 
-            SESSION_ID = jsonArray.get(0).getAsJsonObject().get("id").getAsInt();
-        }
-
-        return SESSION_ID;
+        return jsonArray.get(0).getAsJsonObject().get("id").getAsInt();
     }
 }

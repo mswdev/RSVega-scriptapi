@@ -12,8 +12,6 @@ import java.io.IOException;
 
 public class AccountData {
 
-    private static int ACCOUNT_ID;
-
     public static boolean insertAccount(RequestBody requestBody) {
         try (final Response response = Request.post(RSVegaTracker.API_URL + "/account/add", requestBody)) {
             return response.isSuccessful();
@@ -56,20 +54,17 @@ public class AccountData {
     /**
      * Gets the account id associated with the rspeer user.
      *
+     * @param username The rspeer user username;
      * @return The account id associated with the rspeer user.
      */
-    public static int getAccountId() {
-        if (ACCOUNT_ID == 0) {
-            JsonArray jsonArray = AccountData.getAccountByUsername(Script.getRSPeerUser().getUsername());
-            if (jsonArray == null)
-                return 0;
+    public static int getAccountId(String username) {
+        JsonArray jsonArray = AccountData.getAccountByUsername(username);
+        if (jsonArray == null)
+            return 0;
 
-            if (jsonArray.size() == 0)
-                return 0;
+        if (jsonArray.size() == 0)
+            return 0;
 
-            ACCOUNT_ID = jsonArray.get(0).getAsJsonObject().get("id").getAsInt();
-        }
-
-        return ACCOUNT_ID;
+        return jsonArray.get(0).getAsJsonObject().get("id").getAsInt();
     }
 }

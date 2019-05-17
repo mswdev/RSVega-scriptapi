@@ -16,28 +16,28 @@ public class RSVegaTracker {
             Log.severe("Account data insert HTTP request failed.");
     }
 
-    public static void insertBot() {
-        if (!BotData.insertBot(BotData.getBotDataRequestBody()))
+    public static void insertBot(int accountID) {
+        if (!BotData.insertBot(BotData.getBotDataRequestBody(accountID)))
             Log.severe("Bot data insert HTTP request failed.");
     }
 
-    public static void updateBot() {
-        if (!BotData.updateBot(BotData.getBotId(), BotData.getBotDataRequestBody()))
+    public static void updateBot(int accountID, int botID) {
+        if (!BotData.updateBot(botID, BotData.getBotDataRequestBody(accountID)))
             Log.severe("Bot data update HTTP request failed.");
     }
 
-    public static void updateStatsOSRS() {
-        if (!StatsOSRS.updateStatsOSRS(BotData.getBotId(), StatsOSRS.getStatsOSRSDataRequestBody()))
+    public static void updateStatsOSRS(int botID) {
+        if (!StatsOSRS.updateStatsOSRS(botID, StatsOSRS.getStatsOSRSDataRequestBody()))
             Log.severe("Stats OSRS data update HTTP request failed.");
     }
 
-    public static void insertSession(String scriptName, Date timeStarted) {
-        if (!SessionData.insertSession(SessionData.getSessionDataRequestBody(scriptName, timeStarted, null)))
+    public static void insertSession(int botID, String scriptName, Date timeStarted) {
+        if (!SessionData.insertSession(SessionData.getSessionDataRequestBody(botID, scriptName, timeStarted, null)))
             Log.severe("Session data insert HTTP request failed.");
     }
 
-    public static void updateSession(Date timeEnded) {
-        if (!SessionData.updateSession(SessionData.getSessionId(), SessionData.getSessionDataRequestBody(null, null, timeEnded)))
+    public static void updateSession(int botID, int sessionID, Date timeEnded) {
+        if (!SessionData.updateSession(sessionID, SessionData.getSessionDataRequestBody(botID, null, null, timeEnded)))
             Log.severe("Session data update HTTP request failed.");
     }
 }
