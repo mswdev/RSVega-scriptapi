@@ -163,6 +163,9 @@ public class TutorialIslandMission extends Mission {
 
         if (accountData == null || accountData.get("error") != null) {
             Log.severe("[Account Creation]: Failed to create account; trying up to 3 more times...");
+            if (accountData != null && accountData.get("error") != null)
+                Log.severe(accountData.get("error"));
+
             createAccountTries++;
             return createAccount();
         }
