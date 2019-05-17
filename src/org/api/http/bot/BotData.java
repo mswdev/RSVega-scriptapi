@@ -40,11 +40,11 @@ public class BotData {
     /**
      * Gets a json array of the bot data.
      *
-     * @param email The email of the bot.
+     * @param username The username of the bot.
      * @return A json array of the bot data; null otherwise.
      */
-    private static JsonArray getBotByEmail(String email) {
-        try (final Response response = Request.get(RSVegaTracker.API_URL + "/bot/user/" + email)) {
+    private static JsonArray getBotByUsername(String username) {
+        try (final Response response = Request.get(RSVegaTracker.API_URL + "/bot/user/" + username)) {
             if (!response.isSuccessful())
                 return null;
 
@@ -61,12 +61,12 @@ public class BotData {
     }
 
     /**
-     * Gets the bot id associated with the bot email.
+     * Gets the bot id associated with the bot username.
      *
-     * @return The bot id associated with the bot email.
+     * @return The bot id associated with the bot username.
      */
     public static int getBotId() {
-        JsonArray jsonArray = BotData.getBotByEmail(getEmail());
+        JsonArray jsonArray = BotData.getBotByUsername(getUsername());
         if (jsonArray == null)
             return 0;
 
@@ -79,7 +79,7 @@ public class BotData {
     public static RequestBody getBotDataRequestBody(int accountID) {
         final FormBody.Builder formBuilder = new FormBody.Builder();
         formBuilder.add("account_id", String.valueOf(accountID));
-        formBuilder.add("username", getEmail());
+        formBuilder.add("username", getUsername());
         formBuilder.add("display_name", getDisplayName());
         formBuilder.add("world", String.valueOf(Worlds.getCurrent()));
         formBuilder.add("last_sign_in", String.valueOf(getLastSignIn()));
@@ -88,15 +88,15 @@ public class BotData {
         return formBuilder.build();
     }
 
-    private static String getEmail() {
+    private static String getUsername() {
         if (RSPeer.getGameAccount() == null)
             return "";
 
-        final String email = RSPeer.getGameAccount().getUsername();
-        if (email == null)
+        final String username = RSPeer.getGameAccount().getUsername();
+        if (username == null)
             return "";
 
-        return email;
+        return username;
     }
 
     private static String getDisplayName() {
