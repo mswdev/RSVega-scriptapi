@@ -20,8 +20,8 @@ public class CreateAccount {
      *                    Key: twoCaptchaApiKey - The 2captcha api key; this is required.
      *
      *                    <p>
-     *                    Key: email - The email to use when creating the account; If no email is provided it will be
-     *                    generated.
+     *                    Key: username - The username to use when creating the account; If no username is provided it
+     *                    will be generated.
      *                    <p>
      *                    Key: password - The password to use when creating the account; If no password is provided it
      *                    will be generated.
@@ -37,15 +37,15 @@ public class CreateAccount {
      *                    <p>
      *                    Key: socks_password - The socks5 proxy password; this is not needed if the proxy does not have
      *                    a username or password.
-     * @return A json object of the account data; null otherwise. The json object includes the success, email, password
+     * @return A json object of the account data; null otherwise. The json object includes the success, username, password
      * and proxy used when creating the account. If the success returned false then there was an error creating the
-     * account; this can be due to a bad captcha or the email is taken.
+     * account; this can be due to a bad captcha or the username is taken.
      */
     public static JsonObject post(HashMap<String, String> accountData) {
         final FormBody.Builder formBuilder = new FormBody.Builder();
         formBuilder.add("two_captcha_api_key", accountData.getOrDefault("two_captcha_api_key", ""));
 
-        formBuilder.add("email", accountData.getOrDefault("email", ""));
+        formBuilder.add("username", accountData.getOrDefault("username", ""));
         formBuilder.add("password", accountData.getOrDefault("password", ""));
 
         formBuilder.add("socks_ip", accountData.getOrDefault("socks_ip", ""));

@@ -14,7 +14,7 @@ public class RSVegaTrackerThread implements Runnable {
 
     private final String scriptName;
     private boolean hasInsertedAccount;
-    private String email;
+    private String username;
     private int accountID;
     private int botID;
     private int sessionID;
@@ -34,12 +34,12 @@ public class RSVegaTrackerThread implements Runnable {
         if (accountID == 0)
             accountID = AccountData.getAccountId(Script.getRSPeerUser().getUsername());
 
-        if (email == null) {
-            email = getEmail();
+        if (username == null) {
+            username = getUsername();
             return;
         }
 
-        if (botID == 0 || !getEmail().equals(email)) {
+        if (botID == 0 || !getUsername().equals(username)) {
             botID = BotData.getBotId();
             sessionID = SessionData.getSessionId(botID);
             RSVegaTracker.insertBot(accountID);
@@ -53,14 +53,14 @@ public class RSVegaTrackerThread implements Runnable {
             RSVegaTracker.updateStatsOSRS(botID);
     }
 
-    private static String getEmail() {
+    private static String getUsername() {
         if (RSPeer.getGameAccount() == null)
             return "";
 
-        final String email = RSPeer.getGameAccount().getUsername();
-        if (email == null)
+        final String username = RSPeer.getGameAccount().getUsername();
+        if (username == null)
             return "";
 
-        return email;
+        return username;
     }
 }
