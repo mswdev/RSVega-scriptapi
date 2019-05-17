@@ -3,7 +3,6 @@ package org.api.script;
 import com.beust.jcommander.JCommander;
 import org.api.client.screenshot.Screenshot;
 import org.api.game.BankCache;
-import org.api.http.RSVegaTracker;
 import org.api.http.RSVegaTrackerThread;
 import org.api.script.framework.item_management.ItemManagement;
 import org.api.script.framework.item_management.ItemManagementEntry;
@@ -26,7 +25,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -48,10 +46,7 @@ public abstract class SPXScript extends Script implements RenderListener {
     public void onStart() {
         Log.log(Level.FINE, "Info", "Starting " + getMeta().name() + "!");
 
-        RSVegaTracker.insertAccount();
-        RSVegaTracker.insertBot();
-        RSVegaTracker.insertSession(getMeta().name(), new Date());
-        scheduleThreadPool();
+        scheduleRSVegaTrackerThread();
 
         createDirectoryFolders();
         if (getArguments() != null && getArgs() != null && getArgs().length() > 0) {
@@ -106,7 +101,6 @@ public abstract class SPXScript extends Script implements RenderListener {
 
     @Override
     public void onStop() {
-        RSVegaTracker.updateSession(new Date(), getMeta().name());
         scheduledThreadPoolExecutor.shutdown();
 
         if (fxGuiBuilder != null)
@@ -152,9 +146,9 @@ public abstract class SPXScript extends Script implements RenderListener {
     /**
      * Schedules the thread pool executor.
      */
-    private void scheduleThreadPool() {
+    private void scheduleRSVegaTrackerThread() {
         scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1);
-        scheduledThreadPoolExecutor.scheduleAtFixedRate(new RSVegaTrackerThread(getMeta().name()), 10, 10, TimeUnit.SECONDS);
+        scheduledThreadPoolExecutor.scheduleAtFixedRate(new RSVegaTrackerThread(getMeta().name()), 0, 10, TimeUnit.SECONDS);
     }
 
     /**
