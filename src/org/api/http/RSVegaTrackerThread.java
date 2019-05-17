@@ -23,6 +23,13 @@ public class RSVegaTrackerThread implements Runnable {
         this.scriptName = scriptName;
     }
 
+    private static String getUsername() {
+        if (RSPeer.getGameAccount() == null)
+            return null;
+
+        return RSPeer.getGameAccount().getUsername();
+    }
+
     @Override
     public void run() {
         Log.log(Level.WARNING, "Info", "Executing RSVega data tracking.");
@@ -51,12 +58,5 @@ public class RSVegaTrackerThread implements Runnable {
 
         if (Game.isLoggedIn())
             RSVegaTracker.updateStatsOSRS(botID);
-    }
-
-    private static String getUsername() {
-        if (RSPeer.getGameAccount() == null)
-            return null;
-
-        return RSPeer.getGameAccount().getUsername();
     }
 }

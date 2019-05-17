@@ -37,9 +37,9 @@ public class CreateAccount {
      *                    <p>
      *                    Key: socks_password - The socks5 proxy password; this is not needed if the proxy does not have
      *                    a username or password.
-     * @return A json object of the account data; null otherwise. The json object includes the success, username, password
-     * and proxy used when creating the account. If the success returned false then there was an error creating the
-     * account; this can be due to a bad captcha or the username is taken.
+     * @return A json object of the account data; null otherwise. The json object includes the success, username,
+     * password and proxy used when creating the account. If the success returned false then there was an error creating
+     * the account; this can be due to a bad captcha or the username is taken.
      */
     public static JsonObject post(HashMap<String, String> accountData) {
         final FormBody.Builder formBuilder = new FormBody.Builder();
