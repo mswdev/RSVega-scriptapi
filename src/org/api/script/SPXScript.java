@@ -106,7 +106,7 @@ public abstract class SPXScript extends Script implements RenderListener {
 
     @Override
     public void onStop() {
-        RSVegaTracker.updateSession(new Date());
+        RSVegaTracker.updateSession(new Date(), getMeta().name());
         scheduledThreadPoolExecutor.shutdown();
 
         if (fxGuiBuilder != null)
@@ -154,7 +154,7 @@ public abstract class SPXScript extends Script implements RenderListener {
      */
     private void scheduleThreadPool() {
         scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1);
-        scheduledThreadPoolExecutor.scheduleAtFixedRate(new RSVegaTrackerThread(), 10, 10, TimeUnit.SECONDS);
+        scheduledThreadPoolExecutor.scheduleAtFixedRate(new RSVegaTrackerThread(getMeta().name()), 10, 10, TimeUnit.SECONDS);
     }
 
     /**

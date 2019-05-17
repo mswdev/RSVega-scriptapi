@@ -15,10 +15,12 @@ import org.rspeer.runetek.api.component.Interfaces;
 import org.rspeer.runetek.api.scene.Players;
 
 import java.io.IOException;
+import java.util.Date;
 
 public class BotData {
 
-    private static int BOT_ID;
+    private static String botUsername;
+    private static int botID;
 
     public static boolean insertBot(RequestBody requestBody) {
         try (final Response response = Request.post(RSVegaTracker.API_URL + "/bot/add", requestBody)) {
@@ -66,10 +68,11 @@ public class BotData {
     /**
      * Gets the bot id associated with the bot username.
      *
+     * @param scriptName The name of the script. Only required if the bot id changes.
      * @return The bot id associated with the bot username.
      */
-    public static int getBotId() {
-        if (BOT_ID == 0) {
+    public static int getBotId(String scriptName) {
+        if (botID == 0 || !getUsername().equals(botUsername)) {
             JsonArray jsonArray = BotData.getBotByUsername(getUsername());
             if (jsonArray == null)
                 return 0;
@@ -77,10 +80,14 @@ public class BotData {
             if (jsonArray.size() == 0)
                 return 0;
 
-            BOT_ID = jsonArray.get(0).getAsJsonObject().get("id").getAsInt();
+            botUsername = getUsername();
+            botID = jsonArray.get(0).getAsJsonObject().get("id").getAsInt();
+
+            if (!getUsername().equals(botUsername))
+                RSVegaTracker.insertSession(scriptName, new Date());
         }
 
-        return BOT_ID;
+        return botID;
     }
 
     public static RequestBody getBotDataRequestBody() {

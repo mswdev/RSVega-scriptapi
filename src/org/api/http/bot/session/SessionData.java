@@ -39,7 +39,7 @@ public class SessionData {
 
     public static RequestBody getSessionDataRequestBody(String scriptName, Date timeStarted, Date timeEnded) {
         final FormBody.Builder formBuilder = new FormBody.Builder();
-        formBuilder.add("bot_id", String.valueOf(BotData.getBotId()));
+        formBuilder.add("bot_id", String.valueOf(BotData.getBotId(scriptName)));
 
         if (scriptName != null)
             formBuilder.add("script", scriptName);
@@ -78,11 +78,12 @@ public class SessionData {
     /**
      * Gets the session id associated with the bot id.
      *
+     * @param scriptName The name of the script. Only required if the bot id changes.
      * @return The session id associated with the bot id.
      */
-    public static int getSessionId() {
+    public static int getSessionId(String scriptName) {
         if (SESSION_ID == 0) {
-            JsonArray jsonArray = SessionData.getNewestSessionByBotId(BotData.getBotId());
+            JsonArray jsonArray = SessionData.getNewestSessionByBotId(BotData.getBotId(scriptName));
             if (jsonArray == null)
                 return 0;
 

@@ -21,13 +21,13 @@ public class RSVegaTracker {
             Log.severe("Bot data insert HTTP request failed.");
     }
 
-    public static void updateBot() {
-        if (!BotData.updateBot(BotData.getBotId(), BotData.getBotDataRequestBody()))
+    public static void updateBot(String scriptName) {
+        if (!BotData.updateBot(BotData.getBotId(scriptName), BotData.getBotDataRequestBody()))
             Log.severe("Bot data update HTTP request failed.");
     }
 
-    public static void updateStatsOSRS() {
-        if (!StatsOSRS.updateStatsOSRS(BotData.getBotId(), StatsOSRS.getStatsOSRSDataRequestBody()))
+    public static void updateStatsOSRS(String scriptName) {
+        if (!StatsOSRS.updateStatsOSRS(BotData.getBotId(scriptName), StatsOSRS.getStatsOSRSDataRequestBody()))
             Log.severe("Stats OSRS data update HTTP request failed.");
     }
 
@@ -36,8 +36,8 @@ public class RSVegaTracker {
             Log.severe("Session data insert HTTP request failed.");
     }
 
-    public static void updateSession(Date timeEnded) {
-        if (!SessionData.updateSession(SessionData.getSessionId(), SessionData.getSessionDataRequestBody(null, null, timeEnded)))
+    public static void updateSession(Date timeEnded, String scriptName) {
+        if (!SessionData.updateSession(SessionData.getSessionId(scriptName), SessionData.getSessionDataRequestBody(scriptName, null, timeEnded)))
             Log.severe("Session data update HTTP request failed.");
     }
 }

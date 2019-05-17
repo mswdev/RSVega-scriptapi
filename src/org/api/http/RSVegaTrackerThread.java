@@ -4,11 +4,16 @@ import java.util.Date;
 
 public class RSVegaTrackerThread implements Runnable {
 
+    private final String scriptName;
+
+    public RSVegaTrackerThread(String scriptName) {
+        this.scriptName = scriptName;
+    }
 
     @Override
     public void run() {
-        RSVegaTracker.updateBot();
-        RSVegaTracker.updateStatsOSRS();
-        RSVegaTracker.updateSession(new Date());
+        RSVegaTracker.updateBot(scriptName);
+        RSVegaTracker.updateStatsOSRS(scriptName);
+        RSVegaTracker.updateSession(new Date(), scriptName);
     }
 }
