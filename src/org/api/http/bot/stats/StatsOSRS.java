@@ -10,7 +10,6 @@ import org.api.http.wrappers.Request;
 import org.rspeer.runetek.api.component.tab.Skill;
 import org.rspeer.runetek.api.component.tab.Skills;
 import org.rspeer.runetek.api.scene.Players;
-import org.rspeer.ui.Log;
 
 import java.io.IOException;
 
