@@ -55,12 +55,8 @@ public class RSVegaTrackerThread implements Runnable {
 
     private static String getUsername() {
         if (RSPeer.getGameAccount() == null)
-            return "";
+            return null;
 
-        final String username = RSPeer.getGameAccount().getUsername();
-        if (username == null)
-            return "";
-
-        return username;
+        return RSPeer.getGameAccount().getUsername();
     }
 }
