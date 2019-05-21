@@ -54,19 +54,19 @@ public abstract class SPXScript extends Script implements RenderListener {
                     .addObject(getArguments())
                     .build()
                     .parse(getArgs().split(" "));
+        } else {
+            if (getFXGUI() != null) {
+                fxGuiBuilder = new FXGUIBuilder(getFXGUI());
+                fxGuiBuilder.invokeGUI();
+            }
+
+            if (getGUI() != null) {
+                guiBuilder = new GUIBuilder(getGUI());
+                guiBuilder.invokeGUI();
+            }
         }
 
         missionHandler = new MissionHandler(createMissionQueue());
-
-        if (getFXGUI() != null) {
-            fxGuiBuilder = new FXGUIBuilder(getFXGUI());
-            fxGuiBuilder.invokeGUI();
-        }
-
-        if (getGUI() != null) {
-            guiBuilder = new GUIBuilder(getGUI());
-            guiBuilder.invokeGUI();
-        }
 
         bankCache = new BankCache(this);
         bankCache.start();
