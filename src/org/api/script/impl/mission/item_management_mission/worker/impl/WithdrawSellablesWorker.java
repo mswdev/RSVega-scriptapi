@@ -37,7 +37,7 @@ public class WithdrawSellablesWorker extends Worker {
 
         int withdrawCount = 0;
         for (int itemId : mission.itemsToSell) {
-            withdrawWorker = new WithdrawWorker(a -> a.getId() == itemId, 0, Bank.WithdrawMode.NOTE);
+            withdrawWorker = new WithdrawWorker(mission, a -> a.getId() == itemId, 0, Bank.WithdrawMode.NOTE);
             withdrawWorker.work();
 
             if (withdrawWorker.itemNotFound())

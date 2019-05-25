@@ -19,12 +19,14 @@ public class WithdrawOre extends Worker {
     private final int ingredientOneMinimum = (BlastFurnaceMission.barType.getIngredientOneAmount() / 2) * 27;
     private final Predicate<Item> ingredientOne = a -> a.getName().equals(BlastFurnaceMission.barType.getIngredientOne().getName());
     private final Predicate<Item> ingredientTwo = a -> a.getName().equals(BlastFurnaceMission.barType.getIngredientTwo().getName());
-    private final WithdrawWorker withdrawWorkerIngredientOne = new WithdrawWorker(ingredientOne, 0, Bank.WithdrawMode.ITEM);
-    private final WithdrawWorker withdrawWorkerIngredientTwo = new WithdrawWorker(ingredientTwo, 0, Bank.WithdrawMode.ITEM);
+    private final WithdrawWorker withdrawWorkerIngredientOne;
+    private final WithdrawWorker withdrawWorkerIngredientTwo;
     private final BlastFurnaceMission mission;
 
     public WithdrawOre(BlastFurnaceMission mission) {
         this.mission = mission;
+        this.withdrawWorkerIngredientOne = new WithdrawWorker(mission, ingredientOne, 0, Bank.WithdrawMode.ITEM);
+        this.withdrawWorkerIngredientTwo = new WithdrawWorker(mission, ingredientTwo, 0, Bank.WithdrawMode.ITEM);
     }
 
     @Override

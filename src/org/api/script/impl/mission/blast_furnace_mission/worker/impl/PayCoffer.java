@@ -21,11 +21,11 @@ public class PayCoffer extends Worker {
     private static final int DEPOSIT_AMOUNT = 100000;
     private static final Predicate<SceneObject> COFFER = a -> a.getName().equals("Coffer");
     private final BlastFurnaceMission mission;
-
-    private final WithdrawWorker withdrawWorker = new WithdrawWorker(BlastFurnaceMission.COINS, DEPOSIT_AMOUNT, Bank.WithdrawMode.ITEM);
+    private final WithdrawWorker withdrawWorker;
 
     public PayCoffer(BlastFurnaceMission mission) {
         this.mission = mission;
+        withdrawWorker = new WithdrawWorker(mission, BlastFurnaceMission.COINS, DEPOSIT_AMOUNT, Bank.WithdrawMode.ITEM);
     }
 
     @Override

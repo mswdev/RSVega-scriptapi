@@ -3,13 +3,15 @@ package org.api.script;
 import com.beust.jcommander.JCommander;
 import org.api.client.screenshot.Screenshot;
 import org.api.game.BankCache;
-import org.api.http.RSVegaTrackerThread;
+import org.api.http.RSVegaTracker;
 import org.api.script.framework.item_management.ItemManagement;
 import org.api.script.framework.item_management.ItemManagementEntry;
 import org.api.script.framework.item_management.ItemManagementTracker;
 import org.api.script.framework.mission.Mission;
 import org.api.script.framework.mission.MissionHandler;
-import org.api.script.impl.mission.item_management_mission.ItemManagementMission;
+import org.api.script.framework.mule_management.MuleManagementEntry;
+import org.api.script.framework.mule_management.MuleManagementTracker;
+import org.api.script.impl.mission.mule_slave_management.mule_management_mission.MuleManagementMission;
 import org.api.ui.fxui.FXGUI;
 import org.api.ui.fxui.FXGUIBuilder;
 import org.api.ui.swingui.GUI;
@@ -24,29 +26,26 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 public abstract class SPXScript extends Script implements RenderListener {
 
-    public BankCache bankCache;
+    private final ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(4);
+    private final RSVegaTracker rsVegaTracker = new RSVegaTracker(this, getMeta().name());
+    private final MuleManagementTracker muleManagementTracker = new MuleManagementTracker(this);
     protected String scriptDataPath = getDataDirectory() + File.separator + "SPX" + File.separator + getMeta().name();
     private MissionHandler missionHandler;
     private FXGUIBuilder fxGuiBuilder;
     private GUIBuilder guiBuilder;
+    private BankCache bankCache = new BankCache(this);
     private ItemManagementTracker itemManagementTracker;
     private MissionHandler itemManagementMissionHandler;
-    private ScheduledThreadPoolExecutor scheduledThreadPoolExecutor;
 
     @Override
     public void onStart() {
         Log.log(Level.FINE, "Info", "Starting " + getMeta().name() + "!");
-
-        scheduleRSVegaTrackerThread();
 
         createDirectoryFolders();
         if (getArguments() != null && getArgs() != null && getArgs().length() > 0) {
@@ -67,9 +66,6 @@ public abstract class SPXScript extends Script implements RenderListener {
         }
 
         missionHandler = new MissionHandler(createMissionQueue());
-
-        bankCache = new BankCache(this);
-        bankCache.start();
     }
 
     @Override
@@ -85,7 +81,9 @@ public abstract class SPXScript extends Script implements RenderListener {
         if (missionHandler.isStopped())
             setStopping(true);
 
-        final ItemManagementEntry itemManagementEntry = getReadyItemManagementEntry();
+
+
+        /*final ItemManagementEntry itemManagementEntry = getReadyItemManagementEntry();
         if (itemManagementEntry != null || itemManagementMissionHandler != null) {
             if (itemManagementMissionHandler == null)
                 itemManagementMissionHandler = new MissionHandler(new LinkedList<>(Collections.singleton(new ItemManagementMission(this, itemManagementEntry, itemManagementTracker, itemManagementTracker.getItemManagement().itemsToSell()))));
@@ -94,6 +92,15 @@ public abstract class SPXScript extends Script implements RenderListener {
                 return itemManagementMissionHandler.execute();
             else
                 itemManagementMissionHandler = null;
+        }*/
+
+        final MuleManagementEntry muleManagementEntry = muleManagementTracker.getReadyMuleManagementEntry();
+        if (muleManagementEntry != null) {
+            missionHandler.getMissions().add(new MuleManagementMission(this, muleManagementEntry));
+            missionHandler.getMissions().add(missionHandler.getCurrent());
+            missionHandler.endCurrent();
+            muleManagementTracker.setMuleManagementEntry(null);
+            muleManagementTracker.setHasInsertedRequest(false);
         }
 
         return missionHandler.execute();
@@ -101,8 +108,7 @@ public abstract class SPXScript extends Script implements RenderListener {
 
     @Override
     public void onStop() {
-        scheduledThreadPoolExecutor.shutdown();
-
+        getScheduledThreadPoolExecutor().shutdown();
         if (fxGuiBuilder != null)
             fxGuiBuilder.close();
 
@@ -130,6 +136,10 @@ public abstract class SPXScript extends Script implements RenderListener {
         return missionHandler;
     }
 
+    public BankCache getBankCache() {
+        return bankCache;
+    }
+
     public FXGUIBuilder getFXMLHandler() {
         return fxGuiBuilder;
     }
@@ -141,14 +151,6 @@ public abstract class SPXScript extends Script implements RenderListener {
     @Override
     public void notify(RenderEvent renderEvent) {
         Screenshot.renderQueue(renderEvent);
-    }
-
-    /**
-     * Schedules the thread pool executor.
-     */
-    private void scheduleRSVegaTrackerThread() {
-        scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1);
-        scheduledThreadPoolExecutor.scheduleAtFixedRate(new RSVegaTrackerThread(getMeta().name()), 0, 10, TimeUnit.SECONDS);
     }
 
     /**
@@ -180,6 +182,14 @@ public abstract class SPXScript extends Script implements RenderListener {
                 e.printStackTrace();
             }
         }
+    }
+
+    public RSVegaTracker getRsVegaTracker() {
+        return rsVegaTracker;
+    }
+
+    public ScheduledThreadPoolExecutor getScheduledThreadPoolExecutor() {
+        return scheduledThreadPoolExecutor;
     }
 }
 

@@ -1,5 +1,6 @@
 package org.api.script.impl.worker.banking;
 
+import org.api.script.framework.mission.Mission;
 import org.api.script.framework.worker.Worker;
 import org.rspeer.runetek.adapter.component.Item;
 import org.rspeer.runetek.api.commons.Time;
@@ -12,6 +13,7 @@ import java.util.function.Predicate;
 
 public class WithdrawWorker extends Worker {
 
+    private final Mission mission;
     private final Predicate<Item> item;
     private final Bank.WithdrawMode withdrawMode;
     private final int amount;
@@ -20,19 +22,20 @@ public class WithdrawWorker extends Worker {
     private final DepositWorker depositWorker;
     private boolean itemNotFound;
 
-    public WithdrawWorker(Predicate<Item> item) {
-        this(item, 1, Bank.WithdrawMode.ITEM);
+    public WithdrawWorker(Mission mission, Predicate<Item> item) {
+        this(mission, item, 1, Bank.WithdrawMode.ITEM);
     }
 
-    public WithdrawWorker(Predicate<Item> item, int amount) {
-        this(item, amount, Bank.WithdrawMode.ITEM);
+    public WithdrawWorker(Mission mission, Predicate<Item> item, int amount) {
+        this(mission, item, amount, Bank.WithdrawMode.ITEM);
     }
 
-    public WithdrawWorker(Predicate<Item> item, Bank.WithdrawMode withdrawMode) {
-        this(item, 1, withdrawMode);
+    public WithdrawWorker(Mission mission, Predicate<Item> item, Bank.WithdrawMode withdrawMode) {
+        this(mission, item, 1, withdrawMode);
     }
 
-    public WithdrawWorker(Predicate<Item> item, int amount, Bank.WithdrawMode withdrawMode) {
+    public WithdrawWorker(Mission mission, Predicate<Item> item, int amount, Bank.WithdrawMode withdrawMode) {
+        this.mission = mission;
         this.item = item;
         this.withdrawMode = withdrawMode;
         this.amount = amount;
@@ -79,17 +82,25 @@ public class WithdrawWorker extends Worker {
         final int withdrawCache = Inventory.getCount(true);
         BooleanSupplier booleanSupplier = () -> withdrawCache != Inventory.getCount(true);
         if (amount == 0) {
-            if (Bank.withdrawAll(item))
+            if (Bank.withdrawAll(item)) {
                 Time.sleepUntil(booleanSupplier, 2500);
-            else
+            } else {
                 setItemNotFound();
+            }
+
+            mission.getScript().getBankCache().getBankCache().clear();
+            mission.getScript().getBankCache().update();
             return;
         }
 
-        if (Bank.withdraw(item, amount))
+        if (Bank.withdraw(item, amount)) {
             Time.sleepUntil(booleanSupplier, 2500);
-        else
+        } else {
             setItemNotFound();
+        }
+
+        mission.getScript().getBankCache().getBankCache().clear();
+        mission.getScript().getBankCache().update();
     }
 
     private void setItemNotFound() {

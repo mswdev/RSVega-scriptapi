@@ -13,11 +13,12 @@ import java.util.function.Predicate;
 public class EquipIceGloves extends Worker {
 
     private static final Predicate<Item> ICE_GLOVES = a -> a.getName().equals("Ice gloves");
-    private final WithdrawWorker withdrawWorker = new WithdrawWorker(ICE_GLOVES, Bank.WithdrawMode.ITEM);
+    private final WithdrawWorker withdrawWorker;
     private final BlastFurnaceMission mission;
 
     public EquipIceGloves(BlastFurnaceMission mission) {
         this.mission = mission;
+        withdrawWorker = new WithdrawWorker(mission, ICE_GLOVES, Bank.WithdrawMode.ITEM);
     }
 
     @Override

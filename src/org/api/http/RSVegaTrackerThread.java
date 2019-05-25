@@ -8,19 +8,48 @@ import org.rspeer.script.Script;
 import org.rspeer.ui.Log;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 public class RSVegaTrackerThread implements Runnable {
 
-    private final String scriptName;
-    private boolean hasInsertedAccount;
-    private String email;
-    private int accountID;
-    private int botID;
-    private int sessionID;
+    private final RSVegaTracker rsVegaTracker;
 
-    public RSVegaTrackerThread(String scriptName) {
-        this.scriptName = scriptName;
+    private boolean hasInsertedAccount;
+
+
+    public RSVegaTrackerThread(RSVegaTracker rsVegaTracker) {
+        this.rsVegaTracker = rsVegaTracker;
+        rsVegaTracker.getSpxScript().getScheduledThreadPoolExecutor().scheduleAtFixedRate(this, 0, 10, TimeUnit.SECONDS);
+    }
+
+    @Override
+    public void run() {
+        Log.log(Level.WARNING, "Info", "Executing RSVega data tracking.");
+        if (!hasInsertedAccount) {
+            rsVegaTracker.insertAccount();
+            hasInsertedAccount = true;
+        }
+
+        if (rsVegaTracker.getAccountId() == 0)
+            rsVegaTracker.setAccountId(AccountData.getAccountId(Script.getRSPeerUser().getUsername()));
+
+        if (rsVegaTracker.getEmail() == null)
+            rsVegaTracker.setEmail(getEmail());
+
+        if (rsVegaTracker.getBotId() == 0 || (getEmail() != null && !getEmail().equals(rsVegaTracker.getEmail()))) {
+            rsVegaTracker.setBotId(BotData.getBotId());
+            rsVegaTracker.setSessionId(SessionData.getSessionId(rsVegaTracker.getAccountId()));
+            rsVegaTracker.insertBot(rsVegaTracker.getAccountId());
+            rsVegaTracker.insertSession(rsVegaTracker.getAccountId(), rsVegaTracker.getBotId(), rsVegaTracker.getScriptName(), new Date());
+            rsVegaTracker.setEmail(null);
+        }
+
+        rsVegaTracker.updateBot(rsVegaTracker.getAccountId(), rsVegaTracker.getBotId());
+        rsVegaTracker.updateSession(rsVegaTracker.getAccountId(), rsVegaTracker.getBotId(), rsVegaTracker.getSessionId(), new Date());
+
+        if (Game.isLoggedIn())
+            rsVegaTracker.updateStatsOSRS(rsVegaTracker.getBotId());
     }
 
     private static String getEmail() {
@@ -28,35 +57,5 @@ public class RSVegaTrackerThread implements Runnable {
             return null;
 
         return RSPeer.getGameAccount().getUsername();
-    }
-
-    @Override
-    public void run() {
-        Log.log(Level.WARNING, "Info", "Executing RSVega data tracking.");
-        if (!hasInsertedAccount) {
-            RSVegaTracker.insertAccount();
-            hasInsertedAccount = true;
-        }
-
-        if (accountID == 0)
-            accountID = AccountData.getAccountId(Script.getRSPeerUser().getUsername());
-
-        if (email == null) {
-            email = getEmail();
-            return;
-        }
-
-        if (botID == 0 || !getEmail().equals(email)) {
-            botID = BotData.getBotId();
-            sessionID = SessionData.getSessionId(botID);
-            RSVegaTracker.insertBot(accountID);
-            RSVegaTracker.insertSession(botID, scriptName, new Date());
-        }
-
-        RSVegaTracker.updateBot(accountID, botID);
-        RSVegaTracker.updateSession(botID, sessionID, new Date());
-
-        if (Game.isLoggedIn())
-            RSVegaTracker.updateStatsOSRS(botID);
     }
 }

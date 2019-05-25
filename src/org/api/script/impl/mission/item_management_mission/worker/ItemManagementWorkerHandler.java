@@ -58,8 +58,8 @@ public class ItemManagementWorkerHandler extends WorkerHandler {
             if (Inventory.contains(TeleportToGrandExchangeWorker.RING_OF_WEALTH))
                 return new ItemWorker(TeleportToGrandExchangeWorker.RING_OF_WEALTH);
 
-            if (Arrays.stream(TeleportToGrandExchangeWorker.RING_OF_WEALTH_IDS).filter(a -> mission.getScript().bankCache.get().getOrDefault(a, 0) != 0).findFirst().isPresent())
-                return new WithdrawWorker(TeleportToGrandExchangeWorker.RING_OF_WEALTH);
+            if (Arrays.stream(TeleportToGrandExchangeWorker.RING_OF_WEALTH_IDS).filter(a -> mission.getScript().getBankCache().getBankCache().getOrDefault(a, 0) != 0).findFirst().isPresent())
+                return new WithdrawWorker(mission, TeleportToGrandExchangeWorker.RING_OF_WEALTH);
 
             return new MovementWorker(BankLocation.GRAND_EXCHANGE.getPosition());
         }
@@ -71,7 +71,7 @@ public class ItemManagementWorkerHandler extends WorkerHandler {
 
             return buyWorker;
         } else if (mission.getItemManagementTracker().getTotalGold() >= mission.getItemManagementEntry().getValueNeeded(mission.getItemManagementTracker().getItemManagement().buyPriceModifier())) {
-            return new WithdrawWorker(a -> a.getName().equals("Coins"), 0);
+            return new WithdrawWorker(mission, a -> a.getName().equals("Coins"), 0);
         } else {
             if (!mission.hasWithdrawnSellables)
                 return withdrawSellablesWorker;
