@@ -11,10 +11,10 @@ public class Player {
     /**
      * Determines whether the player has completed tutorial island.
      *
-     * @return True if the player has completed tutorial island; false otherwise.
+     * @return True if the player has not completed tutorial island; false otherwise.
      */
-    public static int isTutorial() {
-        return Varps.get(TUTORIAL_ISLAND_VARP) < TUTORIAL_ISLAND_FINISHED ? 1 : 0;
+    public static boolean isTutorial() {
+        return Varps.get(TUTORIAL_ISLAND_VARP) < TUTORIAL_ISLAND_FINISHED;
     }
 
     /**

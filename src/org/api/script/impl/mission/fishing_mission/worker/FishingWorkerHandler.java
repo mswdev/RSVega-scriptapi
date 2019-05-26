@@ -3,6 +3,7 @@ package org.api.script.impl.mission.fishing_mission.worker;
 import org.api.game.skills.fishing.FishType;
 import org.api.script.framework.worker.Worker;
 import org.api.script.framework.worker.WorkerHandler;
+import org.api.script.impl.mission.fishing_mission.Fishingmission;
 import org.api.script.impl.worker.MovementWorker;
 import org.api.script.impl.worker.banking.WithdrawWorker;
 import org.api.script.impl.worker.interactables.NpcWorker;
@@ -11,7 +12,12 @@ import org.rspeer.runetek.api.component.tab.Inventory;
 
 public class FishingWorkerHandler extends WorkerHandler {
 
+    private final Fishingmission mission;
     private boolean tempBool;
+
+    public FishingWorkerHandler(Fishingmission mission) {
+        this.mission = mission;
+    }
 
     @Override
     public Worker decide() {
@@ -37,7 +43,7 @@ public class FishingWorkerHandler extends WorkerHandler {
                 if (Inventory.contains(id))
                     continue;
 
-                return new WithdrawWorker(a -> a.getId() == id);
+                return new WithdrawWorker(mission, a -> a.getId() == id);
             }
         }
 

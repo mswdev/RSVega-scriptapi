@@ -34,9 +34,10 @@ public class SessionData {
         return false;
     }
 
-    public static RequestBody getSessionDataRequestBody(int botID, String scriptName, Date timeStarted, Date timeEnded) {
+    public static RequestBody getSessionDataRequestBody(int accountId, int botId, String scriptName, Date timeStarted, Date timeEnded) {
         final FormBody.Builder formBuilder = new FormBody.Builder();
-        formBuilder.add("bot_id", String.valueOf(botID));
+        formBuilder.add("account_id", String.valueOf(accountId));
+        formBuilder.add("bot_id", String.valueOf(botId));
 
         if (scriptName != null)
             formBuilder.add("script", scriptName);
@@ -50,13 +51,13 @@ public class SessionData {
     }
 
     /**
-     * Gets a json array of the newest bot session.
+     * Gets a json array of the newest bot session by account id.
      *
-     * @param botId The bot id;
-     * @return A json array of the newest bot session.; null otherwise.
+     * @param accountId The account id;
+     * @return A json array of the newest bot session by account id; null otherwise.
      */
-    private static JsonArray getNewestSessionByBotId(int botId) {
-        try (final Response response = Request.get(RSVegaTracker.API_URL + "/bot/session/bot-id/" + botId + "/newest")) {
+    public static JsonArray getNewestSessionByAccountId(int accountId) {
+        try (final Response response = Request.get(RSVegaTracker.API_URL + "/bot/session/account-id/" + accountId + "/newest")) {
             if (!response.isSuccessful())
                 return null;
 
@@ -73,13 +74,13 @@ public class SessionData {
     }
 
     /**
-     * Gets the session id associated with the bot id.
+     * Gets the session id associated with the account id.
      *
-     * @param botID The bot id;
-     * @return The session id associated with the bot id.
+     * @param accountId The account id;
+     * @return The session id associated with the account id.
      */
-    public static int getSessionId(int botID) {
-        JsonArray jsonArray = SessionData.getNewestSessionByBotId(botID);
+    public static int getSessionId(int accountId) {
+        JsonArray jsonArray = getNewestSessionByAccountId(accountId);
         if (jsonArray == null)
             return 0;
 

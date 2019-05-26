@@ -38,13 +38,36 @@ public class BotData {
     }
 
     /**
-     * Gets a json array of the bot data.
+     * Gets a json array of the bot data by email.
      *
      * @param email The email of the bot.
-     * @return A json array of the bot data; null otherwise.
+     * @return A json array of the bot data by email; null otherwise.
      */
-    private static JsonArray getBotByEmail(String email) {
+    public static JsonArray getBotByEmail(String email) {
         try (final Response response = Request.get(RSVegaTracker.API_URL + "/bot/user/" + email)) {
+            if (!response.isSuccessful())
+                return null;
+
+            if (response.body() == null)
+                return null;
+
+            final Gson gson = new Gson().newBuilder().create();
+            return gson.fromJson(response.body().string(), JsonArray.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    /**
+     * Gets a json array of the bot data by id.
+     *
+     * @param id The id of the bot.
+     * @return A json array of the bot data by id; null otherwise.
+     */
+    public static JsonArray getBotById(int id) {
+        try (final Response response = Request.get(RSVegaTracker.API_URL + "/bot/id/" + id)) {
             if (!response.isSuccessful())
                 return null;
 
@@ -76,15 +99,15 @@ public class BotData {
         return jsonArray.get(0).getAsJsonObject().get("id").getAsInt();
     }
 
-    public static RequestBody getBotDataRequestBody(int accountID) {
+    public static RequestBody getBotDataRequestBody(int accountId) {
         final FormBody.Builder formBuilder = new FormBody.Builder();
-        formBuilder.add("account_id", String.valueOf(accountID));
+        formBuilder.add("account_id", String.valueOf(accountId));
         formBuilder.add("email", getEmail());
         formBuilder.add("display_name", getDisplayName());
         formBuilder.add("world", String.valueOf(Worlds.getCurrent()));
-        formBuilder.add("last_sign_in", String.valueOf(getLastSignIn()));
-        formBuilder.add("is_members", String.valueOf(isMembers()));
-        formBuilder.add("is_bank_pin", String.valueOf(hasBankPin()));
+        formBuilder.add("position_x", String.valueOf(Players.getLocal().getX()));
+        formBuilder.add("position_y", String.valueOf(Players.getLocal().getY()));
+        formBuilder.add("position_z", String.valueOf(Players.getLocal().getFloorLevel()));
         return formBuilder.build();
     }
 

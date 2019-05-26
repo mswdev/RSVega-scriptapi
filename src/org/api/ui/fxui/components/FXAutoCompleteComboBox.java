@@ -85,7 +85,7 @@ public class FXAutoCompleteComboBox {
         if (comboBox.getSelectionModel().getSelectedIndex() < 0) {
             return null;
         } else {
-            return comboBox.getItems().get(comboBox.getSelectionModel().getSelectedIndex());
+            return comboBox.getItems().getBankCache(comboBox.getSelectionModel().getSelectedIndex());
         }
     }*/
 

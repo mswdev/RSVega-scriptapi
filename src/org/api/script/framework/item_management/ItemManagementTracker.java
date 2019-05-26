@@ -27,13 +27,13 @@ public class ItemManagementTracker {
      */
     public void update() {
         final long inventoryGold = Inventory.getCount(true, GOLD_ID);
-        final long bankGold = script.bankCache.get().getOrDefault(GOLD_ID, 0);
+        final long bankGold = script.getBankCache().getBankCache().getOrDefault(GOLD_ID, 0);
         totalGold = inventoryGold + bankGold;
 
         totalSellableGold = 0;
         for (int id : itemManagement.itemsToSell()) {
             final long inventoryAmount = Inventory.getCount(id);
-            final long bankAmount = script.bankCache.get().getOrDefault(id, 0);
+            final long bankAmount = script.getBankCache().getBankCache().getOrDefault(id, 0);
 
             try {
                 totalSellableGold += (inventoryAmount + bankAmount) * (PriceCheck.getOSBuddyPrice(id) * itemManagement.sellPriceModifier());

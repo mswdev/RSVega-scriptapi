@@ -1,5 +1,7 @@
 package org.api.http.bot.stats;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import okhttp3.FormBody;
 import okhttp3.RequestBody;
 import okhttp3.Response;
@@ -25,13 +27,33 @@ public class StatsOSRS {
         return false;
     }
 
+    /**
+     * Gets a json array of the bot data stats osrs by id.
+     *
+     * @param id The id of the bot.
+     * @return A json array of the bot data stats osrs by id; null otherwise.
+     */
+    public static JsonArray getStatsOSRSById(int id) {
+        try (final Response response = Request.get(RSVegaTracker.API_URL + "/bot/id/" + id + "/stats/osrs")) {
+            if (!response.isSuccessful())
+                return null;
+
+            if (response.body() == null)
+                return null;
+
+            final Gson gson = new Gson().newBuilder().create();
+            return gson.fromJson(response.body().string(), JsonArray.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     public static RequestBody getStatsOSRSDataRequestBody() {
         final FormBody.Builder formBuilder = new FormBody.Builder();
-        formBuilder.add("is_tutorial", String.valueOf(Player.isTutorial()));
+        formBuilder.add("is_tutorial", String.valueOf(Player.isTutorial() ? 1 : 0));
         formBuilder.add("ironman_state", String.valueOf(Player.getIronManState().getState()));
-        formBuilder.add("position_x", String.valueOf(Players.getLocal().getX()));
-        formBuilder.add("position_y", String.valueOf(Players.getLocal().getY()));
-        formBuilder.add("position_z", String.valueOf(Players.getLocal().getFloorLevel()));
         formBuilder.add("level_total", String.valueOf(Skills.getTotalLevel()));
         formBuilder.add("level_combat", String.valueOf(Players.getLocal().getCombatLevel()));
         formBuilder.add("level_attack", String.valueOf(Skills.getLevel(Skill.ATTACK)));

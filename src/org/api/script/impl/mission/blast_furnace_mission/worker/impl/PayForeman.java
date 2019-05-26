@@ -20,12 +20,13 @@ public class PayForeman extends Worker {
     private static final Predicate<InterfaceComponent> PAY_FOREMAN = a -> a.getText().contains("You must ask the foreman");
     private static final Predicate<Npc> FOREMAN = a -> a.getName().equals("Blast Furnace Foreman");
     private static final Predicate<String> PAY = a -> a.equals("Pay");
-    private final WithdrawWorker withdrawWorker = new WithdrawWorker(BlastFurnaceMission.COINS, 2500, Bank.WithdrawMode.ITEM);
+    private final WithdrawWorker withdrawWorker;
     private final BlastFurnaceMission mission;
     public boolean paidForeman;
 
     public PayForeman(BlastFurnaceMission mission) {
         this.mission = mission;
+        withdrawWorker = new WithdrawWorker(mission, BlastFurnaceMission.COINS, 2500, Bank.WithdrawMode.ITEM);
     }
 
     public static boolean shouldPayForeman() {

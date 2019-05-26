@@ -14,7 +14,7 @@ public class Fishingmission extends Mission {
 
     public Fishingmission(SPXScript script) {
         super(script);
-        workerHandler = new FishingWorkerHandler();
+        workerHandler = new FishingWorkerHandler(this);
     }
 
     @Override

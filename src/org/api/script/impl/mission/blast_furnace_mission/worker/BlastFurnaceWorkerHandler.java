@@ -58,7 +58,7 @@ public class BlastFurnaceWorkerHandler extends WorkerHandler {
         if (Inventory.getFirst(WithdrawCoalBag.COAL_BAG) == null)
             return withdrawCoalBag;
 
-        /*if (Varps.get(CollectBars.COLLECT_BARS_VARP) > 0 && Varps.get(CollectBars.COLLECT_BARS_VARP) != CollectBars.COLLECT_BARS_COOLED_SETTING)
+        /*if (Varps.getBankCache(CollectBars.COLLECT_BARS_VARP) > 0 && Varps.getBankCache(CollectBars.COLLECT_BARS_VARP) != CollectBars.COLLECT_BARS_COOLED_SETTING)
             return useWaterBucket;*/
 
         if (collectBars.isDoneSmelting()) {

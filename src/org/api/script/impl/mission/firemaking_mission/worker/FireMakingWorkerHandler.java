@@ -33,7 +33,7 @@ public class FireMakingWorkerHandler extends WorkerHandler {
     public FireMakingWorkerHandler(FireMakingMission mission) {
         this.mission = mission;
         getLogs = new WithdrawLogs(mission);
-        getTinderBox = new WithdrawTinderBox();
+        getTinderBox = new WithdrawTinderBox(mission);
         walkToLane = new WalkToLane(mission);
         lightFire = new LightFire(mission);
     }
