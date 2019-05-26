@@ -38,7 +38,7 @@ public class MuleManagementTracker {
         final int sessionId = spxScript.getRsVegaTracker().getSessionId();
         if (!hasInsertedRequest() && accountId > 0 && botId > 0 && sessionId > 0) {
             spxScript.getRsVegaTracker().insertMuleOrder(accountId, botId, sessionId);
-            spxScript.getScheduledThreadPoolExecutor().scheduleAtFixedRate(muleManagementTrackerThread, 0, 15, TimeUnit.SECONDS);
+            spxScript.getScheduledThreadPoolExecutor().scheduleAtFixedRate(muleManagementTrackerThread, 0, 1, TimeUnit.MINUTES);
             setHasInsertedRequest(true);
             return null;
         }
@@ -65,6 +65,10 @@ public class MuleManagementTracker {
         }
 
         return null;
+    }
+
+    public void setMuleManagementEntry(MuleManagementEntry muleManagementEntry) {
+        this.muleManagementEntry = muleManagementEntry;
     }
 
     private MuleManager createMuleManager(int muleBotId) {
@@ -98,10 +102,6 @@ public class MuleManagementTracker {
 
     public MuleManagementTrackerThread getMuleManagementTrackerThread() {
         return muleManagementTrackerThread;
-    }
-
-    public void setMuleManagementEntry(MuleManagementEntry muleManagementEntry) {
-        this.muleManagementEntry = muleManagementEntry;
     }
 
     private boolean hasInsertedRequest() {

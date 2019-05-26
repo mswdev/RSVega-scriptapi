@@ -30,6 +30,7 @@ public class RSVegaTracker {
         if (!AccountData.insertAccount(AccountData.getAccountDataRequestBody()))
             Log.severe("Account data insert HTTP request failed.");
     }
+
     public void insertBot(int accountId) {
         if (!BotData.insertBot(BotData.getBotDataRequestBody(accountId)))
             Log.severe("Bot data insert HTTP request failed.");

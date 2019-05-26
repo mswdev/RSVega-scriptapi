@@ -15,11 +15,11 @@ public class TradeMessageListener implements ChatMessageListener {
         }
     }
 
-    public void setPlayerTradingDisplayName(String playerTradingDisplayName) {
-        this.playerTradingDisplayName = playerTradingDisplayName;
-    }
-
     public String getPlayerTradingDisplayName() {
         return playerTradingDisplayName;
+    }
+
+    public void setPlayerTradingDisplayName(String playerTradingDisplayName) {
+        this.playerTradingDisplayName = playerTradingDisplayName;
     }
 }

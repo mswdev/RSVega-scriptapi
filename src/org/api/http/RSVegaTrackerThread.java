@@ -23,6 +23,13 @@ public class RSVegaTrackerThread implements Runnable {
         rsVegaTracker.getSpxScript().getScheduledThreadPoolExecutor().scheduleAtFixedRate(this, 0, 10, TimeUnit.SECONDS);
     }
 
+    private static String getEmail() {
+        if (RSPeer.getGameAccount() == null)
+            return null;
+
+        return RSPeer.getGameAccount().getUsername();
+    }
+
     @Override
     public void run() {
         Log.log(Level.WARNING, "Info", "Executing RSVega data tracking.");
@@ -50,12 +57,5 @@ public class RSVegaTrackerThread implements Runnable {
 
         if (Game.isLoggedIn())
             rsVegaTracker.updateStatsOSRS(rsVegaTracker.getBotId());
-    }
-
-    private static String getEmail() {
-        if (RSPeer.getGameAccount() == null)
-            return null;
-
-        return RSPeer.getGameAccount().getUsername();
     }
 }

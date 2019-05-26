@@ -10,9 +10,8 @@ import org.rspeer.runetek.api.scene.Players;
 
 public class TradeMuleWorker extends Worker {
 
-    private MuleManagementMission mission;
     private final Worker movementWorker;
-
+    private MuleManagementMission mission;
     private boolean isFinished;
 
     public TradeMuleWorker(MuleManagementMission mission) {

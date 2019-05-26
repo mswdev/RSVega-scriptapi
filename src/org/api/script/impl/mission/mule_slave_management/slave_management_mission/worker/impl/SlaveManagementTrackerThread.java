@@ -14,7 +14,7 @@ public class SlaveManagementTrackerThread implements Runnable {
 
     public SlaveManagementTrackerThread(SlaveManagementMission mission) {
         this.mission = mission;
-        mission.getSpxScript().getScheduledThreadPoolExecutor().scheduleAtFixedRate(this, 0, 15, TimeUnit.SECONDS);
+        mission.getSpxScript().getScheduledThreadPoolExecutor().scheduleAtFixedRate(this, 0, 1, TimeUnit.MINUTES);
     }
 
     @Override

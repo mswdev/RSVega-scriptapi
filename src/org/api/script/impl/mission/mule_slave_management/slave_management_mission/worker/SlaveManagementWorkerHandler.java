@@ -18,6 +18,6 @@ public class SlaveManagementWorkerHandler extends WorkerHandler {
 
     @Override
     public Worker decide() {
-            return tradeSlaveWorker;
+        return tradeSlaveWorker;
     }
 }

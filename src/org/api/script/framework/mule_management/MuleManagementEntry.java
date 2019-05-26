@@ -34,7 +34,7 @@ public class MuleManagementEntry {
      * Determines whether the player can mule.
      *
      * @return True if the player can mule; false otherwise.
-     * */
+     */
     public boolean canMule() {
         return shouldOverride();
     }
