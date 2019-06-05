@@ -23,9 +23,6 @@ public class Args {
     @Parameter(names = "-setBrightness", arity = 1)
     public int setBrightness;
 
-    @Parameter(names = "-setZoom", arity = 1)
-    public int setZoom;
-
     @Parameter(names = "-stayLoggedIn", arity = 1)
     public boolean stayLoggedIn;
 

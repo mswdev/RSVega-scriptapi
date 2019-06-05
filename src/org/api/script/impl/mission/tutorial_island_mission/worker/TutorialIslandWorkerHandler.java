@@ -1,6 +1,5 @@
 package org.api.script.impl.mission.tutorial_island_mission.worker;
 
-import org.api.game.ClientSettings;
 import org.api.script.framework.worker.Worker;
 import org.api.script.framework.worker.WorkerHandler;
 import org.api.script.impl.mission.tutorial_island_mission.TutorialIslandMission;
@@ -19,7 +18,6 @@ public class TutorialIslandWorkerHandler extends WorkerHandler {
     private final HideRoofs hideRoofs;
     private final SetAudio setAudio;
     private final SetBrightness setBrightness;
-    private final SetZoom setZoom;
     private final DropItems dropItems;
     private final DepositItems bankItems;
     private final StayLoggedIn stayLoggedIn;
@@ -32,7 +30,6 @@ public class TutorialIslandWorkerHandler extends WorkerHandler {
         hideRoofs = new HideRoofs();
         setAudio = new SetAudio(mission);
         setBrightness = new SetBrightness(mission);
-        setZoom = new SetZoom(mission);
         dropItems = new DropItems();
         bankItems = new DepositItems();
         stayLoggedIn = new StayLoggedIn();
@@ -57,9 +54,6 @@ public class TutorialIslandWorkerHandler extends WorkerHandler {
 
             if (mission.getArgs().setBrightness > 0 && InterfaceOptions.Display.getBrightness() != mission.getArgs().setBrightness)
                 return setBrightness;
-
-            if (mission.getArgs().setZoom > 0 && ClientSettings.getZoomLevel() != mission.getArgs().setZoom)
-                return setZoom;
 
             if (mission.getArgs().dropItems && Inventory.getCount() > 0)
                 return dropItems;
