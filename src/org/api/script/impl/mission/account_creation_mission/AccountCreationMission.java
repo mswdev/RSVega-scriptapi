@@ -11,16 +11,16 @@ import org.rspeer.ui.Log;
 
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
-import java.util.HashMap;
+import java.util.Map;
 
 public class AccountCreationMission extends Mission {
 
     private final AccountCreationWorkerHandler workerHandler;
     private final Args args;
-    private final HashMap<String, String> accountData;
+    private final Map<String, String> accountData;
     private boolean shouldEnd;
 
-    public AccountCreationMission(SPXScript script, Args args, HashMap<String, String> accountData) {
+    public AccountCreationMission(SPXScript script, Args args, Map<String, String> accountData) {
         super(script);
         this.args = args;
         this.accountData = accountData;
@@ -79,7 +79,7 @@ public class AccountCreationMission extends Mission {
         return args;
     }
 
-    public HashMap<String, String> getAccountData() {
+    public Map<String, String> getAccountData() {
         return accountData;
     }
 

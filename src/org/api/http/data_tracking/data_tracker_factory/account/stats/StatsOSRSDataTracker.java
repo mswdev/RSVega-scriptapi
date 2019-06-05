@@ -1,56 +1,18 @@
-package org.api.http.bot.stats;
+package org.api.http.data_tracking.data_tracker_factory.account.stats;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import okhttp3.FormBody;
 import okhttp3.RequestBody;
-import okhttp3.Response;
 import org.api.game.player.Player;
 import org.api.game.questing.Questing;
-import org.api.http.RSVegaTracker;
-import org.api.http.wrappers.Request;
+import org.api.http.data_tracking.data_tracker_factory.RSVegaTracker;
+import org.api.http.data_tracking.data_tracker_factory.RSVegaTrackerFactory;
 import org.rspeer.runetek.api.component.tab.Skill;
 import org.rspeer.runetek.api.component.tab.Skills;
 import org.rspeer.runetek.api.scene.Players;
 
-import java.io.IOException;
+public class StatsOSRSDataTracker extends RSVegaTrackerFactory {
 
-public class StatsOSRS {
-
-    public static boolean updateStatsOSRS(int botId, RequestBody requestBody) {
-        try (final Response response = Request.put(RSVegaTracker.API_URL + "/bot/id/" + botId + "/stats/osrs/update", requestBody)) {
-            return response.isSuccessful();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return false;
-    }
-
-    /**
-     * Gets a json array of the bot data stats osrs by id.
-     *
-     * @param id The id of the bot.
-     * @return A json array of the bot data stats osrs by id; null otherwise.
-     */
-    public static JsonArray getStatsOSRSById(int id) {
-        try (final Response response = Request.get(RSVegaTracker.API_URL + "/bot/id/" + id + "/stats/osrs")) {
-            if (!response.isSuccessful())
-                return null;
-
-            if (response.body() == null)
-                return null;
-
-            final Gson gson = new Gson().newBuilder().create();
-            return gson.fromJson(response.body().string(), JsonArray.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    public static RequestBody getStatsOSRSDataRequestBody() {
+    public static RequestBody getStatsOSRSData() {
         final FormBody.Builder formBuilder = new FormBody.Builder();
         formBuilder.add("is_tutorial", String.valueOf(Player.isTutorial() ? 1 : 0));
         formBuilder.add("ironman_state", String.valueOf(Player.getIronManState().getState()));
@@ -82,5 +44,10 @@ public class StatsOSRS {
         formBuilder.add("quest_points", String.valueOf(Questing.getPoints()));
         formBuilder.add("quests_complete", Questing.getCompletedQuests());
         return formBuilder.build();
+    }
+
+    @Override
+    protected RSVegaTracker getDataTracker() {
+        return new StatsOSRSData();
     }
 }
