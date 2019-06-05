@@ -28,7 +28,7 @@ public class HTTPUtil {
         if (response.body() == null)
             return null;
 
-        return response.body().string();
+        return response.body().string().trim();
     }
 
     /**
