@@ -39,11 +39,12 @@ public class HTTPUtil {
      * @return True if the proxy was successfully set; false otherwise.
      */
     public static boolean setProxy(String socksIP, String socksPort, String socksUsername, String socksPassword) throws IOException {
-        if (socksIP != null && socksPort != null) {
-            Log.fine("Setting Proxy: IP: " + socksIP + " | Port: " + socksPort);
-            System.setProperty("socksProxyHost", socksIP);
-            System.setProperty("socksProxyPort", socksPort);
-        }
+        if (socksIP == null || socksPort == null)
+            return false;
+
+        Log.fine("Setting Proxy: IP: " + socksIP + " | Port: " + socksPort);
+        System.setProperty("socksProxyHost", socksIP);
+        System.setProperty("socksProxyPort", socksPort);
 
         if (socksUsername != null && socksPassword != null) {
             Log.fine("Setting Proxy: Username: " + socksUsername + " | Password: " + socksPassword);
@@ -59,7 +60,7 @@ public class HTTPUtil {
         }
 
         final String ip = HTTPUtil.getIP();
-        if (socksIP != null && socksIP.equals(ip)) {
+        if (socksIP.equals(ip)) {
             Log.fine("Successfully set proxy; confirmed with AWS.");
             return true;
         } else {
