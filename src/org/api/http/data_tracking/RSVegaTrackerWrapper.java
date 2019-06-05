@@ -36,7 +36,7 @@ public class RSVegaTrackerWrapper {
 
     public JsonArray getRandomAccountActiveIsMule() {
         try {
-            return getMuleOrderDataTracker().get("http://localhost:8080/rsvega/account/is-mule/active/random");
+            return getMuleOrderDataTracker().get("https://api.sphiinx.me/rsvega/account/is-mule/active/random");
         } catch (IOException e) {
             e.printStackTrace();
         }
