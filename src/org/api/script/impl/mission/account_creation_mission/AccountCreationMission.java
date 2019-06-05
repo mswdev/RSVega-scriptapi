@@ -1,5 +1,6 @@
 package org.api.script.impl.mission.account_creation_mission;
 
+import org.api.http.HTTPUtil;
 import org.api.script.SPXScript;
 import org.api.script.framework.goal.GoalList;
 import org.api.script.framework.goal.impl.InfiniteGoal;
@@ -7,10 +8,8 @@ import org.api.script.framework.mission.Mission;
 import org.api.script.framework.worker.Worker;
 import org.api.script.impl.mission.account_creation_mission.data.Args;
 import org.api.script.impl.mission.account_creation_mission.worker.AccountCreationWorkerHandler;
-import org.rspeer.ui.Log;
 
-import java.net.Authenticator;
-import java.net.PasswordAuthentication;
+import java.io.IOException;
 import java.util.Map;
 
 public class AccountCreationMission extends Mission {
@@ -67,7 +66,13 @@ public class AccountCreationMission extends Mission {
 
     @Override
     public void onMissionStart() {
-        setProxy(getAccountData().get("socks_ip"), getAccountData().get("socks_port"), getAccountData().get("socks_username"), getAccountData().get("socks_password"));
+        try {
+            if (!HTTPUtil.setProxy(getAccountData().get("socks_ip"), getAccountData().get("socks_port"), getAccountData().get("socks_username"), getAccountData().get("socks_password")))
+                setShouldEnd(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         getAccountData().put("two_captcha_api_key", getArgs().twoCaptchaApiKey);
     }
 
@@ -81,26 +86,5 @@ public class AccountCreationMission extends Mission {
 
     public Map<String, String> getAccountData() {
         return accountData;
-    }
-
-    private void setProxy(String socksIP, String socksPort, String socksUsername, String socksPassword) {
-        if (socksIP != null && socksPort != null) {
-            Log.fine("Setting Proxy: IP: " + socksIP + " | Port: " + socksPort);
-            System.setProperty("socksProxyHost", socksIP);
-            System.setProperty("socksProxyPort", socksPort);
-        }
-
-        if (socksUsername != null && socksPassword != null) {
-            Log.fine("Setting Proxy: Username: " + socksUsername + " | Password: " + socksPassword);
-            System.setProperty("java.net.socks.username", socksUsername);
-            System.setProperty("java.net.socks.password", socksPassword);
-
-            Authenticator.setDefault(new Authenticator() {
-                @Override
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(socksUsername, socksPassword.toCharArray());
-                }
-            });
-        }
     }
 }
