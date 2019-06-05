@@ -66,11 +66,13 @@ public class AccountCreationMission extends Mission {
 
     @Override
     public void onMissionStart() {
-        try {
-            if (!HTTPUtil.setProxy(getAccountData().get("socks_ip"), getAccountData().get("socks_port"), getAccountData().get("socks_username"), getAccountData().get("socks_password")))
-                setShouldEnd(true);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (getAccountData().containsKey("socks_ip") && getAccountData().containsKey(("socks_port"))) {
+            try {
+                if (!HTTPUtil.setProxy(getAccountData().get("socks_ip"), getAccountData().get("socks_port"), getAccountData().get("socks_username"), getAccountData().get("socks_password")))
+                    setShouldEnd(true);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         getAccountData().put("two_captcha_api_key", getArgs().twoCaptchaApiKey);
