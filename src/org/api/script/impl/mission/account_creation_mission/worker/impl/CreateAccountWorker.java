@@ -62,7 +62,7 @@ public class CreateAccountWorker extends Worker {
         Log.log(Level.WARNING, "Info", "[Account Creation]: Attempting to create account...");
         JsonObject accountData = null;
         try {
-            accountData = mission.getScript().getRsVegaTrackerWrapper().getCreateAccountDataTracker().post(CreateAccountDataTracker.getCreateAccountData(mission.getAccountData())).getAsJsonObject();
+            accountData = mission.getScript().getRsVegaTrackerWrapper().getCreateAccountDataTracker().post(CreateAccountDataTracker.getCreateAccountData(mission.getAccountData())).get(0).getAsJsonObject();
         } catch (IOException e) {
             e.printStackTrace();
         }

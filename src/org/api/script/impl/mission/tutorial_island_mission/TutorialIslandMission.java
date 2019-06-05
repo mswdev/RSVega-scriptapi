@@ -165,7 +165,7 @@ public class TutorialIslandMission extends Mission {
         Log.log(Level.WARNING, "Info", "[Account Creation]: Attempting to create account...");
         JsonObject accountData = null;
         try {
-            accountData = getScript().getRsVegaTrackerWrapper().getCreateAccountDataTracker().post(CreateAccountDataTracker.getCreateAccountData(getAccountData())).getAsJsonObject();
+            accountData = getScript().getRsVegaTrackerWrapper().getCreateAccountDataTracker().post(CreateAccountDataTracker.getCreateAccountData(getAccountData())).get(0).getAsJsonObject();
         } catch (IOException e) {
             e.printStackTrace();
         }
