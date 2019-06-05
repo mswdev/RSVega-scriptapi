@@ -3,7 +3,8 @@ package org.api.script;
 import com.beust.jcommander.JCommander;
 import org.api.client.screenshot.Screenshot;
 import org.api.game.BankCache;
-import org.api.http.RSVegaTracker;
+import org.api.http.data_tracking.RSVegaTrackerWrapper;
+import org.api.script.blocking_event.LoginBlockingEvent;
 import org.api.script.framework.item_management.ItemManagement;
 import org.api.script.framework.item_management.ItemManagementEntry;
 import org.api.script.framework.item_management.ItemManagementTracker;
@@ -11,6 +12,7 @@ import org.api.script.framework.mission.Mission;
 import org.api.script.framework.mission.MissionHandler;
 import org.api.script.framework.mule_management.MuleManagementEntry;
 import org.api.script.framework.mule_management.MuleManagementTracker;
+import org.api.script.impl.mission.item_management_mission.ItemManagementMission;
 import org.api.script.impl.mission.mule_slave_management.mule_management_mission.MuleManagementMission;
 import org.api.ui.fxui.FXGUI;
 import org.api.ui.fxui.FXGUIBuilder;
@@ -19,13 +21,16 @@ import org.api.ui.swingui.GUIBuilder;
 import org.rspeer.runetek.event.listeners.RenderListener;
 import org.rspeer.runetek.event.types.RenderEvent;
 import org.rspeer.script.Script;
+import org.rspeer.script.events.LoginScreen;
+import org.rspeer.script.events.WelcomeScreen;
 import org.rspeer.ui.Log;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.logging.Level;
@@ -33,9 +38,8 @@ import java.util.logging.Level;
 public abstract class SPXScript extends Script implements RenderListener {
 
     private final ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(4);
-    private final RSVegaTracker rsVegaTracker = new RSVegaTracker(this, getMeta().name());
+    private final RSVegaTrackerWrapper rsVegaTrackerWrapper = new RSVegaTrackerWrapper(this);
     private final MuleManagementTracker muleManagementTracker = new MuleManagementTracker(this);
-    protected String scriptDataPath = getDataDirectory() + File.separator + "SPX" + File.separator + getMeta().name();
     private MissionHandler missionHandler;
     private FXGUIBuilder fxGuiBuilder;
     private GUIBuilder guiBuilder;
@@ -46,6 +50,9 @@ public abstract class SPXScript extends Script implements RenderListener {
     @Override
     public void onStart() {
         Log.log(Level.FINE, "Info", "Starting " + getMeta().name() + "!");
+        removeBlockingEvent(LoginScreen.class);
+        removeBlockingEvent(WelcomeScreen.class);
+        addBlockingEvent(new LoginBlockingEvent(this, this));
 
         createDirectoryFolders();
         if (getArguments() != null && getArgs() != null && getArgs().length() > 0) {
@@ -81,9 +88,7 @@ public abstract class SPXScript extends Script implements RenderListener {
         if (missionHandler.isStopped())
             setStopping(true);
 
-
-
-        /*final ItemManagementEntry itemManagementEntry = getReadyItemManagementEntry();
+        final ItemManagementEntry itemManagementEntry = getReadyItemManagementEntry();
         if (itemManagementEntry != null || itemManagementMissionHandler != null) {
             if (itemManagementMissionHandler == null)
                 itemManagementMissionHandler = new MissionHandler(new LinkedList<>(Collections.singleton(new ItemManagementMission(this, itemManagementEntry, itemManagementTracker, itemManagementTracker.getItemManagement().itemsToSell()))));
@@ -92,7 +97,7 @@ public abstract class SPXScript extends Script implements RenderListener {
                 return itemManagementMissionHandler.execute();
             else
                 itemManagementMissionHandler = null;
-        }*/
+        }
 
         final MuleManagementEntry muleManagementEntry = muleManagementTracker.getReadyMuleManagementEntry();
         if (muleManagementEntry != null) {
@@ -100,7 +105,6 @@ public abstract class SPXScript extends Script implements RenderListener {
             missionHandler.getMissions().add(missionHandler.getCurrent());
             missionHandler.endCurrent();
             muleManagementTracker.setMuleManagementEntry(null);
-            muleManagementTracker.setHasInsertedRequest(false);
         }
 
         return missionHandler.execute();
@@ -174,7 +178,7 @@ public abstract class SPXScript extends Script implements RenderListener {
      * Creates the script directories if they do not exist.
      */
     private void createDirectoryFolders() {
-        final Path botDirectoryPath = Paths.get(scriptDataPath);
+        final Path botDirectoryPath = Paths.get(SPXScriptUtil.getScriptDataPath(getMeta().name()));
         if (!Files.exists(botDirectoryPath)) {
             try {
                 Files.createDirectories(botDirectoryPath);
@@ -184,8 +188,8 @@ public abstract class SPXScript extends Script implements RenderListener {
         }
     }
 
-    public RSVegaTracker getRsVegaTracker() {
-        return rsVegaTracker;
+    public RSVegaTrackerWrapper getRsVegaTrackerWrapper() {
+        return rsVegaTrackerWrapper;
     }
 
     public ScheduledThreadPoolExecutor getScheduledThreadPoolExecutor() {

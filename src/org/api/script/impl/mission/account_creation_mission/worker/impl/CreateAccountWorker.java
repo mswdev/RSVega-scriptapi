@@ -1,7 +1,7 @@
 package org.api.script.impl.mission.account_creation_mission.worker.impl;
 
 import com.google.gson.JsonObject;
-import org.api.http.bot.CreateAccount;
+import org.api.http.data_tracking.data_tracker_factory.account.CreateAccountDataTracker;
 import org.api.script.SPXScriptUtil;
 import org.api.script.framework.worker.Worker;
 import org.api.script.impl.mission.account_creation_mission.AccountCreationMission;
@@ -25,7 +25,7 @@ public class CreateAccountWorker extends Worker {
 
     public CreateAccountWorker(AccountCreationMission mission) {
         this.mission = mission;
-        this.createdAccountsPath = Paths.get(SPXScriptUtil.getDataPath(mission.getScript().getMeta().name()) + File.separator + "created_accounts.txt");
+        this.createdAccountsPath = Paths.get(SPXScriptUtil.getScriptDataPath(mission.getScript().getMeta().name()) + File.separator + "created_accounts.txt");
     }
 
     @Override
@@ -60,7 +60,12 @@ public class CreateAccountWorker extends Worker {
 
 
         Log.log(Level.WARNING, "Info", "[Account Creation]: Attempting to create account...");
-        final JsonObject accountData = CreateAccount.post(mission.getAccountData());
+        JsonObject accountData = null;
+        try {
+            accountData = mission.getScript().getRsVegaTrackerWrapper().getCreateAccountDataTracker().post(CreateAccountDataTracker.getCreateAccountData(mission.getAccountData())).getAsJsonObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         if (accountData == null || accountData.get("error") != null) {
             Log.severe("[Account Creation]: Failed to create account; trying up to 3 more times...");

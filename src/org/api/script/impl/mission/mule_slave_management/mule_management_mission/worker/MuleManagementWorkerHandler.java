@@ -21,8 +21,8 @@ public class MuleManagementWorkerHandler extends WorkerHandler {
     public MuleManagementWorkerHandler(MuleManagementMission mission) {
         this.mission = mission;
         this.tradeMuleWorker = new TradeMuleWorker(mission);
-        this.switchToMuleWorldWorker = new SwitchWorldWorker(mission);
-        this.switchToPreviousWorldWorker = new SwitchWorldWorker(mission);
+        this.switchToMuleWorldWorker = new SwitchWorldWorker();
+        this.switchToPreviousWorldWorker = new SwitchWorldWorker();
     }
 
     @Override

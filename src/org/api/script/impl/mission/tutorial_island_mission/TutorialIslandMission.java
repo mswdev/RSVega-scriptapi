@@ -1,7 +1,7 @@
 package org.api.script.impl.mission.tutorial_island_mission;
 
 import com.google.gson.JsonObject;
-import org.api.http.bot.CreateAccount;
+import org.api.http.data_tracking.data_tracker_factory.account.CreateAccountDataTracker;
 import org.api.script.SPXScript;
 import org.api.script.SPXScriptUtil;
 import org.api.script.framework.goal.GoalList;
@@ -26,7 +26,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 
 public class TutorialIslandMission extends Mission {
@@ -34,19 +34,19 @@ public class TutorialIslandMission extends Mission {
     public static final int TUTORIAL_ISLAND_VARP = 281;
     private final Path createdAccountsPath;
     private final Args args;
-    private final HashMap<String, String> accountData;
+    private final Map<String, String> accountData;
     private final boolean createAccount;
     private final TutorialIslandWorkerHandler workerHandler;
     private int createAccountTries;
     private boolean shouldEnd;
 
-    public TutorialIslandMission(SPXScript script, Args args, HashMap<String, String> accountData, boolean createAccount) {
+    public TutorialIslandMission(SPXScript script, Args args, Map<String, String> accountData, boolean createAccount) {
         super(script);
         this.args = args;
         this.accountData = accountData;
         this.createAccount = createAccount;
         workerHandler = new TutorialIslandWorkerHandler(this);
-        createdAccountsPath = Paths.get(SPXScriptUtil.getDataPath(script.getMeta().name()) + File.separator + "created_accounts.txt");
+        createdAccountsPath = Paths.get(SPXScriptUtil.getScriptDataPath(script.getMeta().name()) + File.separator + "created_accounts.txt");
     }
 
 
@@ -143,7 +143,7 @@ public class TutorialIslandMission extends Mission {
         return args;
     }
 
-    private HashMap<String, String> getAccountData() {
+    private Map<String, String> getAccountData() {
         return accountData;
     }
 
@@ -159,7 +159,12 @@ public class TutorialIslandMission extends Mission {
 
         getAccountData().put("two_captcha_api_key", getArgs().twoCaptchaApiKey);
         Log.log(Level.WARNING, "Info", "[Account Creation]: Attempting to create account...");
-        final JsonObject accountData = CreateAccount.post(getAccountData());
+        JsonObject accountData = null;
+        try {
+            accountData = getScript().getRsVegaTrackerWrapper().getCreateAccountDataTracker().post(CreateAccountDataTracker.getCreateAccountData(getAccountData())).getAsJsonObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         if (accountData == null || accountData.get("error") != null) {
             Log.severe("[Account Creation]: Failed to create account; trying up to 3 more times...");

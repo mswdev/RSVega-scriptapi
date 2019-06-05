@@ -1,21 +1,18 @@
-package org.api.http.bot;
+package org.api.http.data_tracking.data_tracker_factory.account;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import okhttp3.FormBody;
-import okhttp3.Response;
-import org.api.http.RSVegaTracker;
-import org.api.http.wrappers.Request;
+import okhttp3.RequestBody;
+import org.api.http.data_tracking.data_tracker_factory.RSVegaTracker;
+import org.api.http.data_tracking.data_tracker_factory.RSVegaTrackerFactory;
 
-import java.io.IOException;
-import java.util.HashMap;
+import java.util.Map;
 
-public class CreateAccount {
+public class CreateAccountDataTracker extends RSVegaTrackerFactory {
 
     /**
-     * Sends a post request to the RSVega-restapi to create an account.
+     * Gets the request body for creating an account.
      *
-     * @param accountData The HashMap containing the account data to use when creating the account.
+     * @param accountData The Map containing the account data to use when creating the account.
      *                    <p>
      *                    Key: twoCaptchaApiKey - The 2captcha api key; this is required.
      *
@@ -37,36 +34,22 @@ public class CreateAccount {
      *                    <p>
      *                    Key: socks_password - The socks5 proxy password; this is not needed if the proxy does not have
      *                    a username or password.
-     * @return A json object of the account data; null otherwise. The json object includes the success, email, password
-     * and proxy used when creating the account. If the success returned false then there was an error creating the
-     * account; this can be due to a bad captcha or the email is taken.
+     * @return A request body of the account data.
      */
-    public static JsonObject post(HashMap<String, String> accountData) {
+    public static RequestBody getCreateAccountData(Map<String, String> accountData) {
         final FormBody.Builder formBuilder = new FormBody.Builder();
         formBuilder.add("two_captcha_api_key", accountData.getOrDefault("two_captcha_api_key", ""));
-
         formBuilder.add("email", accountData.getOrDefault("email", ""));
         formBuilder.add("password", accountData.getOrDefault("password", ""));
-
         formBuilder.add("socks_ip", accountData.getOrDefault("socks_ip", ""));
         formBuilder.add("socks_port", accountData.getOrDefault("socks_port", ""));
         formBuilder.add("socks_username", accountData.getOrDefault("socks_username", ""));
         formBuilder.add("socks_password", accountData.getOrDefault("socks_password", ""));
+        return formBuilder.build();
+    }
 
-        try (final Response response = Request.post(RSVegaTracker.API_URL + "/account/create", formBuilder.build())) {
-            if (!response.isSuccessful())
-                return null;
-
-            if (response.body() == null)
-                return null;
-
-            final Gson gson = new Gson().newBuilder().create();
-            return gson.fromJson(response.body().string(), JsonObject.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
+    @Override
+    protected RSVegaTracker getDataTracker() {
+        return new CreateAccountData();
     }
 }
-
