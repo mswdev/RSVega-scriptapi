@@ -1,6 +1,7 @@
 package org.api.script.impl.mission.tutorial_island_mission;
 
 import com.google.gson.JsonObject;
+import org.api.http.HTTPUtil;
 import org.api.http.data_tracking.data_tracker_factory.account.CreateAccountDataTracker;
 import org.api.script.SPXScript;
 import org.api.script.SPXScriptUtil;
@@ -20,8 +21,6 @@ import org.rspeer.ui.Log;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.Authenticator;
-import java.net.PasswordAuthentication;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -108,7 +107,12 @@ public class TutorialIslandMission extends Mission {
 
     @Override
     public void onMissionStart() {
-        setProxy(getAccountData().get("socks_ip"), getAccountData().get("socks_port"), getAccountData().get("socks_username"), getAccountData().get("socks_password"));
+        try {
+            if (!HTTPUtil.setProxy(getAccountData().get("socks_ip"), getAccountData().get("socks_port"), getAccountData().get("socks_username"), getAccountData().get("socks_password")))
+                setShouldEnd(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         if (!shouldCreateAccount()) {
             script.setAccount(new GameAccount(getAccountData().get("email"), getAccountData().get("password")));
@@ -190,27 +194,6 @@ public class TutorialIslandMission extends Mission {
             stringBuilder.append(accountData.get("socks_username").getAsString()).append(":").append(accountData.get("socks_password").getAsString());
 
         return stringBuilder.toString();
-    }
-
-    private void setProxy(String socksIP, String socksPort, String socksUsername, String socksPassword) {
-        if (socksIP != null && socksPort != null) {
-            Log.fine("Setting Proxy: IP: " + socksIP + " | Port: " + socksPort);
-            System.setProperty("socksProxyHost", socksIP);
-            System.setProperty("socksProxyPort", socksPort);
-        }
-
-        if (socksUsername != null && socksPassword != null) {
-            Log.fine("Setting Proxy: Username: " + socksUsername + " | Password: " + socksPassword);
-            System.setProperty("java.net.socks.username", socksUsername);
-            System.setProperty("java.net.socks.password", socksPassword);
-
-            Authenticator.setDefault(new Authenticator() {
-                @Override
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(socksUsername, socksPassword.toCharArray());
-                }
-            });
-        }
     }
 }
 
