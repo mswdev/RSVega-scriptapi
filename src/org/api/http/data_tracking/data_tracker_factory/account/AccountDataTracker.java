@@ -17,11 +17,13 @@ public class AccountDataTracker extends RSVegaTrackerFactory {
         final Map<String, String> accountData = new HashMap<>();
         accountData.put("user_id", String.valueOf(userId));
         accountData.put("email", getEmail());
-        accountData.put("display_name", getDisplayName());
         accountData.put("world", String.valueOf(Worlds.getCurrent()));
-        accountData.put("position_x", String.valueOf(Players.getLocal().getX()));
-        accountData.put("position_y", String.valueOf(Players.getLocal().getY()));
-        accountData.put("position_z", String.valueOf(Players.getLocal().getFloorLevel()));
+        if (Players.getLocal() != null) {
+            accountData.put("display_name", Players.getLocal().getName());
+            accountData.put("position_x", String.valueOf(Players.getLocal().getX()));
+            accountData.put("position_y", String.valueOf(Players.getLocal().getY()));
+            accountData.put("position_z", String.valueOf(Players.getLocal().getFloorLevel()));
+        }
         accountData.put("is_mule", String.valueOf(isMule ? 1 : 0));
         return getAccountData(accountData);
     }
@@ -82,17 +84,6 @@ public class AccountDataTracker extends RSVegaTrackerFactory {
             return "";
 
         return email;
-    }
-
-    private static String getDisplayName() {
-        if (Players.getLocal() == null)
-            return "";
-
-        final String displayName = Players.getLocal().getName();
-        if (displayName == null)
-            return "";
-
-        return displayName;
     }
 
     @Override

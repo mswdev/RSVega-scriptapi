@@ -27,6 +27,9 @@ public class SessionPositionDataTracker extends RSVegaTrackerFactory {
 
     private static boolean positionChanged() {
         if (currentPosition == null || !currentPosition.equals(Players.getLocal().getPosition())) {
+            if (Players.getLocal() == null)
+                return false;
+
             currentPosition = Players.getLocal().getPosition();
             return true;
         }

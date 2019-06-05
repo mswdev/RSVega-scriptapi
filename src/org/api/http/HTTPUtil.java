@@ -11,8 +11,6 @@ import java.net.PasswordAuthentication;
 
 public class HTTPUtil {
 
-    private static final OkHttpClient HTTP_CLIENT = new OkHttpClient();
-
     /**
      * Gets the current ip address.
      *
@@ -24,7 +22,7 @@ public class HTTPUtil {
                 .get()
                 .build();
 
-        final Response response = HTTP_CLIENT.newCall(request).execute();
+        final Response response = new OkHttpClient().newCall(request).execute();
         if (response.body() == null)
             return null;
 

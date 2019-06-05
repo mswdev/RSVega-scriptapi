@@ -36,8 +36,9 @@ public class RSVegaTrackerThread implements Runnable {
             setInsertedAccount(true);
         }
 
-        if (rsVegaTrackerWrapper.getEmail() == null)
-            rsVegaTrackerWrapper.setEmail(getEmail());
+        rsVegaTrackerWrapper.setEmail(getEmail());
+        if (rsVegaTrackerWrapper.getEmail() == null || rsVegaTrackerWrapper.getEmail().length() <= 0)
+            return;
 
         if (rsVegaTrackerWrapper.getSpxScript().getMissionHandler() != null && rsVegaTrackerWrapper.getSpxScript().getMissionHandler().getCurrent() != null)
             setMule(rsVegaTrackerWrapper.getSpxScript().getMissionHandler().getCurrent() instanceof SlaveManagementMission);
