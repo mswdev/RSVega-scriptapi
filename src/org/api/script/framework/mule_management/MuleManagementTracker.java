@@ -31,7 +31,7 @@ public class MuleManagementTracker {
         if (userId <= 0)
             return null;
 
-        final JsonArray accountActiveIsMuleData = getSpxScript().getRsVegaTrackerWrapper().getRandomAccountActiveIsMule();
+        final JsonArray accountActiveIsMuleData = getSpxScript().getRsVegaTrackerWrapper().getRandomAccountActiveIsMule(userId);
         if (accountActiveIsMuleData == null || accountActiveIsMuleData.size() <= 0)
             return null;
 

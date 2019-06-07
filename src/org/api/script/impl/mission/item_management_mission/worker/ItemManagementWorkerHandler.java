@@ -58,7 +58,7 @@ public class ItemManagementWorkerHandler extends WorkerHandler {
             if (Inventory.contains(TeleportToGrandExchangeWorker.RING_OF_WEALTH))
                 return new ItemWorker(TeleportToGrandExchangeWorker.RING_OF_WEALTH);
 
-            if (Arrays.stream(TeleportToGrandExchangeWorker.RING_OF_WEALTH_IDS).filter(a -> mission.getScript().getBankCache().getBankCache().getOrDefault(a, 0) != 0).findFirst().isPresent())
+            if (Arrays.stream(TeleportToGrandExchangeWorker.RING_OF_WEALTH_IDS).filter(a -> mission.getScript().getBankCache().getCache().getOrDefault(a, 0) != 0).findFirst().isPresent())
                 return new WithdrawWorker(mission, TeleportToGrandExchangeWorker.RING_OF_WEALTH);
 
             return new MovementWorker(BankLocation.GRAND_EXCHANGE.getPosition());

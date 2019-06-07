@@ -47,6 +47,6 @@ public class FishingWorkerHandler extends WorkerHandler {
             }
         }
 
-        return new NpcWorker(a -> a.getName().equals("Fishing spot"), a -> a.contains(fishType.getAction()), new MovementWorker(fishType.getFishLocation()[4].getPosition()));
+        return new NpcWorker(a -> a.getName().equals("Fishing spot"), a -> a.contains(fishType.getAction()), new MovementWorker(fishType.getFishLocation()[0].getPosition()));
     }
 }

@@ -88,7 +88,7 @@ public class WithdrawWorker extends Worker {
                 setItemNotFound();
             }
 
-            mission.getScript().getBankCache().getBankCache().clear();
+            mission.getScript().getBankCache().getCache().clear();
             mission.getScript().getBankCache().update();
             return;
         }
@@ -99,7 +99,7 @@ public class WithdrawWorker extends Worker {
             setItemNotFound();
         }
 
-        mission.getScript().getBankCache().getBankCache().clear();
+        mission.getScript().getBankCache().getCache().clear();
         mission.getScript().getBankCache().update();
     }
 

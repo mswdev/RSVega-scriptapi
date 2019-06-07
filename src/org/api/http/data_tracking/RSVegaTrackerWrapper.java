@@ -34,9 +34,9 @@ public class RSVegaTrackerWrapper {
         getSpxScript().getScheduledThreadPoolExecutor().scheduleAtFixedRate(new RSVegaTrackerThread(this), 0, 5, TimeUnit.SECONDS);
     }
 
-    public JsonArray getRandomAccountActiveIsMule() {
+    public JsonArray getRandomAccountActiveIsMule(int userId) {
         try {
-            return getMuleOrderDataTracker().get("https://api.sphiinx.me/rsvega/account/is-mule/active/random");
+            return getMuleOrderDataTracker().get("https://api.sphiinx.me/rsvega/account/user-id/" + userId + "/is-mule/active/random");
         } catch (IOException e) {
             e.printStackTrace();
         }

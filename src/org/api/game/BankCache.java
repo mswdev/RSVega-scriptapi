@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 public class BankCache implements Runnable {
 
-    private final Map<Integer, Integer> bankCache = new HashMap<>();
+    private final Map<Integer, Integer> cache = new HashMap<>();
 
     public BankCache(SPXScript spxScript) {
         spxScript.getScheduledThreadPoolExecutor().scheduleAtFixedRate(this, 0, 150, TimeUnit.MILLISECONDS);
@@ -21,7 +21,7 @@ public class BankCache implements Runnable {
         if (!Bank.isOpen())
             return;
 
-        getBankCache().clear();
+        getCache().clear();
         update();
     }
 
@@ -34,7 +34,7 @@ public class BankCache implements Runnable {
             return;
 
         for (Item item : items)
-            getBankCache().put(item.getId(), item.getStackSize());
+            getCache().put(item.getId(), item.getStackSize());
     }
 
     /**
@@ -42,8 +42,8 @@ public class BankCache implements Runnable {
      *
      * @return The bank cache;
      */
-    public Map<Integer, Integer> getBankCache() {
-        return bankCache;
+    public Map<Integer, Integer> getCache() {
+        return cache;
     }
 }
 

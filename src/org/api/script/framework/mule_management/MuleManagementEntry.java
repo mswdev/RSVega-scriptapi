@@ -55,7 +55,7 @@ public class MuleManagementEntry {
      */
     private boolean playerHasEntry() {
         final int inventoryAmount = Inventory.getCount(true, id) + Inventory.getCount(true, id + 1);
-        final int bankAmount = mission.getScript().getBankCache().getBankCache().getOrDefault(id, 0);
+        final int bankAmount = mission.getScript().getBankCache().getCache().getOrDefault(id, 0);
 
         return inventoryAmount + bankAmount > 0;
     }

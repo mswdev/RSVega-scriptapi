@@ -25,7 +25,7 @@ public class FXGUIBuilder /*extends Application */ {
                 fxmlBytes = reader.lines().collect(Collectors.joining("\n")).getBytes();
                 break;
             case FILE:
-                final Path path = Paths.getBankCache(fx_gui.getFXML());
+                final Path path = Paths.getCache(fx_gui.getFXML());
                 fxmlBytes = Files.readAllBytes(path);
                 break;
             case STRING:
