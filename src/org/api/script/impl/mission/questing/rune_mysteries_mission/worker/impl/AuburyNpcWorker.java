@@ -58,7 +58,7 @@ public class AuburyNpcWorker extends NpcWorker {
             return;
         }
 
-        if (Players.getLocal().getHealthBar() == null || mugger.getTarget() == null || !mugger.getTarget().equals(Players.getLocal()) || AUBURY_DOOR.distance() >= 15) {
+        if (Players.getLocal().isHealthBarVisible() || mugger.getTarget() == null || !mugger.getTarget().equals(Players.getLocal()) || AUBURY_DOOR.distance() >= 15) {
             super.work();
             return;
         }
