@@ -5,15 +5,14 @@ import org.api.script.framework.worker.Worker;
 import org.api.script.framework.worker.WorkerHandler;
 import org.api.script.impl.mission.fishing_mission.Fishingmission;
 import org.api.script.impl.worker.MovementWorker;
+import org.api.script.impl.worker.banking.DepositWorker;
 import org.api.script.impl.worker.banking.WithdrawWorker;
 import org.api.script.impl.worker.interactables.NpcWorker;
-import org.rspeer.runetek.adapter.component.Item;
 import org.rspeer.runetek.api.component.tab.Inventory;
 
 public class FishingWorkerHandler extends WorkerHandler {
 
     private final Fishingmission mission;
-    private boolean tempBool;
 
     public FishingWorkerHandler(Fishingmission mission) {
         this.mission = mission;
@@ -22,21 +21,8 @@ public class FishingWorkerHandler extends WorkerHandler {
     @Override
     public Worker decide() {
         final FishType fishType = FishType.SHRIMP;
-        final Item shrimpItem = Inventory.getFirst(fishType.getName());
-        final Item anchoviesItem = Inventory.getFirst("Raw anchovies");
-        if (Inventory.containsOnly(fishType.getRequiredEquipmentIds()))
-            tempBool = false;
-
-        if ((shrimpItem != null || anchoviesItem != null) && (tempBool || Inventory.isFull())) {
-            tempBool = true;
-
-            if (shrimpItem != null)
-                shrimpItem.interact(a -> a.equals("Drop"));
-
-            if (anchoviesItem != null)
-                anchoviesItem.interact(a -> a.equals("Drop"));
-            return null;
-        }
+        if (Inventory.isFull())
+            return new DepositWorker(a -> a.getId() != fishType.getRequiredEquipmentIds()[0]);
 
         if (!Inventory.contains(fishType.getRequiredEquipmentIds())) {
             for (int id : fishType.getRequiredEquipmentIds()) {

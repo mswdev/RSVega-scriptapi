@@ -60,7 +60,8 @@ public class Fishingmission extends Mission implements MuleManagement {
     @Override
     public MuleManagementEntry[] itemsToMule() {
         return new MuleManagementEntry[]{
-                new MuleManagementEntry(this, 317, () -> getScript().getBankCache().getCache().getOrDefault(317, 0) >= 48)
+                new MuleManagementEntry(this, 317, () -> getScript().getBankCache().getCache().getOrDefault(317, 0) >= 48),
+                new MuleManagementEntry(this, 321, () -> getScript().getBankCache().getCache().getOrDefault(321, 0) >= 48)
         };
     }
 
