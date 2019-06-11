@@ -18,6 +18,7 @@ import org.api.ui.fxui.FXGUI;
 import org.api.ui.fxui.FXGUIBuilder;
 import org.api.ui.swingui.GUI;
 import org.api.ui.swingui.GUIBuilder;
+import org.rspeer.runetek.api.Game;
 import org.rspeer.runetek.event.listeners.RenderListener;
 import org.rspeer.runetek.event.types.RenderEvent;
 import org.rspeer.script.Script;
@@ -40,10 +41,10 @@ public abstract class SPXScript extends Script implements RenderListener {
     private final ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(4);
     private final RSVegaTrackerWrapper rsVegaTrackerWrapper = new RSVegaTrackerWrapper(this);
     private final MuleManagementTracker muleManagementTracker = new MuleManagementTracker(this);
+    private final BankCache bankCache = new BankCache();
     private MissionHandler missionHandler;
     private FXGUIBuilder fxGuiBuilder;
     private GUIBuilder guiBuilder;
-    private BankCache bankCache = new BankCache(this);
     private ItemManagementTracker itemManagementTracker;
     private MissionHandler itemManagementMissionHandler;
 
@@ -53,6 +54,7 @@ public abstract class SPXScript extends Script implements RenderListener {
         removeBlockingEvent(LoginScreen.class);
         removeBlockingEvent(WelcomeScreen.class);
         addBlockingEvent(new LoginBlockingEvent(this, this));
+        Game.getEventDispatcher().register(bankCache);
 
         createDirectoryFolders();
         if (getArguments() != null && getArgs() != null && getArgs().length() > 0) {
@@ -113,6 +115,7 @@ public abstract class SPXScript extends Script implements RenderListener {
     @Override
     public void onStop() {
         getScheduledThreadPoolExecutor().shutdown();
+        Game.getEventDispatcher().deregister(bankCache);
         if (fxGuiBuilder != null)
             fxGuiBuilder.close();
 

@@ -3,31 +3,33 @@ package org.api.script.framework.item_management;
 import org.api.game.pricechecking.PriceCheck;
 import org.api.script.framework.goal.GoalList;
 import org.api.script.framework.mission.Mission;
+import org.rspeer.runetek.adapter.component.Item;
 import org.rspeer.runetek.api.component.tab.Equipment;
 import org.rspeer.runetek.api.component.tab.Inventory;
 
 import java.io.IOException;
 import java.util.function.BooleanSupplier;
+import java.util.function.Predicate;
 
 public class ItemManagementEntry {
 
-    private final int id;
+    private final Predicate<Item> item;
     private final int quantity;
     private GoalList goals;
     private BooleanSupplier goalOverride;
     private Mission mission;
 
-    public ItemManagementEntry(Mission mission, int id, int quantity, GoalList goals) {
-        this(mission, id, quantity, goals, null);
+    public ItemManagementEntry(Mission mission, Predicate<Item> item, int quantity, GoalList goals) {
+        this(mission, item, quantity, goals, null);
     }
 
-    public ItemManagementEntry(Mission mission, int id, int quantity, BooleanSupplier goalOverride) {
-        this(mission, id, quantity, null, goalOverride);
+    public ItemManagementEntry(Mission mission, Predicate<Item> item, int quantity, BooleanSupplier goalOverride) {
+        this(mission, item, quantity, null, goalOverride);
     }
 
-    public ItemManagementEntry(Mission mission, int id, int quantity, GoalList goals, BooleanSupplier goalOverride) {
+    public ItemManagementEntry(Mission mission, Predicate<Item> item, int quantity, GoalList goals, BooleanSupplier goalOverride) {
         this.mission = mission;
-        this.id = id;
+        this.item = item;
         this.quantity = quantity;
         this.goals = goals;
         this.goalOverride = goalOverride;
@@ -63,20 +65,30 @@ public class ItemManagementEntry {
      * @return True if the player has the entry; false otherwise.
      */
     private boolean playerHasEntry() {
-        final boolean inInventory = Inventory.contains(id, id + 1);
-        final boolean inEquipment = Equipment.contains(id);
-        final boolean inBank = mission.getScript().getBankCache().getCache().containsKey(id);
+        final boolean inInventory = Inventory.contains(item);
+        final boolean inEquipment = Equipment.contains(item);
+        final boolean inBank = mission.getScript().getBankCache().getItem(item) != null;
 
         return inInventory || inEquipment || inBank;
     }
 
     /**
-     * Gets the item id.
+     * Gets the item predicate.
      *
-     * @return The item id.
+     * @return The item predicate.
      */
+    public Predicate<Item> getItem() {
+        return item;
+    }
+
+    /**
+     * Gets the item predicate.
+     *
+     * @return The item predicate.
+     */
+    // [TODO - 6/11/19]: FIX THIS TOO IN ADDITION TO BELOW
     public int getId() {
-        return id;
+        return 0;
     }
 
     /**
@@ -86,11 +98,12 @@ public class ItemManagementEntry {
      * @return The value needed to buy the item; 0 otherwise.
      */
     public int getValueNeeded(double buyPriceModifier) {
-        if (id == ItemManagementTracker.GOLD_ID)
+        // [TODO - 6/11/19]: This will not work. It needs the item id passed. Add support for OSBuddy string names.
+        if (getId() == ItemManagementTracker.GOLD_ID)
             return quantity;
 
         try {
-            return (int) (PriceCheck.getOSBuddyPrice(id) * quantity * buyPriceModifier);
+            return (int) (PriceCheck.getOSBuddyPrice(getId()) * quantity * buyPriceModifier);
         } catch (IOException e) {
             e.printStackTrace();
         }

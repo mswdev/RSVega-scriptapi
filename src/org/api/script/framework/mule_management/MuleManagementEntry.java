@@ -2,30 +2,32 @@ package org.api.script.framework.mule_management;
 
 import org.api.script.framework.goal.GoalList;
 import org.api.script.framework.mission.Mission;
+import org.rspeer.runetek.adapter.component.Item;
 import org.rspeer.runetek.api.component.tab.Inventory;
 
 import java.util.function.BooleanSupplier;
+import java.util.function.Predicate;
 
 public class MuleManagementEntry {
 
-    private final int id;
+    private final Predicate<Item> item;
     private GoalList goals;
     private BooleanSupplier goalOverride;
     private Mission mission;
 
     private MuleManager muleManager;
 
-    public MuleManagementEntry(Mission mission, int id, GoalList goals) {
-        this(mission, id, goals, null);
+    public MuleManagementEntry(Mission mission, Predicate<Item> item, GoalList goals) {
+        this(mission, item, goals, null);
     }
 
-    public MuleManagementEntry(Mission mission, int id, BooleanSupplier goalOverride) {
-        this(mission, id, null, goalOverride);
+    public MuleManagementEntry(Mission mission, Predicate<Item> item, BooleanSupplier goalOverride) {
+        this(mission, item, null, goalOverride);
     }
 
-    public MuleManagementEntry(Mission mission, int id, GoalList goals, BooleanSupplier goalOverride) {
+    public MuleManagementEntry(Mission mission, Predicate<Item> item, GoalList goals, BooleanSupplier goalOverride) {
         this.mission = mission;
-        this.id = id;
+        this.item = item;
         this.goals = goals;
         this.goalOverride = goalOverride;
     }
@@ -54,19 +56,21 @@ public class MuleManagementEntry {
      * @return True if the player has the entry; false otherwise.
      */
     private boolean playerHasEntry() {
-        final int inventoryAmount = Inventory.getCount(true, id) + Inventory.getCount(true, id + 1);
-        final int bankAmount = mission.getScript().getBankCache().getCache().getOrDefault(id, 0);
+        final int inventoryAmount = Inventory.getCount(true, item);
+        final Item bankItem = mission.getScript().getBankCache().getItem(item);
+        if (bankItem == null)
+            return false;
 
-        return inventoryAmount + bankAmount > 0;
+        return inventoryAmount + bankItem.getStackSize() > 0;
     }
 
     /**
-     * Gets the item id.
+     * Gets the item predicate.
      *
-     * @return The item id.
+     * @return The item predicate.
      */
-    public int getId() {
-        return id;
+    public Predicate<Item> getItem() {
+        return item;
     }
 
     public MuleManager getMuleManager() {

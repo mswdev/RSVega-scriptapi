@@ -2,6 +2,7 @@ package org.api.script.framework.item_management;
 
 import org.api.game.pricechecking.PriceCheck;
 import org.api.script.SPXScript;
+import org.rspeer.runetek.adapter.component.Item;
 import org.rspeer.runetek.api.component.tab.Inventory;
 
 import java.io.IOException;
@@ -27,16 +28,21 @@ public class ItemManagementTracker {
      */
     public void update() {
         final long inventoryGold = Inventory.getCount(true, GOLD_ID);
-        final long bankGold = script.getBankCache().getCache().getOrDefault(GOLD_ID, 0);
-        totalGold = inventoryGold + bankGold;
+        final Item bankGold = script.getBankCache().getItem(a -> a.getId() == GOLD_ID);
+        if (bankGold == null)
+            return;
+
+        totalGold = inventoryGold + bankGold.getStackSize();
 
         totalSellableGold = 0;
         for (int id : itemManagement.itemsToSell()) {
             final long inventoryAmount = Inventory.getCount(id);
-            final long bankAmount = script.getBankCache().getCache().getOrDefault(id, 0);
+            final Item bankAmount = script.getBankCache().getItem(a -> a.getId() == id);
+            if (bankAmount == null)
+                return;
 
             try {
-                totalSellableGold += (inventoryAmount + bankAmount) * (PriceCheck.getOSBuddyPrice(id) * itemManagement.sellPriceModifier());
+                totalSellableGold += (inventoryAmount + bankAmount.getStackSize()) * (PriceCheck.getOSBuddyPrice(id) * itemManagement.sellPriceModifier());
             } catch (IOException e) {
                 e.printStackTrace();
             }
