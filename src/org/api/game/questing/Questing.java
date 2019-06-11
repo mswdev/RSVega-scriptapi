@@ -25,7 +25,6 @@ public class Questing {
         return Varps.get(101);
     }
 
-
     /**
      * Gets a string of the players completed quests.
      *

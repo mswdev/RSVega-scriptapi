@@ -3,6 +3,7 @@ package org.api.http.data_tracking.data_tracker_factory.account.stats;
 import okhttp3.FormBody;
 import okhttp3.RequestBody;
 import org.api.game.player.Player;
+import org.api.game.questing.QuestType;
 import org.api.game.questing.Questing;
 import org.api.http.data_tracking.data_tracker_factory.RSVegaTracker;
 import org.api.http.data_tracking.data_tracker_factory.RSVegaTrackerFactory;
@@ -14,7 +15,7 @@ public class StatsOSRSDataTracker extends RSVegaTrackerFactory {
 
     public static RequestBody getStatsOSRSData() {
         final FormBody.Builder formBuilder = new FormBody.Builder();
-        formBuilder.add("is_tutorial", String.valueOf(Player.isTutorial() ? 1 : 0));
+        formBuilder.add("is_tutorial", String.valueOf(!QuestType.TUTORIAL_ISLAND.isComplete() ? 1 : 0));
         formBuilder.add("ironman_state", String.valueOf(Player.getIronManState().getState()));
         formBuilder.add("level_total", String.valueOf(Skills.getTotalLevel()));
         formBuilder.add("level_combat", String.valueOf(Players.getLocal().getCombatLevel()));

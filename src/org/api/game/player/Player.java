@@ -6,18 +6,7 @@ import java.util.Arrays;
 
 public class Player {
 
-    private static final int TUTORIAL_ISLAND_VARP = 281;
-    private static final int TUTORIAL_ISLAND_FINISHED = 1000;
     private static final int IRONMAN_VARP = 1777;
-
-    /**
-     * Determines whether the player has completed tutorial island.
-     *
-     * @return True if the player has not completed tutorial island; false otherwise.
-     */
-    public static boolean isTutorial() {
-        return Varps.get(TUTORIAL_ISLAND_VARP) < TUTORIAL_ISLAND_FINISHED;
-    }
 
     /**
      * Gets the players ironman state.
