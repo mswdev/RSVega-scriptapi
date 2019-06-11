@@ -2,6 +2,8 @@ package org.api.game.player;
 
 import org.rspeer.runetek.api.Varps;
 
+import java.util.Arrays;
+
 public class Player {
 
     private static final int TUTORIAL_ISLAND_VARP = 281;
@@ -24,19 +26,7 @@ public class Player {
      */
     public static IronmanState getIronManState() {
         final int ironmanState = Varps.getBitValue(IRONMAN_VARP);
-        if (ironmanState == IronmanState.NONE.getState())
-            return IronmanState.NONE;
-
-        if (ironmanState == IronmanState.IRONMAN.getState())
-            return IronmanState.IRONMAN;
-
-        if (ironmanState == IronmanState.ULTIMATE.getState())
-            return IronmanState.ULTIMATE;
-
-        if (ironmanState == IronmanState.HARDCORE.getState())
-            return IronmanState.HARDCORE;
-
-        return IronmanState.NONE;
+        return Arrays.stream(IronmanState.values()).filter(a -> a.getState() == ironmanState).findFirst().orElse(IronmanState.NONE);
     }
 
 }

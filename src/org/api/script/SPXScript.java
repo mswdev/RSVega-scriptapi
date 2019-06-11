@@ -1,7 +1,6 @@
 package org.api.script;
 
 import com.beust.jcommander.JCommander;
-import org.api.client.screenshot.Screenshot;
 import org.api.game.BankCache;
 import org.api.http.data_tracking.RSVegaTrackerWrapper;
 import org.api.script.blocking_event.LoginBlockingEvent;
@@ -19,8 +18,6 @@ import org.api.ui.fxui.FXGUIBuilder;
 import org.api.ui.swingui.GUI;
 import org.api.ui.swingui.GUIBuilder;
 import org.rspeer.runetek.api.Game;
-import org.rspeer.runetek.event.listeners.RenderListener;
-import org.rspeer.runetek.event.types.RenderEvent;
 import org.rspeer.script.Script;
 import org.rspeer.script.events.LoginScreen;
 import org.rspeer.script.events.WelcomeScreen;
@@ -36,7 +33,7 @@ import java.util.Queue;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.logging.Level;
 
-public abstract class SPXScript extends Script implements RenderListener {
+public abstract class SPXScript extends Script {
 
     private final ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(4);
     private final RSVegaTrackerWrapper rsVegaTrackerWrapper = new RSVegaTrackerWrapper(this);
@@ -125,6 +122,38 @@ public abstract class SPXScript extends Script implements RenderListener {
         Log.log(Level.FINE, "Info", "Thanks for using " + getMeta().name() + "!");
     }
 
+    /**
+     * Gets a ready item management entry that has an item that can be bought.
+     *
+     * @return A ready item management entry.
+     */
+    private ItemManagementEntry getReadyItemManagementEntry() {
+        final Mission currentMission = missionHandler.getCurrent();
+        if (!(currentMission instanceof ItemManagement))
+            return null;
+
+        if (itemManagementTracker == null || itemManagementTracker.getItemManagement() != currentMission)
+            itemManagementTracker = new ItemManagementTracker(this, (ItemManagement) currentMission);
+
+        itemManagementTracker.update();
+        return itemManagementTracker.shouldBuy();
+    }
+
+    /**
+     * Creates the script directories if they do not exist.
+     */
+    private void createDirectoryFolders() {
+        final Path botDirectoryPath = Paths.get(SPXScriptUtil.getScriptDataPath(getMeta().name()));
+        if (Files.exists(botDirectoryPath))
+            return;
+
+        try {
+            Files.createDirectory(botDirectoryPath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public abstract Queue<Mission> createMissionQueue();
 
     public Object getArguments() {
@@ -153,42 +182,6 @@ public abstract class SPXScript extends Script implements RenderListener {
 
     public GUIBuilder getGUIBuilder() {
         return guiBuilder;
-    }
-
-    @Override
-    public void notify(RenderEvent renderEvent) {
-        Screenshot.renderQueue(renderEvent);
-    }
-
-    /**
-     * Gets a ready item management entry that has an item that can be bought.
-     *
-     * @return A ready item management entry.
-     */
-    private ItemManagementEntry getReadyItemManagementEntry() {
-        final Mission currentMission = missionHandler.getCurrent();
-        if (!(currentMission instanceof ItemManagement))
-            return null;
-
-        if (itemManagementTracker == null || itemManagementTracker.getItemManagement() != currentMission)
-            itemManagementTracker = new ItemManagementTracker(this, (ItemManagement) currentMission);
-
-        itemManagementTracker.update();
-        return itemManagementTracker.shouldBuy();
-    }
-
-    /**
-     * Creates the script directories if they do not exist.
-     */
-    private void createDirectoryFolders() {
-        final Path botDirectoryPath = Paths.get(SPXScriptUtil.getScriptDataPath(getMeta().name()));
-        if (!Files.exists(botDirectoryPath)) {
-            try {
-                Files.createDirectories(botDirectoryPath);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     public RSVegaTrackerWrapper getRsVegaTrackerWrapper() {
