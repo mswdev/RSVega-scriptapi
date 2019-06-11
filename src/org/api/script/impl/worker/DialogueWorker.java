@@ -30,11 +30,6 @@ public class DialogueWorker extends Worker {
     }
 
     @Override
-    public boolean needsRepeat() {
-        return Dialog.isOpen();
-    }
-
-    @Override
     public void work() {
         if (cutsceneDelay != null && cutsceneDelay.getAsBoolean()) {
             processDialog();

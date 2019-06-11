@@ -17,11 +17,6 @@ public class SetBrightness extends Worker {
     }
 
     @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
-    @Override
     public void work() {
         if (!Tabs.isOpen(Tab.OPTIONS))
             if (Tabs.open(Tab.OPTIONS))

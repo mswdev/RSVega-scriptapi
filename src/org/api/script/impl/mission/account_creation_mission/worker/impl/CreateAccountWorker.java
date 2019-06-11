@@ -29,11 +29,6 @@ public class CreateAccountWorker extends Worker {
     }
 
     @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
-    @Override
     public void work() {
         final JsonObject accountData = createAccount();
         if (accountData == null)

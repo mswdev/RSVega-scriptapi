@@ -22,11 +22,6 @@ public class BuyWorker extends Worker {
     }
 
     @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
-    @Override
     public void work() {
         if (mission.getItemManagementEntry().getId() == ItemManagementTracker.GOLD_ID) {
             mission.shouldEnd = true;

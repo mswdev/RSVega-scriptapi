@@ -20,11 +20,6 @@ public class TradeMuleWorker extends Worker {
     }
 
     @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
-    @Override
     public void work() {
         final Player mule = Players.getNearest(mission.getMuleManagementEntry().getMuleManager().getDisplayName());
         if (mule == null) {

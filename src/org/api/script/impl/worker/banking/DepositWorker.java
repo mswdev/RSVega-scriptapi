@@ -4,7 +4,6 @@ import org.api.script.framework.worker.Worker;
 import org.rspeer.runetek.adapter.component.Item;
 import org.rspeer.runetek.api.component.Bank;
 import org.rspeer.runetek.api.component.DepositBox;
-import org.rspeer.runetek.api.component.tab.Inventory;
 
 import java.util.function.Predicate;
 
@@ -12,7 +11,6 @@ public class DepositWorker extends Worker {
 
     private final Predicate<Item> itemPredicate;
     private final int amount;
-    private final int inventoryCache;
     private final OpenBankWorker openBankWorker;
 
     public DepositWorker() {
@@ -26,13 +24,7 @@ public class DepositWorker extends Worker {
     public DepositWorker(Predicate<Item> itemPredicate, int amount) {
         this.itemPredicate = itemPredicate;
         this.amount = amount;
-        inventoryCache = Inventory.getCount(true);
         openBankWorker = new OpenBankWorker();
-    }
-
-    @Override
-    public boolean needsRepeat() {
-        return Inventory.getCount(true) == inventoryCache && !Inventory.isEmpty();
     }
 
     @Override

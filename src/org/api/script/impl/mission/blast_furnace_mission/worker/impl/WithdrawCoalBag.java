@@ -20,11 +20,6 @@ public class WithdrawCoalBag extends Worker {
     }
 
     @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
-    @Override
     public void work() {
         withdrawWorker.work();
         mission.shouldEnd = withdrawWorker.itemNotFound();

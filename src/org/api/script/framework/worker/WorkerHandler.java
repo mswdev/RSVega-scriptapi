@@ -16,10 +16,11 @@ public abstract class WorkerHandler {
      * Handles the execution of the workers and repetition.
      */
     public void work() {
-        currentWorker = currentWorker == null || !currentWorker.needsRepeat() ? decide() : currentWorker;
+        currentWorker = decide();
+        if (currentWorker == null)
+            return;
 
-        if (currentWorker != null)
-            currentWorker.work();
+        currentWorker.work();
     }
 
     /**

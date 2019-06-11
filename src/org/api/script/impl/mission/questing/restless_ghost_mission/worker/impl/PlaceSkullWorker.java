@@ -7,12 +7,6 @@ import org.rspeer.runetek.api.scene.SceneObjects;
 
 public class PlaceSkullWorker extends Worker {
 
-
-    @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
     @Override
     public void work() {
         final SceneObject coffin = SceneObjects.getNearest("Coffin");

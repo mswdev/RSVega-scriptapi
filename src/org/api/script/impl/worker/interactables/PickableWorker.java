@@ -35,11 +35,6 @@ public class PickableWorker extends Worker {
     }
 
     @Override
-    public boolean needsRepeat() {
-        return movementWorker != null && movementWorker.needsRepeat();
-    }
-
-    @Override
     public void work() {
         if (Players.getLocal().getAnimation() != -1)
             return;

@@ -27,11 +27,6 @@ public class CollectBars extends Worker {
     }
 
     @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
-    @Override
     public void work() {
         final Item bar = Inventory.getFirst("Steel bar");
         if (bar != null) {

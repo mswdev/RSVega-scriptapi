@@ -7,12 +7,6 @@ import org.rspeer.runetek.api.component.InterfaceOptions;
 
 public class HideRoofs extends Worker {
 
-
-    @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
     @Override
     public void work() {
         if (ClientSettings.toggleRoofs())

@@ -15,11 +15,6 @@ public class SmithDagger extends Worker {
     private static final Predicate<String> SMITH_DAGGER = a -> a.equals("Smith 1");
 
     @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
-    @Override
     public void work() {
         if (Players.getLocal().getAnimation() != -1)
             return;

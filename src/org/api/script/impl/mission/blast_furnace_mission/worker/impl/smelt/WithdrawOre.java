@@ -30,11 +30,6 @@ public class WithdrawOre extends Worker {
     }
 
     @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
-    @Override
     public void work() {
         if (mission.isCoalBagEmpty) {
             if (Inventory.contains(ingredientOne)) {

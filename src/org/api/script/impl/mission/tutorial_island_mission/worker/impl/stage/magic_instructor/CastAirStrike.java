@@ -18,11 +18,6 @@ public class CastAirStrike extends Worker {
     private static final Position CAST_TILE = new Position(3139, 3091, 0);
 
     @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
-    @Override
     public void work() {
         if (Players.getLocal().getTargetIndex() != -1)
             return;

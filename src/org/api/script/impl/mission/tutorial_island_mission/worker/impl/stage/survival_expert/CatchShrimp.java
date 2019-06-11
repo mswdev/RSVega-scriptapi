@@ -15,11 +15,6 @@ public class CatchShrimp extends Worker {
     private static final Predicate<Npc> FISHING_SPOT = a -> a.getName().equals("Fishing spot");
 
     @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
-    @Override
     public void work() {
         if (Players.getLocal().getAnimation() != -1)
             return;

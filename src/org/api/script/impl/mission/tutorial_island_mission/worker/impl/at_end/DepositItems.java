@@ -10,12 +10,6 @@ import org.rspeer.runetek.api.scene.Players;
 
 public class DepositItems extends Worker {
 
-
-    @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
     @Override
     public void work() {
         if (Players.getLocal().isMoving() && Movement.getDestinationDistance() > 10)

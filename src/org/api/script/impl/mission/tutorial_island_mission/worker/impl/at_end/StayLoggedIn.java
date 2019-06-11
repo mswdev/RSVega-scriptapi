@@ -4,12 +4,6 @@ import org.api.script.framework.worker.Worker;
 
 public class StayLoggedIn extends Worker {
 
-
-    @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
     @Override
     public void work() {
     }

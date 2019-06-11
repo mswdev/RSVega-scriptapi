@@ -35,11 +35,6 @@ public class ItemWorker extends Worker {
     }
 
     @Override
-    public boolean needsRepeat() {
-        return withdrawWorker != null && withdrawWorker.needsRepeat();
-    }
-
-    @Override
     public void work() {
         if (Players.getLocal().getAnimation() != -1)
             return;

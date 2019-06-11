@@ -15,11 +15,6 @@ public class MakeDough extends Worker {
     private static final Predicate<Item> WATER = a -> a.getName().equals("Bucket of water");
 
     @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
-    @Override
     public void work() {
         if (Players.getLocal().getAnimation() != -1)
             return;

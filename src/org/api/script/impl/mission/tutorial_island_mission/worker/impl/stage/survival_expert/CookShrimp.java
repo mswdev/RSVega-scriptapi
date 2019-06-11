@@ -15,11 +15,6 @@ public class CookShrimp extends Worker {
     private static final Predicate<SceneObject> FIRE = a -> a.getName().equals("Fire");
 
     @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
-    @Override
     public void work() {
         if (Players.getLocal().getAnimation() != -1)
             return;

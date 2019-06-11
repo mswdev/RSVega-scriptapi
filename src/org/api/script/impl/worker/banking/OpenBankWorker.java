@@ -20,11 +20,6 @@ public class OpenBankWorker extends Worker {
     }
 
     @Override
-    public boolean needsRepeat() {
-        return !Bank.isOpen() && !DepositBox.isOpen();
-    }
-
-    @Override
     public void work() {
         if (Players.getLocal().isMoving() && Movement.getDestinationDistance() > 10)
             return;

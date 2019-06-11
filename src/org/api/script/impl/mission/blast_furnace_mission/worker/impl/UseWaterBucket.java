@@ -20,11 +20,6 @@ public class UseWaterBucket extends Worker {
     private static final Predicate<SceneObject> SINK = a -> a.getName().equals("Sink");
 
     @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
-    @Override
     public void work() {
         Item bucketItem = Inventory.getFirst(BUCKET_ITEM);
         final Item bucketOfWaterItem = Inventory.getFirst(BUCKET_OF_WATER_ITEM);

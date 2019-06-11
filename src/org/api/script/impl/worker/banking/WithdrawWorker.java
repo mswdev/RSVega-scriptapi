@@ -17,7 +17,6 @@ public class WithdrawWorker extends Worker {
     private final Predicate<Item> item;
     private final Bank.WithdrawMode withdrawMode;
     private final int amount;
-    private final int inventoryCache;
     private final OpenBankWorker openBankWorker;
     private final DepositWorker depositWorker;
     private boolean itemNotFound;
@@ -39,14 +38,8 @@ public class WithdrawWorker extends Worker {
         this.item = item;
         this.withdrawMode = withdrawMode;
         this.amount = amount;
-        inventoryCache = Inventory.getCount(true);
         openBankWorker = new OpenBankWorker(false);
         this.depositWorker = new DepositWorker();
-    }
-
-    @Override
-    public boolean needsRepeat() {
-        return depositWorker.needsRepeat() || openBankWorker.needsRepeat() || Inventory.getCount(true) == inventoryCache;
     }
 
     @Override

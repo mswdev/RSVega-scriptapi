@@ -14,11 +14,6 @@ public class Logout extends Worker {
     }
 
     @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
-    @Override
     public void work() {
         if (Game.logout()) {
             if (Time.sleepUntil(() -> !Game.isLoggedIn(), 6500)) {

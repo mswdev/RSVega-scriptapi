@@ -16,11 +16,6 @@ public class TradeSlaveWorker extends Worker {
     }
 
     @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
-    @Override
     public void work() {
         final String playerTradingDisplayName = mission.getTradeMessageListener().getPlayerTradingDisplayName();
         if (playerTradingDisplayName == null)

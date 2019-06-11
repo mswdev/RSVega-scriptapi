@@ -22,11 +22,6 @@ public class WithdrawPotion extends Worker {
     }
 
     @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
-    @Override
     public void work() {
         if (!EnterInput.isOpen()) {
             sceneObjectWorker.work();

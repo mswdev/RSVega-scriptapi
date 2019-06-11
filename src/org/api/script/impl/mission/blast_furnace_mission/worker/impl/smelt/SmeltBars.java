@@ -22,11 +22,6 @@ public class SmeltBars extends Worker {
     }
 
     @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
-    @Override
     public void work() {
         final SceneObject conveyorBelt = SceneObjects.getNearest(CONVEYOR_BELT);
         if (conveyorBelt == null)

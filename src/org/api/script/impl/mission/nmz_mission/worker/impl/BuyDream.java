@@ -15,11 +15,6 @@ public class BuyDream extends Worker {
     private final NpcWorker npcWorker = new NpcWorker(dominicOnionPredicate, a -> a.contains("Dream"), dialogueWorker);
 
     @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
-    @Override
     public void work() {
         npcWorker.work();
     }
