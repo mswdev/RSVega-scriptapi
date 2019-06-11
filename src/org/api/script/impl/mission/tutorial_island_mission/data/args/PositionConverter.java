@@ -7,7 +7,6 @@ import java.util.Arrays;
 
 class PositionConverter implements IStringConverter<Position> {
 
-
     @Override
     public Position convert(String s) {
         final int[] xyz = Arrays.stream(s.split(",")).mapToInt(Integer::parseInt).toArray();
