@@ -19,11 +19,6 @@ public class WithdrawSellablesWorker extends Worker {
     }
 
     @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
-    @Override
     public void work() {
         if (!Bank.isOpen()) {
             openBankWorker.work();

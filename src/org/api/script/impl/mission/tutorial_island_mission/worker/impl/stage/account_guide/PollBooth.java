@@ -10,11 +10,6 @@ public class PollBooth extends Worker {
     private static final HintWorker HINT_WORKER = new HintWorker();
 
     @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
-    @Override
     public void work() {
         if (!Dialog.isOpen()) {
             HINT_WORKER.work();

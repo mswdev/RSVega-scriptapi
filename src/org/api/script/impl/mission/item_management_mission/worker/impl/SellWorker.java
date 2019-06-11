@@ -22,11 +22,6 @@ public class SellWorker extends Worker {
     }
 
     @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
-    @Override
     public void work() {
         if (GrandExchange.getFirst(a -> a.getProgress() == RSGrandExchangeOffer.Progress.FINISHED) != null && GrandExchange.getView() == GrandExchange.View.OVERVIEW) {
             final int inventoryCache = Inventory.getCount(true);

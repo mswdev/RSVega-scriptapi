@@ -38,11 +38,6 @@ public class PayForeman extends Worker {
     }
 
     @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
-    @Override
     public void work() {
         paidForeman = false;
         if (Inventory.getCount(true, BlastFurnaceMission.COINS) < DEPOSIT_AMOUNT) {

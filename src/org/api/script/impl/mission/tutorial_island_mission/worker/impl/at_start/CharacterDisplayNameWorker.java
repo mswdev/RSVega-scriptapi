@@ -21,11 +21,6 @@ public class CharacterDisplayNameWorker extends Worker {
     }
 
     @Override
-    public boolean needsRepeat() {
-        return Varps.getBitValue(DISPLAY_NAME_VARPBIT) != 0;
-    }
-
-    @Override
     public void work() {
         if (Varps.getBitValue(DISPLAY_NAME_VARPBIT) == DisplayNameType.SEARCHING.getVarpbitValue())
             return;

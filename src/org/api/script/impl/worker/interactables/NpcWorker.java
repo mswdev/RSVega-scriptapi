@@ -56,11 +56,6 @@ public class NpcWorker extends Worker {
     }
 
     @Override
-    public boolean needsRepeat() {
-        return dialogueWorker.needsRepeat() || (movementWorker != null && movementWorker.needsRepeat());
-    }
-
-    @Override
     public void work() {
         if (Players.getLocal().getAnimation() != -1)
             return;

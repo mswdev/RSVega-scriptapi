@@ -24,11 +24,6 @@ public class BuyPotion extends Worker {
     }
 
     @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
-    @Override
     public void work() {
         final InterfaceComponent rewardsChestComponent = Interfaces.getComponent(REWARDS_CHEST_COMPONENT_PREDICATE, REWARDS_CHEST_POTIONS_COMPONENT_PREDICATE, potionType.getShopInterfaceId());
         if (rewardsChestComponent == null) {

@@ -12,11 +12,6 @@ public class DropItems extends Worker {
     private final Predicate<String> DROP = a -> a.equals("Drop");
 
     @Override
-    public boolean needsRepeat() {
-        return Inventory.getCount() > 0;
-    }
-
-    @Override
     public void work() {
         final Item item = Inventory.getItems()[0];
         if (item == null)

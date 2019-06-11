@@ -16,11 +16,6 @@ public class CharacterSetupWorker extends Worker {
     }
 
     @Override
-    public boolean needsRepeat() {
-        return Varps.get(TutorialIslandMission.TUTORIAL_ISLAND_VARP) == 1;
-    }
-
-    @Override
     public void work() {
         if (Varps.getBitValue(CharacterDisplayNameWorker.DISPLAY_NAME_VARPBIT) == DisplayNameType.UNKNOWN.getVarpbitValue() || Varps.getBitValue(CharacterDisplayNameWorker.DISPLAY_NAME_VARPBIT) == DisplayNameType.SET.getVarpbitValue())
             characterDesignWorker.work();

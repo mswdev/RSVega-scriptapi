@@ -18,11 +18,6 @@ public class EnterDream extends Worker {
     private final SceneObjectWorker sceneObjectWorker = new SceneObjectWorker(dreamPotionPredicate, a -> a.equals("Drink"));
 
     @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
-    @Override
     public void work() {
         final InterfaceComponent acceptDreamComponent = Interfaces.getComponent(DREAM_COMPONENT_PREDICATE, ACCEPT_DREAM_COMPONENT_PREDICATE);
         if (acceptDreamComponent == null) {

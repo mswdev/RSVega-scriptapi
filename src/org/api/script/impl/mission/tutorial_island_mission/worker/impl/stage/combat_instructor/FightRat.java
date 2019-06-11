@@ -18,11 +18,6 @@ public class FightRat extends Worker {
     private static final ItemWorker EQUIP_BOW_AND_ARROWS = new ItemWorker(a -> a.getName().equals("Shortbow") || a.getName().equals("Bronze arrow"));
 
     @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
-    @Override
     public void work() {
         if (Players.getLocal().isMoving() && Movement.getDestinationDistance() > 10)
             return;

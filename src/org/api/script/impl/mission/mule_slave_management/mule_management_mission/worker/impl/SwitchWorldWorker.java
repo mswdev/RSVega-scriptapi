@@ -11,11 +11,6 @@ public class SwitchWorldWorker extends Worker {
     private int worldToSwitch;
 
     @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
-    @Override
     public void work() {
         if (Interfaces.getOpen().size() > 0) {
             if (Interfaces.closeAll())

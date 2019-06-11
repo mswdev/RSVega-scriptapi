@@ -18,11 +18,6 @@ public class LightFire extends Worker {
     private static final Predicate<Item> TINDERBOX = a -> a.getName().equals("Tinderbox");
 
     @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
-    @Override
     public void work() {
         if (Players.getLocal().isMoving())
             return;

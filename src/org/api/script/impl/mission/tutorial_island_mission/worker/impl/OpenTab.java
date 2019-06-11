@@ -14,11 +14,6 @@ public class OpenTab extends Worker {
     }
 
     @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
-    @Override
     public void work() {
         if (Tabs.open(tab))
             Time.sleepUntil(() -> Tabs.isOpen(tab), 1500);

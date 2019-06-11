@@ -22,11 +22,6 @@ public class DrinkStamina extends Worker {
     public boolean outOfStamina;
 
     @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
-    @Override
     public void work() {
         if (Movement.isStaminaEnhancementActive()) {
             if (Bank.isOpen()) {

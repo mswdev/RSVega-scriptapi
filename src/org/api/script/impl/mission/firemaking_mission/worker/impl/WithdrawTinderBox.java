@@ -17,11 +17,6 @@ public class WithdrawTinderBox extends Worker {
     }
 
     @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
-    @Override
     public void work() {
         withdrawWorker.work();
     }

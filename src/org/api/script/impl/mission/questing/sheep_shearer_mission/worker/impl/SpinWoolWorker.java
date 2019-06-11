@@ -14,11 +14,6 @@ public class SpinWoolWorker extends Worker {
     private StopWatch stopWatch = StopWatch.start();
 
     @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
-    @Override
     public void work() {
         if (Players.getLocal().getAnimation() != -1) {
             stopWatch = StopWatch.start();

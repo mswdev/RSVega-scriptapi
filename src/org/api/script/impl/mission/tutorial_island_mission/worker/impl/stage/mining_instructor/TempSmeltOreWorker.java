@@ -7,10 +7,6 @@ import org.rspeer.runetek.api.component.tab.Inventory;
 import org.rspeer.runetek.api.scene.SceneObjects;
 
 public class TempSmeltOreWorker extends Worker {
-    @Override
-    public boolean needsRepeat() {
-        return false;
-    }
 
     @Override
     public void work() {

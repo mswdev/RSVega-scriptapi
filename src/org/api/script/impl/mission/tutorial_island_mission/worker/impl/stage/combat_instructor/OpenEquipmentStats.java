@@ -14,11 +14,6 @@ public class OpenEquipmentStats extends Worker {
     private static final Predicate<String> EQUIPMENT_VIEW_BUTTON = a -> a.equals("View equipment stats");
 
     @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
-    @Override
     public void work() {
         final InterfaceComponent STATS = Interfaces.getComponent(INTER_MASTER, INTER_EQUIPMENT_CHILD);
         if (STATS == null)

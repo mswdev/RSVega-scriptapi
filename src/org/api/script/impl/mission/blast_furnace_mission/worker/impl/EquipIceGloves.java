@@ -22,11 +22,6 @@ public class EquipIceGloves extends Worker {
     }
 
     @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
-    @Override
     public void work() {
         final Item item = Inventory.getFirst(ICE_GLOVES);
         if (item == null) {

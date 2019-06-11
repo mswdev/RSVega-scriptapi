@@ -17,11 +17,6 @@ public class LightFire extends Worker {
     }
 
     @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
-    @Override
     public void work() {
         if (Players.getLocal().getAnimation() != -1 || Players.getLocal().isMoving())
             return;

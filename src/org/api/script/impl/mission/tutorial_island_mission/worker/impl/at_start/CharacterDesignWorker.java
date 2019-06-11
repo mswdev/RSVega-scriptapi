@@ -24,11 +24,6 @@ public class CharacterDesignWorker extends Worker {
     }
 
     @Override
-    public boolean needsRepeat() {
-        return false;
-    }
-
-    @Override
     public void work() {
         final List<DesignOption> designOptions = new ArrayList<>(Arrays.asList(DesignOption.values()));
         Collections.shuffle(designOptions);
