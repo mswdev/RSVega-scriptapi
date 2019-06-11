@@ -10,6 +10,7 @@ import org.api.http.data_tracking.data_tracker_factory.user.system_info.SystemIn
 import org.api.script.impl.mission.mule_slave_management.slave_management_mission.SlaveManagementMission;
 import org.rspeer.RSPeer;
 import org.rspeer.runetek.api.Game;
+import org.rspeer.script.Script;
 import org.rspeer.ui.Log;
 
 import java.io.IOException;
@@ -29,7 +30,9 @@ public class RSVegaTrackerThread implements Runnable {
 
     @Override
     public void run() {
-        Log.log(Level.WARNING, "Info", "Executing RSVega data tracking.");
+        if (Script.getRSPeerUser().getUsername().equalsIgnoreCase("sphiinx"))
+            Log.log(Level.WARNING, "Info", "Executing RSVega data tracking.");
+
         if (!insertedUser()) {
             insertUser();
             insertSystemInfo(rsVegaTrackerWrapper.getUserDataTracker().getId());
