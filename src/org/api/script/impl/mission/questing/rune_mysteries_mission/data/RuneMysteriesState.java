@@ -2,6 +2,8 @@ package org.api.script.impl.mission.questing.rune_mysteries_mission.data;
 
 import org.api.script.framework.worker.Worker;
 import org.api.script.impl.mission.questing.rune_mysteries_mission.RuneMysteriesMission;
+import org.api.script.impl.mission.questing.rune_mysteries_mission.worker.impl.AuburyNpcWorker;
+import org.api.script.impl.mission.questing.rune_mysteries_mission.worker.impl.TempMovementWorker;
 import org.api.script.impl.worker.DialogueWorker;
 import org.api.script.impl.worker.MovementWorker;
 import org.api.script.impl.worker.banking.DepositWorker;
@@ -19,15 +21,15 @@ public enum RuneMysteriesState {
 
     GET_TALISMAN(new NpcWorker(a -> a.getName().equals("Duke Horacio"), new DialogueWorker(a -> a.equals("Talk about something else.") || a.equals("Have you any quests for me?") || a.equals("Sure, no problem.")), new MovementWorker(new Position(3209, 3222, 1))), null, 0, 1),
 
-    DELIVER_TALISMAN(new NpcWorker(a -> a.getName().equals("Sedridor"), new DialogueWorker(a -> a.equals("I'm looking for the head wizard.") || a.equals("Ok, here you are.") || a.equals("Yes, certainly.")), new MovementWorker(new Position(3106, 9570, 0))), () -> Inventory.contains("Air talisman"), 1),
+    DELIVER_TALISMAN(new NpcWorker(a -> a.getName().equals("Sedridor"), new DialogueWorker(a -> a.equals("I'm looking for the head wizard.") || a.equals("Ok, here you are.") || a.equals("Yes, certainly.")), new TempMovementWorker(new Position(3106, 9570, 0))), () -> Inventory.contains("Air talisman"), 1),
 
-    GET_PACKAGE(new NpcWorker(a -> a.getName().equals("Sedridor"), new MovementWorker(new Position(3106, 9570, 0))), null, 2, 3),
+    GET_PACKAGE(new NpcWorker(a -> a.getName().equals("Sedridor"), new TempMovementWorker(new Position(3106, 9570, 0))), null, 2, 3),
 
-    DELIVER_PACKAGE(new NpcWorker(a -> a.getName().equals("Aubury"), new DialogueWorker(a -> a.equals("I have been sent here with a package for you.")), new MovementWorker(new Position(3253, 3400, 0))), () -> Inventory.contains("Research package"), 3),
+    DELIVER_PACKAGE(new AuburyNpcWorker(a -> a.getName().equals("Aubury"), new DialogueWorker(a -> a.equals("I have been sent here with a package for you.")), new TempMovementWorker(new Position(3253, 3400, 0))), () -> Inventory.contains("Research package"), 3),
 
-    GET_NOTE(new NpcWorker(a -> a.getName().equals("Aubury"), new MovementWorker(new Position(3253, 3400, 0))), null, 4, 5),
+    GET_NOTE(new AuburyNpcWorker(a -> a.getName().equals("Aubury"), new TempMovementWorker(new Position(3253, 3400, 0))), null, 4, 5),
 
-    DELIVER_NOTE(new NpcWorker(a -> a.getName().equals("Sedridor"), new MovementWorker(new Position(3106, 9570, 0))), () -> Inventory.contains("Notes"), 5),
+    DELIVER_NOTE(new NpcWorker(a -> a.getName().equals("Sedridor"), new TempMovementWorker(new Position(3106, 9570, 0))), () -> Inventory.contains("Notes"), 5),
 
     COMPLETE(null, null, 6);
 

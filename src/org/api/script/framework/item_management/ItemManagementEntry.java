@@ -54,7 +54,7 @@ public class ItemManagementEntry {
      * @return True if the entry can be bought; false otherwise.
      */
     boolean canBuy(long totalValue, double buyPriceModifier) {
-        return !mission.getScript().getBankCache().getBankCache().isEmpty() && totalValue >= getValueNeeded(buyPriceModifier) && shouldOverride();
+        return !mission.getScript().getBankCache().getCache().isEmpty() && totalValue >= getValueNeeded(buyPriceModifier) && shouldOverride();
     }
 
     /**
@@ -65,7 +65,7 @@ public class ItemManagementEntry {
     private boolean playerHasEntry() {
         final boolean inInventory = Inventory.contains(id, id + 1);
         final boolean inEquipment = Equipment.contains(id);
-        final boolean inBank = mission.getScript().getBankCache().getBankCache().containsKey(id);
+        final boolean inBank = mission.getScript().getBankCache().getCache().containsKey(id);
 
         return inInventory || inEquipment || inBank;
     }

@@ -3,6 +3,7 @@ package org.api.script.impl.mission.questing.restless_ghost_mission.data;
 import org.api.script.framework.worker.Worker;
 import org.api.script.impl.mission.questing.restless_ghost_mission.RestlessGhostMission;
 import org.api.script.impl.mission.questing.restless_ghost_mission.worker.impl.PlaceSkullWorker;
+import org.api.script.impl.mission.questing.restless_ghost_mission.worker.impl.TempMovementWorker;
 import org.api.script.impl.worker.DialogueWorker;
 import org.api.script.impl.worker.MovementWorker;
 import org.api.script.impl.worker.banking.DepositWorker;
@@ -32,9 +33,9 @@ public enum RestlessGhostState {
 
     TALK_TO_RESTLESS_GHOST(new NpcWorker(a -> a.getName().equals("Restless ghost"), new DialogueWorker(a -> a.equals("Yep, now tell me what the problem is."))), () -> Equipment.contains("Ghostspeak amulet"), 2),
 
-    GET_SKULL(new SceneObjectWorker(a -> a.getName().equals("Altar") && a.containsAction("Search"), new MovementWorker(new Position(3119, 9566, 0))), null, 3, 4),
+    GET_SKULL(new SceneObjectWorker(a -> a.getName().equals("Altar") && a.containsAction("Search"), new TempMovementWorker(new Position(3119, 9566, 0))), null, 3, 4),
 
-    OPEN_COFFIN(new SceneObjectWorker(a -> a.getName().equals("Coffin"), a -> a.equals("Open"), new MovementWorker(new Position(3248, 3192, 0))), () -> Inventory.contains("Ghost's skull") && Npcs.getFirst(a -> a.getName().equals("Restless ghost")) == null, 4),
+    OPEN_COFFIN(new SceneObjectWorker(a -> a.getName().equals("Coffin"), a -> a.equals("Open"), new TempMovementWorker(new Position(3248, 3192, 0))), () -> Inventory.contains("Ghost's skull") && Npcs.getFirst(a -> a.getName().equals("Restless ghost")) == null, 4),
 
     PLACE_SKULL(new PlaceSkullWorker(), () -> Inventory.contains("Ghost's skull"), 4),
 
