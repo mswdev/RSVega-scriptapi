@@ -37,8 +37,8 @@ public class MuleManagementWorkerHandler extends WorkerHandler {
                 return switchToMuleWorldWorker;
             }
 
-            if (!Inventory.contains(mission.getMuleManagementEntry().getId() + 1) && !Trade.isOpen())
-                return new WithdrawWorker(mission, a -> a.getId() == mission.getMuleManagementEntry().getId(), 0, Bank.WithdrawMode.NOTE);
+            if (!Inventory.contains(mission.getMuleManagementEntry().getItem()) && !Trade.isOpen())
+                return new WithdrawWorker(mission, mission.getMuleManagementEntry().getItem(), 0, Bank.WithdrawMode.NOTE);
 
             return tradeMuleWorker;
         }

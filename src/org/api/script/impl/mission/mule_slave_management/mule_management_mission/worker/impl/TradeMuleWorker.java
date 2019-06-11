@@ -34,9 +34,9 @@ public class TradeMuleWorker extends Worker {
             }
         }
 
-        if (!Trade.contains(true, mission.getMuleManagementEntry().getId() + 1) && !Trade.isOpen(true)) {
-            if (Trade.offerAll(mission.getMuleManagementEntry().getId() + 1)) {
-                Time.sleepUntil(() -> Trade.contains(true, mission.getMuleManagementEntry().getId() + 1), 1500);
+        if (!Trade.contains(true, mission.getMuleManagementEntry().getItem()) && !Trade.isOpen(true)) {
+            if (Trade.offerAll(mission.getMuleManagementEntry().getItem())) {
+                Time.sleepUntil(() -> Trade.contains(true, mission.getMuleManagementEntry().getItem()), 1500);
             }
             return;
         }
