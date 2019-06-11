@@ -19,7 +19,7 @@ import java.util.logging.Level;
 public class RSVegaTrackerThread implements Runnable {
 
     private final RSVegaTrackerWrapper rsVegaTrackerWrapper;
-    private boolean insertedAccount;
+    private boolean insertedUser;
     private boolean isMule;
 
 
@@ -33,25 +33,27 @@ public class RSVegaTrackerThread implements Runnable {
         if (!insertedUser()) {
             insertUser();
             insertSystemInfo(rsVegaTrackerWrapper.getUserDataTracker().getId());
-            setInsertedAccount(true);
+            setInsertedUser(true);
         }
 
-        rsVegaTrackerWrapper.setEmail(getEmail());
-        if (rsVegaTrackerWrapper.getEmail() == null || rsVegaTrackerWrapper.getEmail().length() <= 0)
+        final String currentEmail = getEmail();
+        if (currentEmail == null)
             return;
 
-        if (rsVegaTrackerWrapper.getSpxScript().getMissionHandler() != null && rsVegaTrackerWrapper.getSpxScript().getMissionHandler().getCurrent() != null)
-            setMule(rsVegaTrackerWrapper.getSpxScript().getMissionHandler().getCurrent() instanceof SlaveManagementMission);
+        if (rsVegaTrackerWrapper.getEmail() == null)
+            rsVegaTrackerWrapper.setEmail(currentEmail);
 
-        if (rsVegaTrackerWrapper.getAccountDataTracker().getId() == 0 || (getEmail() != null && !getEmail().equals(rsVegaTrackerWrapper.getEmail()))) {
+        if (rsVegaTrackerWrapper.getAccountDataTracker().getId() == 0 || !currentEmail.equals(rsVegaTrackerWrapper.getEmail())) {
+            rsVegaTrackerWrapper.setEmail(currentEmail);
             if (rsVegaTrackerWrapper.getUserDataTracker().getId() > 0)
                 insertAccount(rsVegaTrackerWrapper.getUserDataTracker().getId(), isMule());
 
             if (rsVegaTrackerWrapper.getAccountDataTracker().getId() > 0)
                 insertSession(rsVegaTrackerWrapper.getUserDataTracker().getId(), rsVegaTrackerWrapper.getAccountDataTracker().getId(), rsVegaTrackerWrapper.getSpxScript().getMeta().name(), new Date());
-
-            rsVegaTrackerWrapper.setEmail(null);
         }
+
+        if (rsVegaTrackerWrapper.getSpxScript().getMissionHandler() != null && rsVegaTrackerWrapper.getSpxScript().getMissionHandler().getCurrent() != null)
+            setMule(rsVegaTrackerWrapper.getSpxScript().getMissionHandler().getCurrent() instanceof SlaveManagementMission);
 
         if (rsVegaTrackerWrapper.getAccountDataTracker().getId() > 0) {
             updateAccount(rsVegaTrackerWrapper.getUserDataTracker().getId(), isMule());
@@ -156,11 +158,11 @@ public class RSVegaTrackerThread implements Runnable {
     }
 
     private boolean insertedUser() {
-        return insertedAccount;
+        return insertedUser;
     }
 
-    private void setInsertedAccount(boolean insertedAccount) {
-        this.insertedAccount = insertedAccount;
+    private void setInsertedUser(boolean insertedAccount) {
+        this.insertedUser = insertedAccount;
     }
 
     private boolean isMule() {
