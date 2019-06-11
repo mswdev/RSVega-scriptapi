@@ -193,7 +193,7 @@ public enum QuestType {
     }
 
     public boolean isComplete() {
-        return Varps.get( setting) == complete;
+        return Varps.get(setting) == complete;
     }
 
     public boolean hasStarted() {
