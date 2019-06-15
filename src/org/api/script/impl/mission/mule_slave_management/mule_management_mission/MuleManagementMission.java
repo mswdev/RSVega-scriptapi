@@ -4,7 +4,7 @@ import org.api.script.SPXScript;
 import org.api.script.framework.goal.GoalList;
 import org.api.script.framework.goal.impl.InfiniteGoal;
 import org.api.script.framework.mission.Mission;
-import org.api.script.framework.mule_management.MuleManagementEntry;
+import org.api.script.framework.mission_override.impl.mule_management.MuleManagementOverrideEntry;
 import org.api.script.framework.worker.Worker;
 import org.api.script.framework.worker.WorkerHandler;
 import org.api.script.impl.mission.mule_slave_management.mule_management_mission.worker.MuleManagementWorkerHandler;
@@ -12,12 +12,12 @@ import org.api.script.impl.mission.mule_slave_management.mule_management_mission
 public class MuleManagementMission extends Mission {
 
     private final WorkerHandler workerHandler;
-    private final MuleManagementEntry muleManagementEntry;
+    private final MuleManagementOverrideEntry muleManagementOverrideEntry;
     private boolean shouldEnd;
 
-    public MuleManagementMission(SPXScript script, MuleManagementEntry muleManagementEntry) {
+    public MuleManagementMission(SPXScript script, MuleManagementOverrideEntry muleManagementOverrideEntry) {
         super(script);
-        this.muleManagementEntry = muleManagementEntry;
+        this.muleManagementOverrideEntry = muleManagementOverrideEntry;
         this.workerHandler = new MuleManagementWorkerHandler(this);
     }
 
@@ -59,8 +59,8 @@ public class MuleManagementMission extends Mission {
         return 150;
     }
 
-    public MuleManagementEntry getMuleManagementEntry() {
-        return muleManagementEntry;
+    public MuleManagementOverrideEntry getMuleManagementOverrideEntry() {
+        return muleManagementOverrideEntry;
     }
 
     public void setShouldEnd(boolean shouldEnd) {

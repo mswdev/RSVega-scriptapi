@@ -2,14 +2,14 @@ package org.api.http.data_tracking;
 
 import com.google.gson.JsonArray;
 import org.api.http.data_tracking.data_tracker_factory.RSVegaTrackerFactory;
-import org.api.http.data_tracking.data_tracker_factory.account.AccountDataTracker;
-import org.api.http.data_tracking.data_tracker_factory.account.CreateAccountDataTracker;
-import org.api.http.data_tracking.data_tracker_factory.account.session.SessionDataTracker;
-import org.api.http.data_tracking.data_tracker_factory.account.session.mule_order.MuleOrderDataTracker;
-import org.api.http.data_tracking.data_tracker_factory.account.session.session_position.SessionPositionDataTracker;
-import org.api.http.data_tracking.data_tracker_factory.account.stats.StatsOSRSDataTracker;
-import org.api.http.data_tracking.data_tracker_factory.user.UserDataTracker;
-import org.api.http.data_tracking.data_tracker_factory.user.system_info.SystemInfoDataTracker;
+import org.api.http.data_tracking.data_tracker_factory.impl.account.AccountDataTracker;
+import org.api.http.data_tracking.data_tracker_factory.impl.account.CreateAccountDataTracker;
+import org.api.http.data_tracking.data_tracker_factory.impl.account.session.SessionDataTracker;
+import org.api.http.data_tracking.data_tracker_factory.impl.account.session.mule_order.MuleOrderDataTracker;
+import org.api.http.data_tracking.data_tracker_factory.impl.account.session.session_position.SessionPositionDataTracker;
+import org.api.http.data_tracking.data_tracker_factory.impl.account.stats.StatsOSRSDataTracker;
+import org.api.http.data_tracking.data_tracker_factory.impl.user.UserDataTracker;
+import org.api.http.data_tracking.data_tracker_factory.impl.user.system_info.SystemInfoDataTracker;
 import org.api.script.SPXScript;
 
 import java.io.IOException;

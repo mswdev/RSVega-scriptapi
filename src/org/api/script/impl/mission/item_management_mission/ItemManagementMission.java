@@ -3,27 +3,33 @@ package org.api.script.impl.mission.item_management_mission;
 import org.api.script.SPXScript;
 import org.api.script.framework.goal.GoalList;
 import org.api.script.framework.goal.impl.InfiniteGoal;
-import org.api.script.framework.item_management.ItemManagementEntry;
-import org.api.script.framework.item_management.ItemManagementTracker;
 import org.api.script.framework.mission.Mission;
+import org.api.script.framework.mission_override.impl.item_management.ItemManagementBuyOverrideEntry;
+import org.api.script.framework.mission_override.impl.item_management.ItemManagementSellOverrideEntry;
 import org.api.script.framework.worker.Worker;
+import org.api.script.framework.worker.WorkerHandler;
 import org.api.script.impl.mission.item_management_mission.worker.ItemManagementWorkerHandler;
 
 public class ItemManagementMission extends Mission {
 
-    public final int[] itemsToSell;
-    private final ItemManagementWorkerHandler workerHandler;
-    private final ItemManagementEntry itemManagementEntry;
-    private final ItemManagementTracker itemManagementTracker;
+    private final WorkerHandler workerHandler;
+    private final ItemManagementBuyOverrideEntry itemManagementBuyOverrideEntry;
+    private final ItemManagementSellOverrideEntry itemManagementSellOverrideEntry;
     public boolean hasPutInOffer;
     public boolean hasWithdrawnSellables;
     public boolean shouldEnd;
 
-    public ItemManagementMission(SPXScript script, ItemManagementEntry itemManagementEntry, ItemManagementTracker itemManagementTracker, int[] itemsToSell) {
+    public ItemManagementMission(SPXScript script, ItemManagementBuyOverrideEntry itemManagementBuyOverrideEntry) {
         super(script);
-        this.itemManagementEntry = itemManagementEntry;
-        this.itemManagementTracker = itemManagementTracker;
-        this.itemsToSell = itemsToSell;
+        this.itemManagementBuyOverrideEntry = itemManagementBuyOverrideEntry;
+        this.itemManagementSellOverrideEntry = null;
+        workerHandler = new ItemManagementWorkerHandler(this);
+    }
+
+    public ItemManagementMission(SPXScript script, ItemManagementSellOverrideEntry itemManagementSellOverrideEntry) {
+        super(script);
+        this.itemManagementSellOverrideEntry = itemManagementSellOverrideEntry;
+        this.itemManagementBuyOverrideEntry = null;
         workerHandler = new ItemManagementWorkerHandler(this);
     }
 
@@ -34,13 +40,13 @@ public class ItemManagementMission extends Mission {
 
     @Override
     public String getWorkerName() {
-        Worker c = workerHandler.getCurrent();
+        Worker c = getWorkerHandler().getCurrent();
         return c == null ? "WORKER" : c.getClass().getSimpleName();
     }
 
     @Override
     public String getWorkerString() {
-        Worker c = workerHandler.getCurrent();
+        Worker c = getWorkerHandler().getCurrent();
         return c == null ? "Waiting for worker." : c.toString();
     }
 
@@ -51,7 +57,7 @@ public class ItemManagementMission extends Mission {
 
     @Override
     public boolean shouldEnd() {
-        return shouldEnd;
+        return getShouldEnd();
     }
 
     @Override
@@ -61,15 +67,43 @@ public class ItemManagementMission extends Mission {
 
     @Override
     public int execute() {
-        workerHandler.work();
+        getWorkerHandler().work();
         return 100;
     }
 
-    public ItemManagementTracker getItemManagementTracker() {
-        return itemManagementTracker;
+    public ItemManagementBuyOverrideEntry getItemManagementBuyOverrideEntry() {
+        return itemManagementBuyOverrideEntry;
     }
 
-    public ItemManagementEntry getItemManagementEntry() {
-        return itemManagementEntry;
+    public ItemManagementSellOverrideEntry getItemManagementSellOverrideEntry() {
+        return itemManagementSellOverrideEntry;
+    }
+
+    public WorkerHandler getWorkerHandler() {
+        return workerHandler;
+    }
+
+    public boolean isHasPutInOffer() {
+        return hasPutInOffer;
+    }
+
+    public void setHasPutInOffer(boolean hasPutInOffer) {
+        this.hasPutInOffer = hasPutInOffer;
+    }
+
+    public boolean isHasWithdrawnSellables() {
+        return hasWithdrawnSellables;
+    }
+
+    public void setHasWithdrawnSellables(boolean hasWithdrawnSellables) {
+        this.hasWithdrawnSellables = hasWithdrawnSellables;
+    }
+
+    public boolean getShouldEnd() {
+        return shouldEnd;
+    }
+
+    public void setShouldEnd(boolean shouldEnd) {
+        this.shouldEnd = shouldEnd;
     }
 }

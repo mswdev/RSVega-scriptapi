@@ -10,6 +10,7 @@ import org.rspeer.runetek.api.component.Dialog;
 import org.rspeer.runetek.api.movement.Movement;
 import org.rspeer.runetek.api.scene.Npcs;
 import org.rspeer.runetek.api.scene.Players;
+import org.rspeer.ui.Log;
 
 import java.util.function.Predicate;
 

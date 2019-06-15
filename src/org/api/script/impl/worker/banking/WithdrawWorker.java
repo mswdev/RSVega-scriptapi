@@ -68,7 +68,7 @@ public class WithdrawWorker extends Worker {
         }
 
         if (!Bank.contains(item)) {
-            setItemNotFound();
+            Log.severe("You do not have the required items in your bank.");
             return;
         }
 
@@ -81,7 +81,6 @@ public class WithdrawWorker extends Worker {
                 setItemNotFound();
             }
 
-            mission.getScript().getBankCache().getCache().clear();
             mission.getScript().getBankCache().update();
             return;
         }
@@ -92,12 +91,11 @@ public class WithdrawWorker extends Worker {
             setItemNotFound();
         }
 
-        mission.getScript().getBankCache().getCache().clear();
         mission.getScript().getBankCache().update();
     }
 
     private void setItemNotFound() {
-        Log.severe("You do not have the required items in your bank.");
+
         itemNotFound = true;
     }
 

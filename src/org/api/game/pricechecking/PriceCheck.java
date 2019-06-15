@@ -84,7 +84,7 @@ public class PriceCheck {
         if (jsonObject == null)
             return 0;
 
-        return jsonObject.get("sell_average").getAsInt();
+        return jsonObject.get("buy_average").getAsInt();
     }
 
     /**
@@ -102,7 +102,7 @@ public class PriceCheck {
         if (entry == null)
             return 0;
 
-        return entry.getValue().getAsJsonObject().get("sell_average").getAsInt();
+        return entry.getValue().getAsJsonObject().get("buy_average").getAsInt();
     }
 
     private static JsonObject getOsbuddySummaryJson() {

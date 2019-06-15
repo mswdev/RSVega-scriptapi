@@ -16,12 +16,12 @@ public class TradeMuleWorker extends Worker {
 
     public TradeMuleWorker(MuleManagementMission mission) {
         this.mission = mission;
-        movementWorker = new MovementWorker(mission.getMuleManagementEntry().getMuleManager().getPosition());
+        movementWorker = new MovementWorker(mission.getMuleManagementOverrideEntry().getMuleManager().getPosition());
     }
 
     @Override
     public void work() {
-        final Player mule = Players.getNearest(mission.getMuleManagementEntry().getMuleManager().getDisplayName());
+        final Player mule = Players.getNearest(mission.getMuleManagementOverrideEntry().getMuleManager().getDisplayName());
         if (mule == null) {
             movementWorker.work();
             return;
@@ -34,9 +34,9 @@ public class TradeMuleWorker extends Worker {
             }
         }
 
-        if (!Trade.contains(true, mission.getMuleManagementEntry().getItem()) && !Trade.isOpen(true)) {
-            if (Trade.offerAll(mission.getMuleManagementEntry().getItem())) {
-                Time.sleepUntil(() -> Trade.contains(true, mission.getMuleManagementEntry().getItem()), 1500);
+        if (!Trade.contains(true, mission.getMuleManagementOverrideEntry().getItem()) && !Trade.isOpen(true)) {
+            if (Trade.offerAll(mission.getMuleManagementOverrideEntry().getItem())) {
+                Time.sleepUntil(() -> Trade.contains(true, mission.getMuleManagementOverrideEntry().getItem()), 1500);
             }
             return;
         }

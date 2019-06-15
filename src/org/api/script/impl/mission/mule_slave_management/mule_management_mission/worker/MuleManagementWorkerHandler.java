@@ -5,11 +5,14 @@ import org.api.script.framework.worker.WorkerHandler;
 import org.api.script.impl.mission.mule_slave_management.mule_management_mission.MuleManagementMission;
 import org.api.script.impl.mission.mule_slave_management.mule_management_mission.worker.impl.SwitchWorldWorker;
 import org.api.script.impl.mission.mule_slave_management.mule_management_mission.worker.impl.TradeMuleWorker;
+import org.api.script.impl.worker.banking.DepositWorker;
 import org.api.script.impl.worker.banking.WithdrawWorker;
+import org.rspeer.runetek.adapter.component.Item;
 import org.rspeer.runetek.api.Worlds;
 import org.rspeer.runetek.api.component.Bank;
 import org.rspeer.runetek.api.component.Trade;
 import org.rspeer.runetek.api.component.tab.Inventory;
+import org.rspeer.ui.Log;
 
 public class MuleManagementWorkerHandler extends WorkerHandler {
 
@@ -31,14 +34,18 @@ public class MuleManagementWorkerHandler extends WorkerHandler {
             if (switchToPreviousWorldWorker.getWorldToSwitch() <= 0)
                 switchToPreviousWorldWorker.setWorldToSwitch(Worlds.getCurrent());
 
-            int muleWorld = mission.getMuleManagementEntry().getMuleManager().getWorld();
+            int muleWorld = mission.getMuleManagementOverrideEntry().getMuleManager().getWorld();
             if (Worlds.getCurrent() != muleWorld) {
                 switchToMuleWorldWorker.setWorldToSwitch(muleWorld);
                 return switchToMuleWorldWorker;
             }
 
-            if (!Inventory.contains(mission.getMuleManagementEntry().getItem()) && !Trade.isOpen())
-                return new WithdrawWorker(mission, mission.getMuleManagementEntry().getItem(), 0, Bank.WithdrawMode.NOTE);
+            if (Inventory.containsAnyExcept(mission.getMuleManagementOverrideEntry().getItem().and(Item::isNoted)))
+                return new DepositWorker();
+
+            final Item item = mission.getScript().getBankCache().getItem(mission.getMuleManagementOverrideEntry().getItem());
+            if (((item != null && item.getStackSize() > 0) || !Inventory.contains(mission.getMuleManagementOverrideEntry().getItem())) && !Trade.isOpen())
+                return new WithdrawWorker(mission, mission.getMuleManagementOverrideEntry().getItem(), 0, Bank.WithdrawMode.NOTE);
 
             return tradeMuleWorker;
         }
