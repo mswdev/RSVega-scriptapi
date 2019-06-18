@@ -4,12 +4,10 @@ import org.api.script.SPXScript;
 import org.api.script.framework.goal.GoalList;
 import org.api.script.framework.goal.impl.InfiniteGoal;
 import org.api.script.framework.mission.Mission;
-import org.api.script.framework.mule_management.MuleManagement;
-import org.api.script.framework.mule_management.MuleManagementEntry;
 import org.api.script.framework.worker.Worker;
 import org.api.script.impl.mission.fishing_mission.worker.FishingWorkerHandler;
 
-public class Fishingmission extends Mission implements MuleManagement {
+public class Fishingmission extends Mission {
 
     private final FishingWorkerHandler workerHandler;
     private boolean shouldEnd;
@@ -55,14 +53,6 @@ public class Fishingmission extends Mission implements MuleManagement {
     public int execute() {
         workerHandler.work();
         return 100;
-    }
-
-    @Override
-    public MuleManagementEntry[] itemsToMule() {
-        return new MuleManagementEntry[]{
-                new MuleManagementEntry(this, a -> a.getName().equals("Raw shrimp"), () -> getScript().getBankCache().getItem(a -> a.getName().equals("Raw shrimp") && a.getStackSize() >= 48) != null),
-                new MuleManagementEntry(this, a -> a.getName().equals("Raw sardines"), () -> getScript().getBankCache().getItem(a -> a.getName().equals("Raw sardines") && a.getStackSize() >= 48) != null)
-        };
     }
 
     public void setShouldEnd(boolean shouldEnd) {

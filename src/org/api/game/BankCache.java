@@ -1,18 +1,29 @@
 package org.api.game;
 
+import org.api.script.SPXScript;
 import org.rspeer.runetek.adapter.component.Item;
 import org.rspeer.runetek.api.component.Bank;
-import org.rspeer.runetek.api.component.ItemTables;
-import org.rspeer.runetek.event.listeners.ItemTableListener;
-import org.rspeer.runetek.event.types.ItemTableEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 
-public class BankCache implements ItemTableListener {
+public class BankCache implements Runnable {
 
     private final List<Item> cache = new ArrayList<>();
+
+    public BankCache(SPXScript spxScript) {
+        spxScript.getScheduledThreadPoolExecutor().scheduleAtFixedRate(this, 0, 250, TimeUnit.MILLISECONDS);
+    }
+
+    @Override
+    public void run() {
+        if (!Bank.isOpen())
+            return;
+
+        update();
+    }
 
     /**
      * Clears the bank cache then updates it if the bank items are not null.
@@ -44,17 +55,6 @@ public class BankCache implements ItemTableListener {
      */
     public List<Item> getCache() {
         return cache;
-    }
-
-    @Override
-    public void notify(ItemTableEvent itemTableEvent) {
-        if (itemTableEvent.getChangeType() != ItemTableEvent.ChangeType.ITEM_ADDED && itemTableEvent.getChangeType() != ItemTableEvent.ChangeType.ITEM_REMOVED)
-            return;
-
-        if (itemTableEvent.getTableKey() != ItemTables.BANK)
-            return;
-
-        update();
     }
 }
 

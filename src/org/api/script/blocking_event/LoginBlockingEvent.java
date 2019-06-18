@@ -1,6 +1,6 @@
 package org.api.script.blocking_event;
 
-import org.api.http.data_tracking.data_tracker_factory.account.AccountDataTracker;
+import org.api.http.data_tracking.data_tracker_factory.impl.account.AccountDataTracker;
 import org.api.script.SPXScript;
 import org.rspeer.runetek.adapter.component.InterfaceComponent;
 import org.rspeer.runetek.api.Game;

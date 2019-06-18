@@ -1,7 +1,7 @@
 package org.api.script.impl.mission.account_creation_mission.worker.impl;
 
 import com.google.gson.JsonObject;
-import org.api.http.data_tracking.data_tracker_factory.account.CreateAccountDataTracker;
+import org.api.http.data_tracking.data_tracker_factory.impl.account.CreateAccountDataTracker;
 import org.api.script.SPXScriptUtil;
 import org.api.script.framework.worker.Worker;
 import org.api.script.impl.mission.account_creation_mission.AccountCreationMission;

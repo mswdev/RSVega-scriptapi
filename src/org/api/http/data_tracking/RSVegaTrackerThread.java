@@ -1,12 +1,12 @@
 package org.api.http.data_tracking;
 
 import com.google.gson.JsonArray;
-import org.api.http.data_tracking.data_tracker_factory.account.AccountDataTracker;
-import org.api.http.data_tracking.data_tracker_factory.account.session.SessionDataTracker;
-import org.api.http.data_tracking.data_tracker_factory.account.session.session_position.SessionPositionDataTracker;
-import org.api.http.data_tracking.data_tracker_factory.account.stats.StatsOSRSDataTracker;
-import org.api.http.data_tracking.data_tracker_factory.user.UserDataTracker;
-import org.api.http.data_tracking.data_tracker_factory.user.system_info.SystemInfoDataTracker;
+import org.api.http.data_tracking.data_tracker_factory.impl.account.AccountDataTracker;
+import org.api.http.data_tracking.data_tracker_factory.impl.account.session.SessionDataTracker;
+import org.api.http.data_tracking.data_tracker_factory.impl.account.session.session_position.SessionPositionDataTracker;
+import org.api.http.data_tracking.data_tracker_factory.impl.account.stats.StatsOSRSDataTracker;
+import org.api.http.data_tracking.data_tracker_factory.impl.user.UserDataTracker;
+import org.api.http.data_tracking.data_tracker_factory.impl.user.system_info.SystemInfoDataTracker;
 import org.api.script.impl.mission.mule_slave_management.slave_management_mission.SlaveManagementMission;
 import org.rspeer.RSPeer;
 import org.rspeer.runetek.api.Game;

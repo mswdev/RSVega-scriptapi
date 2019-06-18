@@ -4,6 +4,7 @@ import org.api.script.framework.worker.Worker;
 import org.rspeer.runetek.adapter.component.Item;
 import org.rspeer.runetek.api.commons.Time;
 import org.rspeer.runetek.api.component.tab.Equipment;
+import org.rspeer.runetek.api.component.tab.EquipmentSlot;
 import org.rspeer.runetek.api.scene.Players;
 
 import java.util.function.Predicate;
@@ -21,7 +22,11 @@ public class TeleportToGrandExchangeWorker extends Worker {
 
     @Override
     public void work() {
-        if (Equipment.interact(RING_OF_WEALTH, "Grand Exchange"))
+        final EquipmentSlot equipmentSlot = Equipment.getSlot(a -> a.getName().contains("Ring of wealth ("));
+        if (equipmentSlot == null)
+            return;
+
+        if (equipmentSlot.interact("Grand Exchange"))
             Time.sleepWhile(() -> Players.getLocal().getAnimation() != -1, 2500);
     }
 

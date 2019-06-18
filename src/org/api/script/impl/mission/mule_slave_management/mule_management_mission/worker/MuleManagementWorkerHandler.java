@@ -5,7 +5,9 @@ import org.api.script.framework.worker.WorkerHandler;
 import org.api.script.impl.mission.mule_slave_management.mule_management_mission.MuleManagementMission;
 import org.api.script.impl.mission.mule_slave_management.mule_management_mission.worker.impl.SwitchWorldWorker;
 import org.api.script.impl.mission.mule_slave_management.mule_management_mission.worker.impl.TradeMuleWorker;
+import org.api.script.impl.worker.banking.DepositWorker;
 import org.api.script.impl.worker.banking.WithdrawWorker;
+import org.rspeer.runetek.adapter.component.Item;
 import org.rspeer.runetek.api.Worlds;
 import org.rspeer.runetek.api.component.Bank;
 import org.rspeer.runetek.api.component.Trade;
@@ -27,26 +29,46 @@ public class MuleManagementWorkerHandler extends WorkerHandler {
 
     @Override
     public Worker decide() {
-        if (!tradeMuleWorker.isFinished()) {
-            if (switchToPreviousWorldWorker.getWorldToSwitch() <= 0)
-                switchToPreviousWorldWorker.setWorldToSwitch(Worlds.getCurrent());
+        if (!getTradeMuleWorker().isFinished()) {
+            if (getSwitchToPreviousWorldWorker().getWorldToSwitch() <= 0)
+                getSwitchToPreviousWorldWorker().setWorldToSwitch(Worlds.getCurrent());
 
-            int muleWorld = mission.getMuleManagementEntry().getMuleManager().getWorld();
+            int muleWorld = getMission().getMuleManagementOverrideEntry().getMuleManager().getWorld();
             if (Worlds.getCurrent() != muleWorld) {
-                switchToMuleWorldWorker.setWorldToSwitch(muleWorld);
-                return switchToMuleWorldWorker;
+                getSwitchToMuleWorldWorker().setWorldToSwitch(muleWorld);
+                return getSwitchToMuleWorldWorker();
             }
 
-            if (!Inventory.contains(mission.getMuleManagementEntry().getItem()) && !Trade.isOpen())
-                return new WithdrawWorker(mission, mission.getMuleManagementEntry().getItem(), 0, Bank.WithdrawMode.NOTE);
+            if (Inventory.containsAnyExcept(getMission().getMuleManagementOverrideEntry().getItem().and(Item::isNoted)))
+                return new DepositWorker();
 
-            return tradeMuleWorker;
+            final Item item = getMission().getScript().getBankCache().getItem(getMission().getMuleManagementOverrideEntry().getItem());
+            if (((item != null && item.getStackSize() > 0) || !Inventory.contains(getMission().getMuleManagementOverrideEntry().getItem())) && !Trade.isOpen())
+                return new WithdrawWorker(getMission(), getMission().getMuleManagementOverrideEntry().getItem(), 0, Bank.WithdrawMode.NOTE);
+
+            return getTradeMuleWorker();
         }
 
-        if (Worlds.getCurrent() != switchToPreviousWorldWorker.getWorldToSwitch())
-            return switchToPreviousWorldWorker;
+        if (Worlds.getCurrent() != getSwitchToMuleWorldWorker().getWorldToSwitch())
+            return getSwitchToMuleWorldWorker();
 
-        mission.setShouldEnd(true);
+        getMission().setShouldEnd(true);
         return null;
+    }
+
+    public MuleManagementMission getMission() {
+        return mission;
+    }
+
+    private TradeMuleWorker getTradeMuleWorker() {
+        return tradeMuleWorker;
+    }
+
+    private SwitchWorldWorker getSwitchToMuleWorldWorker() {
+        return switchToMuleWorldWorker;
+    }
+
+    private SwitchWorldWorker getSwitchToPreviousWorldWorker() {
+        return switchToPreviousWorldWorker;
     }
 }

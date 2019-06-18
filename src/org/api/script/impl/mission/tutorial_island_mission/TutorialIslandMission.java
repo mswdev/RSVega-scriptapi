@@ -2,7 +2,7 @@ package org.api.script.impl.mission.tutorial_island_mission;
 
 import com.google.gson.JsonObject;
 import org.api.http.HTTPUtil;
-import org.api.http.data_tracking.data_tracker_factory.account.CreateAccountDataTracker;
+import org.api.http.data_tracking.data_tracker_factory.impl.account.CreateAccountDataTracker;
 import org.api.script.SPXScript;
 import org.api.script.SPXScriptUtil;
 import org.api.script.framework.goal.GoalList;
