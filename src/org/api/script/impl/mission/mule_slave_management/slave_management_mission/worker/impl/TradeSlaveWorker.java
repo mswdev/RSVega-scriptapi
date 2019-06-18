@@ -2,7 +2,7 @@ package org.api.script.impl.mission.mule_slave_management.slave_management_missi
 
 import org.api.script.framework.worker.Worker;
 import org.api.script.impl.mission.mule_slave_management.slave_management_mission.SlaveManagementMission;
-import org.rspeer.runetek.adapter.scene.Player;
+import org.rspeer.runetek.adapter.Interactable;
 import org.rspeer.runetek.api.commons.Time;
 import org.rspeer.runetek.api.component.Trade;
 import org.rspeer.runetek.api.scene.Players;
@@ -17,13 +17,13 @@ public class TradeSlaveWorker extends Worker {
 
     @Override
     public void work() {
-        final String playerTradingDisplayName = mission.getTradeMessageListener().getPlayerTradingDisplayName();
+        final String playerTradingDisplayName = getMission().getTradeMessageListener().getPlayerTradingDisplayName();
         if (playerTradingDisplayName == null)
             return;
 
-        final Player playerTrading = Players.getNearest(playerTradingDisplayName);
+        final Interactable playerTrading = Players.getNearest(playerTradingDisplayName);
         if (playerTrading == null) {
-            mission.getTradeMessageListener().setPlayerTradingDisplayName(null);
+            getMission().getTradeMessageListener().setPlayerTradingDisplayName(null);
             return;
         }
 
@@ -39,7 +39,7 @@ public class TradeSlaveWorker extends Worker {
 
         if (Trade.isOpen(true)) {
             if (Trade.accept())
-                mission.getTradeMessageListener().setPlayerTradingDisplayName(null);
+                getMission().getTradeMessageListener().setPlayerTradingDisplayName(null);
 
             return;
         }
@@ -51,5 +51,9 @@ public class TradeSlaveWorker extends Worker {
     @Override
     public String toString() {
         return "Executing trade slave worker.";
+    }
+
+    public SlaveManagementMission getMission() {
+        return mission;
     }
 }

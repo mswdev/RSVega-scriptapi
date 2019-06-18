@@ -15,9 +15,9 @@ import org.rspeer.ui.Log;
 
 public class SellWorker extends Worker {
 
-    private ItemManagementMission mission;
     private final Worker openGrandExchangeWorker = new NpcWorker(a -> a.getName().equals("Grand Exchange Clerk"), a -> a.equals("Exchange"));
     private final Worker withdrawSellableItemWorker;
+    private ItemManagementMission mission;
     private boolean placedOffer;
 
     public SellWorker(ItemManagementMission mission) {

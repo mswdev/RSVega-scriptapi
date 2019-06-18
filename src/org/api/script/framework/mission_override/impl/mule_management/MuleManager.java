@@ -8,7 +8,7 @@ public class MuleManager {
 
     private JsonObject accountData;
 
-    public MuleManager(JsonArray accountData) {
+    MuleManager(JsonArray accountData) {
         if (accountData == null || accountData.size() <= 0)
             return;
 

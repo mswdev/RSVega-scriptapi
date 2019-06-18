@@ -12,7 +12,6 @@ import org.rspeer.runetek.api.Worlds;
 import org.rspeer.runetek.api.component.Bank;
 import org.rspeer.runetek.api.component.Trade;
 import org.rspeer.runetek.api.component.tab.Inventory;
-import org.rspeer.ui.Log;
 
 public class MuleManagementWorkerHandler extends WorkerHandler {
 
@@ -30,30 +29,46 @@ public class MuleManagementWorkerHandler extends WorkerHandler {
 
     @Override
     public Worker decide() {
-        if (!tradeMuleWorker.isFinished()) {
-            if (switchToPreviousWorldWorker.getWorldToSwitch() <= 0)
-                switchToPreviousWorldWorker.setWorldToSwitch(Worlds.getCurrent());
+        if (!getTradeMuleWorker().isFinished()) {
+            if (getSwitchToPreviousWorldWorker().getWorldToSwitch() <= 0)
+                getSwitchToPreviousWorldWorker().setWorldToSwitch(Worlds.getCurrent());
 
-            int muleWorld = mission.getMuleManagementOverrideEntry().getMuleManager().getWorld();
+            int muleWorld = getMission().getMuleManagementOverrideEntry().getMuleManager().getWorld();
             if (Worlds.getCurrent() != muleWorld) {
-                switchToMuleWorldWorker.setWorldToSwitch(muleWorld);
-                return switchToMuleWorldWorker;
+                getSwitchToMuleWorldWorker().setWorldToSwitch(muleWorld);
+                return getSwitchToMuleWorldWorker();
             }
 
-            if (Inventory.containsAnyExcept(mission.getMuleManagementOverrideEntry().getItem().and(Item::isNoted)))
+            if (Inventory.containsAnyExcept(getMission().getMuleManagementOverrideEntry().getItem().and(Item::isNoted)))
                 return new DepositWorker();
 
-            final Item item = mission.getScript().getBankCache().getItem(mission.getMuleManagementOverrideEntry().getItem());
-            if (((item != null && item.getStackSize() > 0) || !Inventory.contains(mission.getMuleManagementOverrideEntry().getItem())) && !Trade.isOpen())
-                return new WithdrawWorker(mission, mission.getMuleManagementOverrideEntry().getItem(), 0, Bank.WithdrawMode.NOTE);
+            final Item item = getMission().getScript().getBankCache().getItem(getMission().getMuleManagementOverrideEntry().getItem());
+            if (((item != null && item.getStackSize() > 0) || !Inventory.contains(getMission().getMuleManagementOverrideEntry().getItem())) && !Trade.isOpen())
+                return new WithdrawWorker(getMission(), getMission().getMuleManagementOverrideEntry().getItem(), 0, Bank.WithdrawMode.NOTE);
 
-            return tradeMuleWorker;
+            return getTradeMuleWorker();
         }
 
-        if (Worlds.getCurrent() != switchToPreviousWorldWorker.getWorldToSwitch())
-            return switchToPreviousWorldWorker;
+        if (Worlds.getCurrent() != getSwitchToMuleWorldWorker().getWorldToSwitch())
+            return getSwitchToMuleWorldWorker();
 
-        mission.setShouldEnd(true);
+        getMission().setShouldEnd(true);
         return null;
+    }
+
+    public MuleManagementMission getMission() {
+        return mission;
+    }
+
+    private TradeMuleWorker getTradeMuleWorker() {
+        return tradeMuleWorker;
+    }
+
+    private SwitchWorldWorker getSwitchToMuleWorldWorker() {
+        return switchToMuleWorldWorker;
+    }
+
+    private SwitchWorldWorker getSwitchToPreviousWorldWorker() {
+        return switchToPreviousWorldWorker;
     }
 }

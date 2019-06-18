@@ -10,14 +10,12 @@ import org.api.script.impl.mission.mule_slave_management.slave_management_missio
 
 public class SlaveManagementMission extends Mission {
 
-    private final SPXScript spxScript;
     private final TradeMessageListener tradeMessageListener;
     private final WorkerHandler workerHandler;
     private boolean shouldEnd;
 
     public SlaveManagementMission(SPXScript spxScript, TradeMessageListener tradeMessageListener) {
         super(spxScript);
-        this.spxScript = spxScript;
         this.tradeMessageListener = tradeMessageListener;
         this.workerHandler = new SlaveManagementWorkerHandler(this);
     }
@@ -29,13 +27,13 @@ public class SlaveManagementMission extends Mission {
 
     @Override
     public String getWorkerName() {
-        final Worker c = workerHandler.getCurrent();
+        final Worker c = getWorkerHandler().getCurrent();
         return c == null ? "WORKER" : c.getClass().getSimpleName();
     }
 
     @Override
     public String getWorkerString() {
-        final Worker c = workerHandler.getCurrent();
+        final Worker c = getWorkerHandler().getCurrent();
         return c == null ? "Waiting for worker." : c.toString();
     }
 
@@ -46,7 +44,7 @@ public class SlaveManagementMission extends Mission {
 
     @Override
     public boolean shouldEnd() {
-        return shouldEnd;
+        return getShouldEnd();
     }
 
     @Override
@@ -56,7 +54,7 @@ public class SlaveManagementMission extends Mission {
 
     @Override
     public int execute() {
-        workerHandler.work();
+        getWorkerHandler().work();
         return 150;
     }
 
@@ -64,8 +62,12 @@ public class SlaveManagementMission extends Mission {
         return tradeMessageListener;
     }
 
-    public SPXScript getSpxScript() {
-        return spxScript;
+    public WorkerHandler getWorkerHandler() {
+        return workerHandler;
+    }
+
+    public boolean getShouldEnd() {
+        return shouldEnd;
     }
 
     public void setShouldEnd(boolean shouldEnd) {

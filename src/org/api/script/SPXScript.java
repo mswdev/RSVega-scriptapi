@@ -29,8 +29,6 @@ public abstract class SPXScript extends Script {
     private final ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(2);
     private final RSVegaTrackerWrapper rsVegaTrackerWrapper = new RSVegaTrackerWrapper(this);
     private final MissionOverrideThread missionOverrideThread = new MissionOverrideThread(this);
-    /*private final ItemManagementTracker itemManagementTracker = new ItemManagementTracker(this);
-    private final MuleManagementTracker muleManagementTracker = new MuleManagementTracker(this);*/
     private final BankCache bankCache = new BankCache(this);
     private MissionHandler missionHandler;
     private FXGUIBuilder fxGuiBuilder;
@@ -76,22 +74,6 @@ public abstract class SPXScript extends Script {
 
         if (getMissionHandler().isStopped())
             setStopping(true);
-
-        /*final ItemManagementEntry itemManagementEntry = getItemManagementTracker().getReadyItemManagementEntry();
-        if (itemManagementEntry != null) {
-            getMissionHandler().getMissions().add(new ItemManagementMission(this, itemManagementEntry, getItemManagementTracker()));
-            getMissionHandler().getMissions().add(getMissionHandler().getCurrent());
-            getMissionHandler().endCurrent();
-            getItemManagementTracker().setItemManagementEntry(null);
-        }
-
-        final MuleManagementEntry muleManagementEntry = getMuleManagementTracker().getReadyMuleManagementEntry();
-        if (muleManagementEntry != null) {
-            getMissionHandler().getMissions().add(new MuleManagementMission(this, muleManagementEntry));
-            getMissionHandler().getMissions().add(getMissionHandler().getCurrent());
-            getMissionHandler().endCurrent();
-            getMuleManagementTracker().setMuleManagementEntry(null);
-        }*/
 
         return getMissionHandler().execute();
     }
@@ -160,14 +142,6 @@ public abstract class SPXScript extends Script {
     public ScheduledThreadPoolExecutor getScheduledThreadPoolExecutor() {
         return scheduledThreadPoolExecutor;
     }
-
-    /*private ItemManagementTracker getItemManagementTracker() {
-        return itemManagementTracker;
-    }
-
-    private MuleManagementTracker getMuleManagementTracker() {
-        return muleManagementTracker;
-    }*/
 
     private FXGUIBuilder getFxGuiBuilder() {
         return fxGuiBuilder;

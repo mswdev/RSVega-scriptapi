@@ -15,8 +15,6 @@ public class ItemManagementMission extends Mission {
     private final WorkerHandler workerHandler;
     private final ItemManagementBuyOverrideEntry itemManagementBuyOverrideEntry;
     private final ItemManagementSellOverrideEntry itemManagementSellOverrideEntry;
-    public boolean hasPutInOffer;
-    public boolean hasWithdrawnSellables;
     public boolean shouldEnd;
 
     public ItemManagementMission(SPXScript script, ItemManagementBuyOverrideEntry itemManagementBuyOverrideEntry) {
@@ -81,22 +79,6 @@ public class ItemManagementMission extends Mission {
 
     public WorkerHandler getWorkerHandler() {
         return workerHandler;
-    }
-
-    public boolean isHasPutInOffer() {
-        return hasPutInOffer;
-    }
-
-    public void setHasPutInOffer(boolean hasPutInOffer) {
-        this.hasPutInOffer = hasPutInOffer;
-    }
-
-    public boolean isHasWithdrawnSellables() {
-        return hasWithdrawnSellables;
-    }
-
-    public void setHasWithdrawnSellables(boolean hasWithdrawnSellables) {
-        this.hasWithdrawnSellables = hasWithdrawnSellables;
     }
 
     public boolean getShouldEnd() {

@@ -57,7 +57,7 @@ public class MuleManagementOverrideEntry extends MissionOverrideFactory {
         return muleManager;
     }
 
-    public void setMuleManager(MuleManager muleManager) {
+    private void setMuleManager(MuleManager muleManager) {
         this.muleManager = muleManager;
     }
 }

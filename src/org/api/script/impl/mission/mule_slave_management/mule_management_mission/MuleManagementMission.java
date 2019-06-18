@@ -28,13 +28,13 @@ public class MuleManagementMission extends Mission {
 
     @Override
     public String getWorkerName() {
-        final Worker c = workerHandler.getCurrent();
+        final Worker c = getWorkerHandler().getCurrent();
         return c == null ? "WORKER" : c.getClass().getSimpleName();
     }
 
     @Override
     public String getWorkerString() {
-        final Worker c = workerHandler.getCurrent();
+        final Worker c = getWorkerHandler().getCurrent();
         return c == null ? "Waiting for worker." : c.toString();
     }
 
@@ -45,7 +45,7 @@ public class MuleManagementMission extends Mission {
 
     @Override
     public boolean shouldEnd() {
-        return shouldEnd;
+        return getShouldEnd();
     }
 
     @Override
@@ -55,7 +55,7 @@ public class MuleManagementMission extends Mission {
 
     @Override
     public int execute() {
-        workerHandler.work();
+        getWorkerHandler().work();
         return 150;
     }
 
@@ -63,7 +63,15 @@ public class MuleManagementMission extends Mission {
         return muleManagementOverrideEntry;
     }
 
+    public boolean getShouldEnd() {
+        return shouldEnd;
+    }
+
     public void setShouldEnd(boolean shouldEnd) {
         this.shouldEnd = shouldEnd;
+    }
+
+    public WorkerHandler getWorkerHandler() {
+        return workerHandler;
     }
 }

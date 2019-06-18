@@ -15,6 +15,10 @@ public class SlaveManagementWorkerHandler extends WorkerHandler {
 
     @Override
     public Worker decide() {
+        return getTradeSlaveWorker();
+    }
+
+    public Worker getTradeSlaveWorker() {
         return tradeSlaveWorker;
     }
 }

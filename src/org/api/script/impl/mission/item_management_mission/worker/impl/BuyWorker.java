@@ -13,9 +13,9 @@ import org.rspeer.runetek.providers.RSGrandExchangeOffer;
 
 public class BuyWorker extends Worker {
 
-    private ItemManagementMission mission;
     private final Worker openGrandExchangeWorker = new NpcWorker(a -> a.getName().equals("Grand Exchange Clerk"), a -> a.equals("Exchange"));
     private final Worker withdrawCoinsWorker;
+    private ItemManagementMission mission;
     private boolean placedOffer;
 
     public BuyWorker(ItemManagementMission mission) {
