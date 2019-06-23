@@ -1,5 +1,6 @@
 package org.api.script.impl.mission.questing.rune_mysteries_mission;
 
+import org.api.game.questing.QuestType;
 import org.api.script.SPXScript;
 import org.api.script.framework.goal.GoalList;
 import org.api.script.framework.mission.Mission;
@@ -9,7 +10,6 @@ import org.api.script.impl.mission.questing.rune_mysteries_mission.worker.RuneMy
 
 public class RuneMysteriesMission extends Mission {
 
-    public static final int RUNE_MYSTERIES_VARP = 63;
     private final RuneMysteriesWorkerHandler handler = new RuneMysteriesWorkerHandler();
 
     public RuneMysteriesMission(SPXScript script) {
@@ -40,7 +40,7 @@ public class RuneMysteriesMission extends Mission {
 
     @Override
     public boolean shouldEnd() {
-        return RuneMysteriesState.isInVarp(RuneMysteriesState.COMPLETE);
+        return QuestType.RUNE_MYSTERIES.isComplete();
     }
 
     @Override

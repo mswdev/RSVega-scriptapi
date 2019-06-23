@@ -194,6 +194,10 @@ public enum QuestType {
         return varp;
     }
 
+    public int getComplete() {
+        return complete;
+    }
+
     public boolean isComplete() {
         return Varps.get(varp) == complete;
     }

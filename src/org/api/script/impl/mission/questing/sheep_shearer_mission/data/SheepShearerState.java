@@ -1,5 +1,6 @@
 package org.api.script.impl.mission.questing.sheep_shearer_mission.data;
 
+import org.api.game.questing.QuestType;
 import org.api.script.framework.worker.Worker;
 import org.api.script.impl.mission.questing.sheep_shearer_mission.SheepShearerMission;
 import org.api.script.impl.mission.questing.sheep_shearer_mission.worker.impl.SpinWoolWorker;
@@ -29,7 +30,7 @@ public enum SheepShearerState {
 
     DELIVER_BALL_OF_WOOL(new NpcWorker(a -> a.getName().equals("Fred the Farmer"), new MovementWorker(new Position(3188, 3277, 0))), () -> Inventory.getCount("Ball of wool") >= 20, 1, 20),
 
-    COMPLETE(null, null, 21);
+    COMPLETE(null, null, QuestType.SHEEP_SHEARER.getComplete());
 
     private final Worker worker;
     private final BooleanSupplier conditionSupplier;
@@ -52,7 +53,7 @@ public enum SheepShearerState {
     }
 
     public static boolean isInVarp(SheepShearerState state) {
-        return Arrays.stream(state.getVarps()).anyMatch(a -> a == Varps.get(SheepShearerMission.SHEEP_SHEARER_VARP));
+        return Arrays.stream(state.getVarps()).anyMatch(a -> a == Varps.get(QuestType.SHEEP_SHEARER.getVarp()));
     }
 
     public static boolean isInCondition(SheepShearerState state) {

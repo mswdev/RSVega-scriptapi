@@ -1,5 +1,6 @@
 package org.api.script.impl.mission.questing.sheep_shearer_mission;
 
+import org.api.game.questing.QuestType;
 import org.api.script.SPXScript;
 import org.api.script.framework.goal.GoalList;
 import org.api.script.framework.mission.Mission;
@@ -9,7 +10,6 @@ import org.api.script.impl.mission.questing.sheep_shearer_mission.worker.SheepSh
 
 public class SheepShearerMission extends Mission {
 
-    public static final int SHEEP_SHEARER_VARP = 179;
     private final SheepShearerWorkerHandler handler = new SheepShearerWorkerHandler();
 
     public SheepShearerMission(SPXScript script) {
@@ -40,7 +40,7 @@ public class SheepShearerMission extends Mission {
 
     @Override
     public boolean shouldEnd() {
-        return SheepShearerState.isInVarp(SheepShearerState.COMPLETE);
+        return QuestType.SHEEP_SHEARER.isComplete();
     }
 
     @Override

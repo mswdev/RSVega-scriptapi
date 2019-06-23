@@ -1,5 +1,6 @@
 package org.api.script.impl.mission.tutorial_island_mission.worker;
 
+import org.api.game.questing.QuestType;
 import org.api.script.framework.worker.Worker;
 import org.api.script.framework.worker.WorkerHandler;
 import org.api.script.impl.mission.tutorial_island_mission.TutorialIslandMission;
@@ -44,7 +45,7 @@ public class TutorialIslandWorkerHandler extends WorkerHandler {
         if (TutorialState.isInVarp(TutorialState.CHARACTER_DESIGN))
             return characterSetupWorker;
 
-        if (Varps.get(TutorialIslandMission.TUTORIAL_ISLAND_VARP) >= 1000) {
+        if (QuestType.TUTORIAL_ISLAND.isComplete()) {
             if (Dialog.canContinue())
                 Dialog.processContinue();
 

@@ -1,5 +1,6 @@
 package org.api.script.impl.mission.questing.romeo_and_juliet;
 
+import org.api.game.questing.QuestType;
 import org.api.script.SPXScript;
 import org.api.script.framework.goal.GoalList;
 import org.api.script.framework.mission.Mission;
@@ -9,7 +10,6 @@ import org.api.script.impl.mission.questing.romeo_and_juliet.worker.RomeoAndJuli
 
 public class RomeoAndJulietMission extends Mission {
 
-    public static final int ROMEO_AND_JULIET_VARP = 144;
     private final RomeoAndJulietWorkerHandler handler = new RomeoAndJulietWorkerHandler();
 
     public RomeoAndJulietMission(SPXScript script) {
@@ -40,7 +40,7 @@ public class RomeoAndJulietMission extends Mission {
 
     @Override
     public boolean shouldEnd() {
-        return RomeoAndJulietState.isInVarp(RomeoAndJulietState.COMPLETE);
+        return QuestType.ROMEO_AND_JULIET.isComplete();
     }
 
     @Override

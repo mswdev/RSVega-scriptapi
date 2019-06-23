@@ -1,5 +1,6 @@
 package org.api.script.impl.mission.tutorial_island_mission.data;
 
+import org.api.game.questing.QuestType;
 import org.api.script.framework.worker.Worker;
 import org.api.script.impl.mission.tutorial_island_mission.TutorialIslandMission;
 import org.api.script.impl.mission.tutorial_island_mission.worker.impl.HintWorker;
@@ -109,7 +110,7 @@ public enum TutorialState {
     }
 
     public static boolean isInVarp(TutorialState state) {
-        return Arrays.stream(state.getVarps()).anyMatch(a -> a == Varps.get(TutorialIslandMission.TUTORIAL_ISLAND_VARP));
+        return Arrays.stream(state.getVarps()).anyMatch(a -> a == Varps.get(QuestType.TUTORIAL_ISLAND.getVarp()));
     }
 
     public Worker getWorker() {
