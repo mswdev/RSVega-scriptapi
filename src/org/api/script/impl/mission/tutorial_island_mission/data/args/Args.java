@@ -26,6 +26,9 @@ public class Args {
     @Parameter(names = "-stayLoggedIn", arity = 1)
     public boolean stayLoggedIn;
 
+    @Parameter(names = "-stayLoggedInAndEnd", arity = 1)
+    public boolean stayLoggedInAndEnd;
+
     @Parameter(names = "-twoCaptchaApiKey", arity = 1)
     public String twoCaptchaApiKey;
 

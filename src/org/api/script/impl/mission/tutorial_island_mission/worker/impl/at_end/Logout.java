@@ -17,7 +17,6 @@ public class Logout extends Worker {
     public void work() {
         if (Game.logout()) {
             if (Time.sleepUntil(() -> !Game.isLoggedIn(), 6500)) {
-                mission.getScript().setAccount(null);
                 mission.setShouldEnd(true);
             }
         }
