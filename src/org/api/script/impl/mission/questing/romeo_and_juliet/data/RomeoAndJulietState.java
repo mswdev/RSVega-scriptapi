@@ -1,5 +1,6 @@
 package org.api.script.impl.mission.questing.romeo_and_juliet.data;
 
+import org.api.game.questing.QuestType;
 import org.api.script.framework.worker.Worker;
 import org.api.script.impl.mission.questing.romeo_and_juliet.RomeoAndJulietMission;
 import org.api.script.impl.worker.DialogueWorker;
@@ -42,7 +43,7 @@ public enum RomeoAndJulietState {
 
     TALK_TO_ROMEO_3(new NpcWorker(a -> a.getName().equals("Romeo"), new DialogueWorker(() -> Interfaces.getFirst(a -> a.getText().contains("Oh , ok...come on!")) != null), new MovementWorker(new Position(3212, 3428, 0))), () -> Players.getLocal().getPosition().getFloorLevel() == 0, 60),
 
-    COMPLETE(null, null, 100);
+    COMPLETE(null, null, QuestType.ROMEO_AND_JULIET.getComplete());
 
     private final Worker worker;
     private final BooleanSupplier conditionSupplier;
@@ -65,7 +66,7 @@ public enum RomeoAndJulietState {
     }
 
     public static boolean isInVarp(RomeoAndJulietState state) {
-        return Arrays.stream(state.getVarps()).anyMatch(a -> a == Varps.get(RomeoAndJulietMission.ROMEO_AND_JULIET_VARP));
+        return Arrays.stream(state.getVarps()).anyMatch(a -> a == Varps.get(QuestType.ROMEO_AND_JULIET.getVarp()));
     }
 
     public static boolean isInCondition(RomeoAndJulietState state) {

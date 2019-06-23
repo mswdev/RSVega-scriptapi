@@ -1,5 +1,6 @@
 package org.api.script.impl.mission.questing.rune_mysteries_mission.data;
 
+import org.api.game.questing.QuestType;
 import org.api.script.framework.worker.Worker;
 import org.api.script.impl.mission.questing.rune_mysteries_mission.RuneMysteriesMission;
 import org.api.script.impl.mission.questing.rune_mysteries_mission.worker.impl.AuburyNpcWorker;
@@ -31,7 +32,7 @@ public enum RuneMysteriesState {
 
     DELIVER_NOTE(new NpcWorker(a -> a.getName().equals("Sedridor"), new TempMovementWorker(new Position(3106, 9570, 0))), () -> Inventory.contains("Notes"), 5),
 
-    COMPLETE(null, null, 6);
+    COMPLETE(null, null, QuestType.RUNE_MYSTERIES.getComplete());
 
     private final Worker worker;
     private final BooleanSupplier conditionSupplier;
@@ -54,7 +55,7 @@ public enum RuneMysteriesState {
     }
 
     public static boolean isInVarp(RuneMysteriesState state) {
-        return Arrays.stream(state.getVarps()).anyMatch(a -> a == Varps.get(RuneMysteriesMission.RUNE_MYSTERIES_VARP));
+        return Arrays.stream(state.getVarps()).anyMatch(a -> a == Varps.get(QuestType.RUNE_MYSTERIES.getVarp()));
     }
 
     public static boolean isInCondition(RuneMysteriesState state) {

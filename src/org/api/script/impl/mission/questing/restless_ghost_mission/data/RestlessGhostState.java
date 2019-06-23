@@ -1,5 +1,6 @@
 package org.api.script.impl.mission.questing.restless_ghost_mission.data;
 
+import org.api.game.questing.QuestType;
 import org.api.script.framework.worker.Worker;
 import org.api.script.impl.mission.questing.restless_ghost_mission.RestlessGhostMission;
 import org.api.script.impl.mission.questing.restless_ghost_mission.worker.impl.PlaceSkullWorker;
@@ -37,7 +38,7 @@ public enum RestlessGhostState {
 
     OPEN_COFFIN(new SceneObjectWorker(a -> a.getName().equals("Coffin"), a -> a.equals("Open"), new TempMovementWorker(new Position(3248, 3192, 0))), () -> Inventory.contains("Ghost's skull") && Npcs.getFirst(a -> a.getName().equals("Restless ghost")) == null, 4),
 
-    PLACE_SKULL(new PlaceSkullWorker(), () -> Inventory.contains("Ghost's skull"), 4),
+    PLACE_SKULL(new PlaceSkullWorker(), () -> Inventory.contains("Ghost's skull"), QuestType.THE_RESTLESS_GHOST.getComplete()),
 
     COMPLETE(null, null, 5);
 
@@ -62,7 +63,7 @@ public enum RestlessGhostState {
     }
 
     public static boolean isInVarp(RestlessGhostState state) {
-        return Arrays.stream(state.getVarps()).anyMatch(a -> a == Varps.get(RestlessGhostMission.RESTLESS_GHOST_VARP));
+        return Arrays.stream(state.getVarps()).anyMatch(a -> a == Varps.get(QuestType.THE_RESTLESS_GHOST.getVarp()));
     }
 
     public static boolean isInCondition(RestlessGhostState state) {

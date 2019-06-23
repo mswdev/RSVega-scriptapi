@@ -29,8 +29,7 @@ import java.util.Map;
 import java.util.logging.Level;
 
 public class TutorialIslandMission extends Mission {
-
-    public static final int TUTORIAL_ISLAND_VARP = 281;
+    
     private final Path createdAccountsPath;
     private final Args args;
     private final Map<String, String> accountData;

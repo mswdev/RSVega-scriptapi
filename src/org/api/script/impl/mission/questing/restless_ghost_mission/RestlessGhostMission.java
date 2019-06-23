@@ -1,5 +1,6 @@
 package org.api.script.impl.mission.questing.restless_ghost_mission;
 
+import org.api.game.questing.QuestType;
 import org.api.script.SPXScript;
 import org.api.script.framework.goal.GoalList;
 import org.api.script.framework.mission.Mission;
@@ -9,7 +10,6 @@ import org.api.script.impl.mission.questing.restless_ghost_mission.worker.Restle
 
 public class RestlessGhostMission extends Mission {
 
-    public static final int RESTLESS_GHOST_VARP = 107;
     private final RestlessGhostWorkerHandler handler = new RestlessGhostWorkerHandler();
 
     public RestlessGhostMission(SPXScript script) {
@@ -40,7 +40,7 @@ public class RestlessGhostMission extends Mission {
 
     @Override
     public boolean shouldEnd() {
-        return RestlessGhostState.isInVarp(RestlessGhostState.COMPLETE);
+        return QuestType.THE_RESTLESS_GHOST.isComplete();
     }
 
     @Override
