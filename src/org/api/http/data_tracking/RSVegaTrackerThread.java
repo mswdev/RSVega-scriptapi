@@ -20,9 +20,7 @@ import java.util.logging.Level;
 public class RSVegaTrackerThread implements Runnable {
 
     private final RSVegaTrackerWrapper rsVegaTrackerWrapper;
-    private boolean insertedUser;
     private boolean isMule;
-
 
     public RSVegaTrackerThread(RSVegaTrackerWrapper rsVegaTrackerWrapper) {
         this.rsVegaTrackerWrapper = rsVegaTrackerWrapper;
@@ -33,48 +31,52 @@ public class RSVegaTrackerThread implements Runnable {
         if (Script.getRSPeerUser().getUsername().equalsIgnoreCase("sphiinx"))
             Log.log(Level.WARNING, "Info", "Executing RSVega data tracking.");
 
-        if (!insertedUser()) {
-            insertUser();
-            insertSystemInfo(rsVegaTrackerWrapper.getUserDataTracker().getId());
-            setInsertedUser(true);
+        if (getRsVegaTrackerWrapper().getUserDataTracker().getId() <= 0) {
+            insertSystemInfo(getRsVegaTrackerWrapper().getUserDataTracker().getId());
         }
 
-        final String currentEmail = getEmail();
-        if (currentEmail == null)
+        if (getRsVegaTrackerWrapper().getUserDataTracker().getId() <= 0)
             return;
 
-        if (rsVegaTrackerWrapper.getEmail() == null)
-            rsVegaTrackerWrapper.setEmail(currentEmail);
+        final String currentEmail = getEmail();
+        if (currentEmail == null || currentEmail.length() <= 0)
+            return;
 
-        if (rsVegaTrackerWrapper.getAccountDataTracker().getId() == 0 || !currentEmail.equals(rsVegaTrackerWrapper.getEmail())) {
-            rsVegaTrackerWrapper.setEmail(currentEmail);
-            if (rsVegaTrackerWrapper.getUserDataTracker().getId() > 0)
-                insertAccount(rsVegaTrackerWrapper.getUserDataTracker().getId(), isMule());
+        if (getRsVegaTrackerWrapper().getEmail() == null)
+            getRsVegaTrackerWrapper().setEmail(currentEmail);
 
-            if (rsVegaTrackerWrapper.getAccountDataTracker().getId() > 0)
-                insertSession(rsVegaTrackerWrapper.getUserDataTracker().getId(), rsVegaTrackerWrapper.getAccountDataTracker().getId(), rsVegaTrackerWrapper.getSpxScript().getMeta().name(), new Date());
+        if (getRsVegaTrackerWrapper().getAccountDataTracker().getId() <= 0 || getRsVegaTrackerWrapper().getSessionDataTracker().getId() <= 0 || !currentEmail.equals(getRsVegaTrackerWrapper().getEmail())) {
+            getRsVegaTrackerWrapper().setEmail(currentEmail);
+            if (getRsVegaTrackerWrapper().getUserDataTracker().getId() > 0)
+                insertAccount(getRsVegaTrackerWrapper().getUserDataTracker().getId(), isMule());
+
+            if (getRsVegaTrackerWrapper().getAccountDataTracker().getId() > 0)
+                insertSession(getRsVegaTrackerWrapper().getUserDataTracker().getId(), getRsVegaTrackerWrapper().getAccountDataTracker().getId(), getRsVegaTrackerWrapper().getSpxScript().getMeta().name(), new Date());
         }
 
-        if (rsVegaTrackerWrapper.getSpxScript().getMissionHandler() != null && rsVegaTrackerWrapper.getSpxScript().getMissionHandler().getCurrent() != null)
-            setMule(rsVegaTrackerWrapper.getSpxScript().getMissionHandler().getCurrent() instanceof SlaveManagementMission);
+        if (getRsVegaTrackerWrapper().getAccountDataTracker().getId() <= 0 || getRsVegaTrackerWrapper().getSessionDataTracker().getId() <= 0)
+            return;
 
-        if (rsVegaTrackerWrapper.getAccountDataTracker().getId() > 0) {
-            updateAccount(rsVegaTrackerWrapper.getUserDataTracker().getId(), isMule());
+        if (getRsVegaTrackerWrapper().getSpxScript().getMissionHandler() != null && getRsVegaTrackerWrapper().getSpxScript().getMissionHandler().getCurrent() != null)
+            setMule(getRsVegaTrackerWrapper().getSpxScript().getMissionHandler().getCurrent() instanceof SlaveManagementMission);
+
+        if (getRsVegaTrackerWrapper().getAccountDataTracker().getId() > 0) {
+            updateAccount(getRsVegaTrackerWrapper().getUserDataTracker().getId(), isMule());
 
             if (Game.isLoggedIn())
                 updateStatsOSRS();
         }
 
-        if (rsVegaTrackerWrapper.getSessionDataTracker().getId() > 0)
-            updateSession(rsVegaTrackerWrapper.getUserDataTracker().getId(), rsVegaTrackerWrapper.getAccountDataTracker().getId(), new Date());
+        if (getRsVegaTrackerWrapper().getSessionDataTracker().getId() > 0)
+            updateSession(getRsVegaTrackerWrapper().getUserDataTracker().getId(), getRsVegaTrackerWrapper().getAccountDataTracker().getId(), new Date());
 
-        insertSessionPosition(rsVegaTrackerWrapper.getUserDataTracker().getId(), rsVegaTrackerWrapper.getAccountDataTracker().getId(), rsVegaTrackerWrapper.getSessionDataTracker().getId());
+        insertSessionPosition(getRsVegaTrackerWrapper().getUserDataTracker().getId(), getRsVegaTrackerWrapper().getAccountDataTracker().getId(), getRsVegaTrackerWrapper().getSessionDataTracker().getId());
     }
 
     private void insertUser() {
         try {
-            final JsonArray jsonArray = rsVegaTrackerWrapper.getUserDataTracker().post(UserDataTracker.getUserData());
-            rsVegaTrackerWrapper.getUserDataTracker().setId(getInsertId(jsonArray));
+            final JsonArray jsonArray = getRsVegaTrackerWrapper().getUserDataTracker().post(UserDataTracker.getUserData());
+            getRsVegaTrackerWrapper().getUserDataTracker().setId(getInsertId(jsonArray));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -82,8 +84,8 @@ public class RSVegaTrackerThread implements Runnable {
 
     private void insertSystemInfo(int userId) {
         try {
-            final JsonArray jsonArray = rsVegaTrackerWrapper.getSystemInfoDataTracker().post(SystemInfoDataTracker.getUserData(userId));
-            rsVegaTrackerWrapper.getSystemInfoDataTracker().setId(getInsertId(jsonArray));
+            final JsonArray jsonArray = getRsVegaTrackerWrapper().getSystemInfoDataTracker().post(SystemInfoDataTracker.getUserData(userId));
+            getRsVegaTrackerWrapper().getSystemInfoDataTracker().setId(getInsertId(jsonArray));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -91,10 +93,10 @@ public class RSVegaTrackerThread implements Runnable {
 
     private void insertAccount(int userId, boolean isMule) {
         try {
-            final JsonArray jsonArray = rsVegaTrackerWrapper.getAccountDataTracker().post(AccountDataTracker.getAccountData(userId, isMule));
+            final JsonArray jsonArray = getRsVegaTrackerWrapper().getAccountDataTracker().post(AccountDataTracker.getAccountData(userId, isMule));
             final int insertId = getInsertId(jsonArray);
-            rsVegaTrackerWrapper.getAccountDataTracker().setId(insertId);
-            rsVegaTrackerWrapper.getStatsOSRSDataTracker().setId(insertId);
+            getRsVegaTrackerWrapper().getAccountDataTracker().setId(insertId);
+            getRsVegaTrackerWrapper().getStatsOSRSDataTracker().setId(insertId);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -102,7 +104,7 @@ public class RSVegaTrackerThread implements Runnable {
 
     private void updateAccount(int userId, boolean isMule) {
         try {
-            rsVegaTrackerWrapper.getAccountDataTracker().put(AccountDataTracker.getAccountData(userId, isMule));
+            getRsVegaTrackerWrapper().getAccountDataTracker().put(AccountDataTracker.getAccountData(userId, isMule));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -110,7 +112,7 @@ public class RSVegaTrackerThread implements Runnable {
 
     private void updateStatsOSRS() {
         try {
-            rsVegaTrackerWrapper.getStatsOSRSDataTracker().put(StatsOSRSDataTracker.getStatsOSRSData());
+            getRsVegaTrackerWrapper().getStatsOSRSDataTracker().put(StatsOSRSDataTracker.getStatsOSRSData());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -118,8 +120,8 @@ public class RSVegaTrackerThread implements Runnable {
 
     private void insertSession(int userId, int accountId, String scriptName, Date timeStarted) {
         try {
-            final JsonArray jsonArray = rsVegaTrackerWrapper.getSessionDataTracker().post(SessionDataTracker.getSessionData(userId, accountId, scriptName, timeStarted, null));
-            rsVegaTrackerWrapper.getSessionDataTracker().setId(getInsertId(jsonArray));
+            final JsonArray jsonArray = getRsVegaTrackerWrapper().getSessionDataTracker().post(SessionDataTracker.getSessionData(userId, accountId, scriptName, timeStarted, null));
+            getRsVegaTrackerWrapper().getSessionDataTracker().setId(getInsertId(jsonArray));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -127,7 +129,7 @@ public class RSVegaTrackerThread implements Runnable {
 
     private void updateSession(int userId, int accountId, Date timeEnded) {
         try {
-            rsVegaTrackerWrapper.getSessionDataTracker().put(SessionDataTracker.getSessionData(userId, accountId, null, null, timeEnded));
+            getRsVegaTrackerWrapper().getSessionDataTracker().put(SessionDataTracker.getSessionData(userId, accountId, null, null, timeEnded));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -135,8 +137,8 @@ public class RSVegaTrackerThread implements Runnable {
 
     private void insertSessionPosition(int userId, int accountId, int sessionId) {
         try {
-            final JsonArray jsonArray = rsVegaTrackerWrapper.getSessionPositionDataTracker().post(SessionPositionDataTracker.getSessionPositionData(userId, accountId, sessionId));
-            rsVegaTrackerWrapper.getSessionPositionDataTracker().setId(getInsertId(jsonArray));
+            final JsonArray jsonArray = getRsVegaTrackerWrapper().getSessionPositionDataTracker().post(SessionPositionDataTracker.getSessionPositionData(userId, accountId, sessionId));
+            getRsVegaTrackerWrapper().getSessionPositionDataTracker().setId(getInsertId(jsonArray));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -160,12 +162,8 @@ public class RSVegaTrackerThread implements Runnable {
         return RSPeer.getGameAccount().getUsername();
     }
 
-    private boolean insertedUser() {
-        return insertedUser;
-    }
-
-    private void setInsertedUser(boolean insertedAccount) {
-        this.insertedUser = insertedAccount;
+    private RSVegaTrackerWrapper getRsVegaTrackerWrapper() {
+        return rsVegaTrackerWrapper;
     }
 
     private boolean isMule() {
