@@ -32,6 +32,7 @@ public class RSVegaTrackerThread implements Runnable {
             Log.log(Level.WARNING, "Info", "Executing RSVega data tracking.");
 
         if (getRsVegaTrackerWrapper().getUserDataTracker().getId() <= 0) {
+            insertUser();
             insertSystemInfo(getRsVegaTrackerWrapper().getUserDataTracker().getId());
         }
 
