@@ -86,20 +86,11 @@ public class TutorialIslandMission extends Mission {
         if (!Game.isLoggedIn())
             return 100;
 
-        //Temporary until rspeer forces fixed mode upon login.
-        if (Game.getClientPreferences().getResizable() == 2) {
-            final InterfaceComponent fixedModeComponent = Interfaces.getFirst(a -> a.isVisible() && a.containsAction("Fixed mode"));
-            if (fixedModeComponent != null)
-                if (fixedModeComponent.click())
-                    Time.sleepUntil(() -> Game.getClientPreferences().getResizable() == 1, 2500);
-        }
-
         //Temporary until the rspeer continue dialog is fixed.
         if (Dialog.canContinue()) {
             Dialog.processContinue();
             Game.getClient().fireScriptEvent(299, 1, 1);
         }
-
 
         workerHandler.work();
         return 100;
