@@ -4,7 +4,6 @@ import org.rspeer.ui.Log;
 
 import java.util.Queue;
 
-// [TODO - 2018-11-05]: Rewrite this class along with the Mission and WorkerHandler/Worker
 public class MissionHandler {
 
     private Queue<Mission> missions;
