@@ -4,10 +4,13 @@ import org.api.script.SPXScript;
 import org.api.script.framework.goal.GoalList;
 import org.api.script.framework.goal.impl.InfiniteGoal;
 import org.api.script.framework.mission.Mission;
+import org.api.script.framework.mission_override.MissionOverride;
+import org.api.script.framework.mission_override.MissionOverrideFactory;
+import org.api.script.framework.mission_override.impl.mule_management.MuleManagementOverrideEntry;
 import org.api.script.framework.worker.Worker;
 import org.api.script.impl.mission.fishing_mission.worker.FishingWorkerHandler;
 
-public class Fishingmission extends Mission {
+public class Fishingmission extends Mission implements MissionOverride {
 
     private final FishingWorkerHandler workerHandler;
     private boolean shouldEnd;
@@ -57,5 +60,12 @@ public class Fishingmission extends Mission {
 
     public void setShouldEnd(boolean shouldEnd) {
         this.shouldEnd = shouldEnd;
+    }
+
+    @Override
+    public MissionOverrideFactory[] overriddenMissionEntries() {
+        return new MissionOverrideFactory[]{
+                new MuleManagementOverrideEntry(this, a -> a.getName().equals("Raw shrimps"), () -> getScript().getBankCache().getItem(b -> b.getName().equals("Raw shrimps") && b.getStackSize() >= 48) != null)
+        };
     }
 }
