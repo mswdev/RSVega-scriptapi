@@ -28,4 +28,3 @@ public class OpenEquipmentStats extends Worker {
         return "Opening equipment stats.";
     }
 }
-
