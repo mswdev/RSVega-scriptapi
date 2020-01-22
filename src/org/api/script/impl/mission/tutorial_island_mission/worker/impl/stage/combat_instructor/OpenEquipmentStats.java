@@ -10,7 +10,7 @@ import java.util.function.Predicate;
 public class OpenEquipmentStats extends Worker {
 
     private static final int INTER_MASTER = 387;
-    private static final int INTER_EQUIPMENT_CHILD = 17;
+    private static final int INTER_EQUIPMENT_CHILD = 1;
     private static final Predicate<String> EQUIPMENT_VIEW_BUTTON = a -> a.equals("View equipment stats");
 
     @Override
@@ -28,4 +28,3 @@ public class OpenEquipmentStats extends Worker {
         return "Opening equipment stats.";
     }
 }
-
