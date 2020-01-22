@@ -11,8 +11,8 @@ import java.util.function.Predicate;
 public class SmithDagger extends Worker {
 
     private static final int INTER_MASTER = 312;
-    private static final int INTER_DAGGER_CHILD = 2;
-    private static final Predicate<String> SMITH_DAGGER = a -> a.equals("Smith 1");
+    private static final int INTER_DAGGER_CHILD = 9;
+    private static final Predicate<String> SMITH_DAGGER = a -> a.equals("Smith");
 
     @Override
     public void work() {
