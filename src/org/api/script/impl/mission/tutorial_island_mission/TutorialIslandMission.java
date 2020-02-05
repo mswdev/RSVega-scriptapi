@@ -29,7 +29,7 @@ import java.util.Map;
 import java.util.logging.Level;
 
 public class TutorialIslandMission extends Mission {
-    
+
     private final Path createdAccountsPath;
     private final Args args;
     private final Map<String, String> accountData;
