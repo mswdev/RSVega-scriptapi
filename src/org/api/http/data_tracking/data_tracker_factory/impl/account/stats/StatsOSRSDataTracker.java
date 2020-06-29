@@ -15,7 +15,7 @@ public class StatsOSRSDataTracker extends RSVegaTrackerFactory {
 
     public static RequestBody getStatsOSRSData() {
         final FormBody.Builder formBuilder = new FormBody.Builder();
-        formBuilder.add("is_tutorial", String.valueOf(!QuestType.TUTORIAL_ISLAND.isComplete() ? 1 : 0));
+        formBuilder.add("is_tutorial", String.valueOf(!QuestType.TUTORIAL_ISLAND_V1.isComplete() ? 1 : 0));
         formBuilder.add("ironman_state", String.valueOf(Player.getIronManState().getState()));
         formBuilder.add("level_total", String.valueOf(Skills.getTotalLevel()));
         formBuilder.add("level_combat", String.valueOf(Players.getLocal().getCombatLevel()));

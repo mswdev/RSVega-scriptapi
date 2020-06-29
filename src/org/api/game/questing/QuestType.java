@@ -154,7 +154,8 @@ public enum QuestType {
     ZORGE_FLESH_EATERS(null, 0, 0, 0, true),
 
     //Miniquests
-    TUTORIAL_ISLAND(null, 0, 281, 1000, false),
+    TUTORIAL_ISLAND_V1(null, 0, 281, 1000, false),
+    TUTORIAL_ISLAND_V2(null, 0, 2686, 1000, false),
     ALFRED_GRIMHANDS_BARCRAWL(null, 0, 0, 0, true),
     ARCHITECTURAL_ALLIANCE(null, 0, 0, 0, true),
     BEAR_YOUR_SOUL(null, 0, 0, 0, true),

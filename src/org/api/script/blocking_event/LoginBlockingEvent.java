@@ -33,23 +33,23 @@ public class LoginBlockingEvent extends ScriptBlockingEvent implements LoginResp
     }
 
     private static int getLastSignIn() {
-        final InterfaceComponent lastSignIn = Interfaces.getFirst(a -> a.getText().contains("You last logged in"));
-        if (lastSignIn == null)
+        final InterfaceComponent lastSignIn = Interfaces.newQuery().texts(a -> a.contains("You last logged in")).results().first();
+        if (lastSignIn == null || lastSignIn.getText() == null)
             return 0;
 
-        if (lastSignIn.getText().contains("earlier today"))
+        if (!lastSignIn.getText().matches(".*\\d.*"))
             return 1;
 
         return Integer.parseInt(lastSignIn.getText().replaceAll("[^0-9]", ""));
     }
 
     private static int isMembers() {
-        final InterfaceComponent notMembers = Interfaces.getFirst(a -> a.getText().contains("You are not a member."));
+        final InterfaceComponent notMembers = Interfaces.newQuery().texts(a -> a.contains("You are not a member.")).results().first();
         return notMembers != null ? 0 : 1;
     }
 
     private static int hasBankPin() {
-        final InterfaceComponent bankPinNotSet = Interfaces.getFirst(a -> a.getText().contains("You do not have a Bank PIN."));
+        final InterfaceComponent bankPinNotSet = Interfaces.newQuery().texts(a -> a.contains("You do not have a Bank PIN.")).results().first();
         return bankPinNotSet != null ? 0 : 1;
     }
 

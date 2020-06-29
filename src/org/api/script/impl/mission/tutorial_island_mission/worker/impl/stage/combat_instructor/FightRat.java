@@ -1,7 +1,7 @@
 package org.api.script.impl.mission.tutorial_island_mission.worker.impl.stage.combat_instructor;
 
 import org.api.script.framework.worker.Worker;
-import org.api.script.impl.mission.tutorial_island_mission.data.TutorialState;
+import org.api.script.impl.mission.tutorial_island_mission.data.TutorialStateV1;
 import org.api.script.impl.worker.interactables.ItemWorker;
 import org.rspeer.runetek.adapter.scene.Npc;
 import org.rspeer.runetek.api.commons.Time;
@@ -25,14 +25,14 @@ public class FightRat extends Worker {
         if (Players.getLocal().getTargetIndex() != -1)
             return;
 
-        if (TutorialState.isInVarp(TutorialState.RANGE_RAT) && !Equipment.containsAll("Shortbow", "Bronze arrow")) {
+        if (TutorialStateV1.isInVarp(TutorialStateV1.RANGE_RAT) && !Equipment.containsAll("Shortbow", "Bronze arrow")) {
             EQUIP_BOW_AND_ARROWS.work();
         } else {
             final Npc npc = Npcs.getNearest(RAT);
             if (npc == null)
                 return;
 
-            if (npc.isPositionInteractable() || TutorialState.isInVarp(TutorialState.RANGE_RAT)) {
+            if (npc.isPositionInteractable() || TutorialStateV1.isInVarp(TutorialStateV1.RANGE_RAT)) {
                 if (npc.click())
                     Time.sleepUntil(() -> Players.getLocal().getTargetIndex() != -1, 1500);
             } else {

@@ -4,15 +4,14 @@ import org.api.game.questing.QuestType;
 import org.api.script.framework.worker.Worker;
 import org.api.script.framework.worker.WorkerHandler;
 import org.api.script.impl.mission.tutorial_island_mission.TutorialIslandMission;
-import org.api.script.impl.mission.tutorial_island_mission.data.TutorialState;
+import org.api.script.impl.mission.tutorial_island_mission.data.TutorialStateV1;
+import org.api.script.impl.mission.tutorial_island_mission.data.TutorialStateV2;
 import org.api.script.impl.mission.tutorial_island_mission.worker.impl.at_end.*;
 import org.api.script.impl.mission.tutorial_island_mission.worker.impl.at_start.CharacterSetupWorker;
-import org.rspeer.runetek.adapter.scene.SceneObject;
-import org.rspeer.runetek.api.Varps;
 import org.rspeer.runetek.api.component.Dialog;
 import org.rspeer.runetek.api.component.InterfaceOptions;
 import org.rspeer.runetek.api.component.tab.Inventory;
-import org.rspeer.runetek.api.scene.SceneObjects;
+import org.rspeer.ui.Log;
 
 public class TutorialIslandWorkerHandler extends WorkerHandler {
 
@@ -42,10 +41,10 @@ public class TutorialIslandWorkerHandler extends WorkerHandler {
 
     @Override
     public Worker decide() {
-        if (TutorialState.isInVarp(TutorialState.CHARACTER_DESIGN))
+        if (TutorialStateV1.isInVarp(TutorialStateV1.CHARACTER_DESIGN) || TutorialStateV2.isInVarp(TutorialStateV2.CHARACTER_DESIGN))
             return characterSetupWorker;
 
-        if (QuestType.TUTORIAL_ISLAND.isComplete()) {
+        if (QuestType.TUTORIAL_ISLAND_V1.isComplete() || QuestType.TUTORIAL_ISLAND_V2.isComplete()) {
             if (Dialog.canContinue())
                 Dialog.processContinue();
 
@@ -78,7 +77,10 @@ public class TutorialIslandWorkerHandler extends WorkerHandler {
             return logout;
         }
 
-        return TutorialState.getValidState().getWorker();
+        final TutorialStateV1 tutorialStateV1 = TutorialStateV1.getValidState();
+        final TutorialStateV2 tutorialStateV2 = TutorialStateV2.getValidState();
+
+        return tutorialStateV1 != null ? tutorialStateV1.getWorker() : tutorialStateV2.getWorker();
     }
 }
 
